@@ -22,7 +22,7 @@ import eu.wuttke.tinyscrum.web.TinyScrumApplication;
 
 public class MainView 
 extends VerticalLayout 
-implements Property.ValueChangeListener, SelectedTabChangeListener {
+implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableComponent {
 	
 	private Select cbProjectChooser;
 	private BeanItemContainer<Project> projectContainer;
@@ -86,10 +86,11 @@ implements Property.ValueChangeListener, SelectedTabChangeListener {
 	@Override
 	public void valueChange(ValueChangeEvent event) {
 		// project changed
-		refreshCurrentTab();
+		refreshContent();
 	}
 	
-	private void refreshCurrentTab() {
+	@Override
+	public void refreshContent() {
 		Component tab = tabSheet.getSelectedTab();
 		if (tab instanceof RefreshableComponent) {
 			RefreshableComponent rc = (RefreshableComponent)tab;
@@ -99,7 +100,7 @@ implements Property.ValueChangeListener, SelectedTabChangeListener {
 
 	@Override
 	public void selectedTabChange(SelectedTabChangeEvent event) {
-		refreshCurrentTab();
+		refreshContent();
 	}
 	
 	private static final long serialVersionUID = 1L;

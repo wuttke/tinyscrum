@@ -1,5 +1,8 @@
 package eu.wuttke.tinyscrum.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -18,7 +21,8 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-public class UserStory {
+public class UserStory
+implements Serializable {
 
 	/**
 	 * Title
@@ -42,7 +46,7 @@ public class UserStory {
     /**
      * Status
      */
-    @Size(max = 30)
+    @Column(length=30)
     @Enumerated(EnumType.STRING)
     @NotNull
     private UserStoryStatus status;
@@ -78,4 +82,6 @@ public class UserStory {
     @ManyToOne
     private ProjectRelease projectRelease;
     
+	private static final long serialVersionUID = 1L;
+
 }

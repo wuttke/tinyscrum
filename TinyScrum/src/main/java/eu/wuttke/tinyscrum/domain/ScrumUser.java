@@ -1,5 +1,7 @@
 package eu.wuttke.tinyscrum.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,7 +13,8 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-public class ScrumUser {
+public class ScrumUser 
+implements Serializable {
 
     @NotNull
     @Column(unique = true)
@@ -30,4 +33,6 @@ public class ScrumUser {
     @NotNull
     private Boolean active;
     
+	private static final long serialVersionUID = 1L;
+
 }

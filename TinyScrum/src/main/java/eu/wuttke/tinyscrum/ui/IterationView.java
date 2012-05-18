@@ -5,6 +5,7 @@ import java.util.List;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Select;
 import com.vaadin.ui.VerticalLayout;
 
@@ -28,6 +29,7 @@ implements Property.ValueChangeListener {
 	private void initializeLayout() {
 		setMargin(true);
 		setSpacing(true);
+		setHeight("100%");
 		
 		cbIterationChooser = new Select();
 		cbIterationChooser.setWidth("100%");
@@ -37,10 +39,12 @@ implements Property.ValueChangeListener {
 		cbIterationChooser.setImmediate(true);
 
 		iterationTable = new IterationTable(application);
-		iterationTable.setSizeFull();
+		iterationTable.setWidth("100%");
+		iterationTable.setHeight("280px");
 		
 		addComponent(cbIterationChooser);
 		addComponent(iterationTable);
+		setComponentAlignment(iterationTable, Alignment.TOP_LEFT);
 	}
 	
 	public void setIterations(List<Iteration> iterations) {

@@ -1,5 +1,7 @@
 package eu.wuttke.tinyscrum.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,7 +13,8 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-public class ProjectFeature {
+public class ProjectFeature 
+implements Serializable {
 
     @NotNull
     @Size(max = 200)
@@ -21,4 +24,6 @@ public class ProjectFeature {
     @ManyToOne
     private Project project;
     
+	private static final long serialVersionUID = 1L;
+
 }

@@ -1,5 +1,6 @@
 package eu.wuttke.tinyscrum.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Temporal;
@@ -14,9 +15,10 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-public class Comment {
+public class Comment
+implements Serializable {
 
-    @NotNull
+	@NotNull
     @Size(max = 4000)
     private String comment;
 
@@ -27,5 +29,7 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date createDateTime;
-    
+
+	private static final long serialVersionUID = 1L;
+
 }

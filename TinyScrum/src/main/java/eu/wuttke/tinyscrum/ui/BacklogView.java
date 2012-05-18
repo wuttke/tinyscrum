@@ -24,9 +24,10 @@ implements ClickListener, RefreshableComponent {
 		
 		setMargin(true);
 		setSpacing(true);
+		setHeight("700px");
 		
 		backlogTable = new BacklogTable(application);
-		//backlogTreeTable.setSizeFull();
+		backlogTable.setHeight("600px");
 		addComponent(backlogTable);
 		
 		// Add User Story
