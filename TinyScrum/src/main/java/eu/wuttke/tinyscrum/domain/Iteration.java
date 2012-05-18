@@ -1,0 +1,79 @@
+package eu.wuttke.tinyscrum.domain;
+
+import java.util.Date;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.roo.addon.javabean.RooJavaBean;
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
+import org.springframework.roo.addon.tostring.RooToString;
+
+/**
+ * Iteration
+ * @author Matthias Wuttke
+ */
+@RooJavaBean
+@RooToString
+@RooJpaActiveRecord
+public class Iteration {
+
+	/**
+	 * Name
+	 */
+    @NotNull
+    private String name;
+
+    /**
+     * Start date
+     */
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    /**
+     * Duration (days)
+     */
+    @NotNull
+    private int durationDays = 14;
+
+    /**
+     * Status
+     */
+    @Size(max = 30)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private IterationStatus status;
+    
+    /**
+     * Project reference
+     */
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Project project;
+    
+    /**
+     * Iteration team
+     */
+    @ManyToOne
+    private Team team;
+
+    /**
+     * Returns true if the iteration contains the passed date.
+     * @param date Date
+     * @return true/false
+     */
+	public boolean containsDate(Date date) {
+		if (date.before(getStartDate()))
+			return false;
+		Date date2 = new Date(date.getTime() + 86400000L * durationDays);
+		return date.before(date2);
+	}
+    
+}
