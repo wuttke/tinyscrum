@@ -33,8 +33,9 @@ implements RefreshableComponent {
 		iterationSplitPanel.addComponent(iterationView1);
 		iterationSplitPanel.addComponent(iterationView2);
 
-		setHeight("700px");
-		setWidth("100%");
+		setSizeFull();
+		//setHeight("700px");
+		//setWidth("100%");
 		addComponent(backlogView);
 		addComponent(iterationSplitPanel);
 	}

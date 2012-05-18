@@ -12,6 +12,8 @@ extends VerticalLayout {
 	
 	public DashboardView(TinyScrumApplication application) {
 		this.application = application;
+		
+		setSizeFull();
 	}
 
 	private static final long serialVersionUID = 1L;

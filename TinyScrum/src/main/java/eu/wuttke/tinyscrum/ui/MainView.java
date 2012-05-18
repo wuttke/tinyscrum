@@ -37,11 +37,12 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 	}
 	
 	private void initializeLayout() {
-		VerticalLayout dashboardLayout = new VerticalLayout();		
+		setSizeFull();
+		setSpacing(true);
 		
 		tabSheet = new TabSheet();
 		tabSheet.setSizeFull();
-		tabSheet.addTab(dashboardLayout, "My Dashboard");
+		tabSheet.addTab(new DashboardView(application), "My Dashboard");
 		tabSheet.addTab(new BacklogView(application), "Backlog Management");
 		tabSheet.addTab(new IterationsView(application), "Iteration Planning");
 		tabSheet.addListener(this);
@@ -59,12 +60,14 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		headerLayout.addComponent(cbProjectChooser);
 		headerLayout.setComponentAlignment(lblTinyScrum, Alignment.MIDDLE_LEFT);
 		headerLayout.setComponentAlignment(cbProjectChooser, Alignment.MIDDLE_RIGHT);
-		headerLayout.setMargin(false, false, true, false);
 		headerLayout.setWidth("100%");
+		
+		Label lblFooter = new Label("TinyScrum Footer");
 		
 		addComponent(headerLayout);
 		addComponent(tabSheet);
-		addComponent(new Label("TinyScrum Footer"));		
+		addComponent(lblFooter);
+		setExpandRatio(tabSheet, 1);
 	}
 
 	private void loadProjects() {

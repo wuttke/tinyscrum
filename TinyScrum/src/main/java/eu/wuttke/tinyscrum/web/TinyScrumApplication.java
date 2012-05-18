@@ -24,6 +24,7 @@ extends Application {
 	public void init() {
 		mainView = new MainView(this);
 		Window mainWindow = new Window("TinyScrum");
+		mainWindow.getContent().setSizeFull();
 		mainWindow.addComponent(mainView);
 		setMainWindow(mainWindow);
 	}

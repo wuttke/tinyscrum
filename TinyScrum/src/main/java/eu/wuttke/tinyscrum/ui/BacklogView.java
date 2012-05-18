@@ -24,10 +24,10 @@ implements ClickListener, RefreshableComponent {
 		
 		setMargin(true);
 		setSpacing(true);
-		setHeight("700px");
+		setSizeFull();
 		
 		backlogTable = new BacklogTable(application);
-		backlogTable.setHeight("600px");
+		backlogTable.setSizeFull();
 		addComponent(backlogTable);
 		
 		// Add User Story
@@ -40,7 +40,9 @@ implements ClickListener, RefreshableComponent {
 		buttonBar.addComponent(btnAddUserStory);
 		buttonBar.addComponent(btnDeleteUserStory);
 		buttonBar.setSpacing(true);
-		addComponent(buttonBar);		
+		addComponent(buttonBar);
+		
+		setExpandRatio(backlogTable, 1f);
 	}
 	
 	@Override
@@ -62,7 +64,7 @@ implements ClickListener, RefreshableComponent {
 		UserStory us = new UserStory();
 		us.setId(0L);
 		us.setTitle("New Story");
-		UserStoryWindow w = new UserStoryWindow(us);
+		UserStoryWindow w = new UserStoryWindow(application, us);
 		application.getMainWindow().addWindow(w);
 	}
 

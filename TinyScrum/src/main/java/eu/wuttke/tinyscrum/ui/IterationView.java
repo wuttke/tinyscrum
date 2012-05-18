@@ -29,7 +29,8 @@ implements Property.ValueChangeListener {
 	private void initializeLayout() {
 		setMargin(true);
 		setSpacing(true);
-		setHeight("100%");
+		//setHeight("100%");
+		setSizeFull();
 		
 		cbIterationChooser = new Select();
 		cbIterationChooser.setWidth("100%");
@@ -39,11 +40,13 @@ implements Property.ValueChangeListener {
 		cbIterationChooser.setImmediate(true);
 
 		iterationTable = new IterationTable(application);
-		iterationTable.setWidth("100%");
-		iterationTable.setHeight("280px");
+		iterationTable.setSizeFull();
+		//iterationTable.setWidth("100%");
+		//iterationTable.setHeight("276px");
 		
 		addComponent(cbIterationChooser);
 		addComponent(iterationTable);
+		setExpandRatio(iterationTable, 1f);
 		setComponentAlignment(iterationTable, Alignment.TOP_LEFT);
 	}
 	
