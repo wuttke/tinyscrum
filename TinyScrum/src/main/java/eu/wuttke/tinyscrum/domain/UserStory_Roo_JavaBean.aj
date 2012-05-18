@@ -68,20 +68,20 @@ privileged aspect UserStory_Roo_JavaBean {
         this.sequenceNumber = sequenceNumber;
     }
     
-    public ProjectFeature UserStory.getFeature() {
-        return this.feature;
+    public ProjectFeature UserStory.getProjectFeature() {
+        return this.projectFeature;
     }
     
-    public void UserStory.setFeature(ProjectFeature feature) {
-        this.feature = feature;
+    public void UserStory.setProjectFeature(ProjectFeature projectFeature) {
+        this.projectFeature = projectFeature;
     }
     
-    public ProjectRelease UserStory.getRelease() {
-        return this.release;
+    public ProjectRelease UserStory.getProjectRelease() {
+        return this.projectRelease;
     }
     
-    public void UserStory.setRelease(ProjectRelease release) {
-        this.release = release;
+    public void UserStory.setProjectRelease(ProjectRelease projectRelease) {
+        this.projectRelease = projectRelease;
     }
     
 }

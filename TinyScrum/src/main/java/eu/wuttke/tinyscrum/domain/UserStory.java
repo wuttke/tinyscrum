@@ -70,12 +70,12 @@ public class UserStory {
      * Feature
      */
     @ManyToOne
-    private ProjectFeature feature;
+    private ProjectFeature projectFeature;
     
     /**
      * Release
      */
     @ManyToOne
-    private ProjectRelease release;
+    private ProjectRelease projectRelease;
     
 }
