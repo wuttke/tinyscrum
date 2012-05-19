@@ -15,7 +15,6 @@ import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.ui.Table;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
-import eu.wuttke.tinyscrum.web.TinyScrumApplication;
 
 public class UserStoryTable 
 extends Table

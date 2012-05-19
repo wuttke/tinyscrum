@@ -1,19 +1,24 @@
 package eu.wuttke.tinyscrum.ui;
 
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Window;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
-import eu.wuttke.tinyscrum.web.TinyScrumApplication;
 
 public class UserStoryWindow
 extends Window {
 
 	public UserStoryWindow(TinyScrumApplication application, UserStory userStory) {
 		setModal(true);
-        setWidth("800px");
-        setHeight("600px");
+        setWidth("80%");
+        setHeight("80%");
         setCaption("User Story: " + userStory.getTitle());
 		center();
+		
+		TabSheet tabSheet = new TabSheet();
+		tabSheet.setSizeFull();
+		tabSheet.addTab(new UserStoryView(application), "Overview");
+		tabSheet.addTab(new TaskView(application, userStory), "Tasks");
 		
 		/*
 		BeanItem<UserStory> item = new BeanItem<UserStory>(userStory);
@@ -32,8 +37,7 @@ extends Window {
 		addComponent(form);
 		*/
 		
-		UserStoryView usv = new UserStoryView(application);
-		addComponent(usv);
+		addComponent(tabSheet);
 	}
 	
 	private static final long serialVersionUID = -5750180111347530457L;

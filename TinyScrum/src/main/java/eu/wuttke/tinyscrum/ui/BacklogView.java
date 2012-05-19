@@ -7,7 +7,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
-import eu.wuttke.tinyscrum.web.TinyScrumApplication;
 
 public class BacklogView 
 extends VerticalLayout 

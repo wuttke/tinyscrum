@@ -3,12 +3,16 @@ package eu.wuttke.tinyscrum.ui;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Configurable;
+
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.VerticalSplitPanel;
 
 import eu.wuttke.tinyscrum.domain.Iteration;
-import eu.wuttke.tinyscrum.web.TinyScrumApplication;
+import eu.wuttke.tinyscrum.logic.UserStoryManager;
 
+@Configurable(autowire=Autowire.BY_NAME)
 public class IterationsView
 extends HorizontalSplitPanel
 implements RefreshableComponent {
@@ -44,7 +48,7 @@ implements RefreshableComponent {
 	public void refreshContent() {
 		backlogView.refreshContent();
 		
-		List<Iteration> l = application.loadIterations();
+		List<Iteration> l = userStoryManager.loadIterations(application.getCurrentProject());
 		if (l != null) {
 			iterationView1.setIterations(l);
 			iterationView2.setIterations(l);
@@ -77,6 +81,12 @@ implements RefreshableComponent {
 		return null;
 	}
 	
+	public void setUserStoryManager(UserStoryManager userStoryManager) {
+		this.userStoryManager = userStoryManager;
+	}
+	
+	private UserStoryManager userStoryManager;
+
 	private static final long serialVersionUID = 1L;
 	
 }

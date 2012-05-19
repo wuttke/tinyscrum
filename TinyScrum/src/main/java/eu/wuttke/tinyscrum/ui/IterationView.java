@@ -10,7 +10,6 @@ import com.vaadin.ui.Select;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.Iteration;
-import eu.wuttke.tinyscrum.web.TinyScrumApplication;
 
 public class IterationView 
 extends VerticalLayout 

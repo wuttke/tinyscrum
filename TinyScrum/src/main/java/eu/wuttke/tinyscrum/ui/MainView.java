@@ -18,7 +18,6 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.Project;
-import eu.wuttke.tinyscrum.web.TinyScrumApplication;
 
 public class MainView 
 extends VerticalLayout 
