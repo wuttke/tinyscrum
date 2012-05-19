@@ -4,6 +4,7 @@
 package eu.wuttke.tinyscrum.domain;
 
 import eu.wuttke.tinyscrum.domain.Comment;
+import eu.wuttke.tinyscrum.domain.CommentType;
 import java.util.Date;
 
 privileged aspect Comment_Roo_JavaBean {
@@ -22,6 +23,22 @@ privileged aspect Comment_Roo_JavaBean {
     
     public void Comment.setUserName(String userName) {
         this.userName = userName;
+    }
+    
+    public CommentType Comment.getCommentType() {
+        return this.commentType;
+    }
+    
+    public void Comment.setCommentType(CommentType commentType) {
+        this.commentType = commentType;
+    }
+    
+    public Long Comment.getParentId() {
+        return this.parentId;
+    }
+    
+    public void Comment.setParentId(Long parentId) {
+        this.parentId = parentId;
     }
     
     public Date Comment.getCreateDateTime() {

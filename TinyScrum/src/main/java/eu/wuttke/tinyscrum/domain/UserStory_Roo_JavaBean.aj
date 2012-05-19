@@ -84,4 +84,12 @@ privileged aspect UserStory_Roo_JavaBean {
         this.projectRelease = projectRelease;
     }
     
+    public double UserStory.getEstimate() {
+        return this.estimate;
+    }
+    
+    public void UserStory.setEstimate(double estimate) {
+        this.estimate = estimate;
+    }
+    
 }

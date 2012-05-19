@@ -17,6 +17,14 @@ privileged aspect ProjectRelease_Roo_JavaBean {
         this.name = name;
     }
     
+    public String ProjectRelease.getDescription() {
+        return this.description;
+    }
+    
+    public void ProjectRelease.setDescription(String description) {
+        this.description = description;
+    }
+    
     public Project ProjectRelease.getProject() {
         return this.project;
     }

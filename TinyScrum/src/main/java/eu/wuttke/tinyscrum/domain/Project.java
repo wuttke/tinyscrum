@@ -2,6 +2,9 @@ package eu.wuttke.tinyscrum.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -33,5 +36,21 @@ implements Serializable {
      */
     @Size(max = 2000)
     private String description;
+    
+    /**
+     * Unit for story effort estimations
+     */
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(length=30)
+    private TimeUnit storyEstimateUnit = TimeUnit.POINTS;
+
+    /**
+     * Unit for task effort estimations
+     */
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(length=30)
+    private TimeUnit taskEstimateUnit = TimeUnit.HOURS;
     
 }

@@ -1,10 +1,24 @@
 package eu.wuttke.tinyscrum.domain;
 
-
+/**
+ * Story status
+ * @author Matthias Wuttke
+ */
 public enum UserStoryStatus {
 
-    STORY_NEW, 
+	/**
+	 * New story
+	 */
+    STORY_OPEN, 
+    
+    /**
+     * Story to be tested
+     */
     STORY_TEST, 
+    
+    /**
+     * Finished story
+     */
     STORY_DONE;
     
 }

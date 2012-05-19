@@ -81,6 +81,11 @@ implements Serializable {
      */
     @ManyToOne
     private ProjectRelease projectRelease;
+   
+    /**
+     * Story effort estimate (story points)
+     */
+    private double estimate;
     
 	private static final long serialVersionUID = 1L;
 

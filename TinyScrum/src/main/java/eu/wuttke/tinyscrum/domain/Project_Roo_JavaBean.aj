@@ -4,6 +4,7 @@
 package eu.wuttke.tinyscrum.domain;
 
 import eu.wuttke.tinyscrum.domain.Project;
+import eu.wuttke.tinyscrum.domain.TimeUnit;
 
 privileged aspect Project_Roo_JavaBean {
     
@@ -21,6 +22,22 @@ privileged aspect Project_Roo_JavaBean {
     
     public void Project.setDescription(String description) {
         this.description = description;
+    }
+    
+    public TimeUnit Project.getStoryEstimateUnit() {
+        return this.storyEstimateUnit;
+    }
+    
+    public void Project.setStoryEstimateUnit(TimeUnit storyEstimateUnit) {
+        this.storyEstimateUnit = storyEstimateUnit;
+    }
+    
+    public TimeUnit Project.getTaskEstimateUnit() {
+        return this.taskEstimateUnit;
+    }
+    
+    public void Project.setTaskEstimateUnit(TimeUnit taskEstimateUnit) {
+        this.taskEstimateUnit = taskEstimateUnit;
     }
     
 }

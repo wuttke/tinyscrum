@@ -88,3 +88,6 @@ field string --fieldName password --sizeMax 50
 field string --fieldName fullName --sizeMax 300
 field boolean --fieldName active --notNull 
 // Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-18 21:28:07
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-19 11:29:00
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-05-19 11:39:15
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-19 11:40:13

@@ -18,12 +18,20 @@ privileged aspect Task_Roo_JavaBean {
         this.name = name;
     }
     
-    public String Task.getOwner() {
-        return this.owner;
+    public String Task.getDeveloper() {
+        return this.developer;
     }
     
-    public void Task.setOwner(String owner) {
-        this.owner = owner;
+    public void Task.setDeveloper(String developer) {
+        this.developer = developer;
+    }
+    
+    public String Task.getTester() {
+        return this.tester;
+    }
+    
+    public void Task.setTester(String tester) {
+        this.tester = tester;
     }
     
     public String Task.getDescription() {

@@ -16,6 +16,14 @@ privileged aspect ProjectFeature_Roo_JavaBean {
         this.name = name;
     }
     
+    public String ProjectFeature.getDescription() {
+        return this.description;
+    }
+    
+    public void ProjectFeature.setDescription(String description) {
+        this.description = description;
+    }
+    
     public Project ProjectFeature.getProject() {
         return this.project;
     }
