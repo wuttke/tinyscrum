@@ -9,7 +9,7 @@ import eu.wuttke.tinyscrum.logic.UserStoryManager;
 
 @Configurable(autowire=Autowire.BY_NAME)
 public class IterationTable
-extends UserStoryTable {
+extends BaseUserStoryTable {
 
 	private Iteration iteration;
 	

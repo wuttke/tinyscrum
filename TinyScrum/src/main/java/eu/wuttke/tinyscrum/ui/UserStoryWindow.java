@@ -13,12 +13,14 @@ extends Window {
         setWidth("80%");
         setHeight("80%");
         setCaption("User Story: " + userStory.getTitle());
+        getContent().setSizeFull();
+        
 		center();
 		
 		TabSheet tabSheet = new TabSheet();
 		tabSheet.setSizeFull();
-		tabSheet.addTab(new UserStoryView(application), "Overview");
-		tabSheet.addTab(new TaskView(application, userStory), "Tasks");
+		tabSheet.addTab(new UserStoryDetailsView(application), "Overview");
+		tabSheet.addTab(new UserStoryTasksView(application, userStory), "Tasks");
 		
 		/*
 		BeanItem<UserStory> item = new BeanItem<UserStory>(userStory);

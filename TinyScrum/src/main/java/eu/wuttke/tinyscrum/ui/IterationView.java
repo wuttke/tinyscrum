@@ -58,7 +58,7 @@ implements Property.ValueChangeListener {
 	
 	public void setCurrentIteration(Iteration iteration) {
 		cbIterationChooser.setValue(iteration);
-		iterationTable.loadIteration(iteration);
+		// load iteration wird durch den ValueChanged-Event ausgelöst
 	}
 	
 	@Override

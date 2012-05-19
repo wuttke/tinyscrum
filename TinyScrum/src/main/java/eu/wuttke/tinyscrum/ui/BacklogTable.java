@@ -11,7 +11,7 @@ import eu.wuttke.tinyscrum.logic.UserStoryManager;
 
 @Configurable(autowire=Autowire.BY_NAME)
 public class BacklogTable
-extends UserStoryTable {
+extends BaseUserStoryTable {
 	
 	public BacklogTable(TinyScrumApplication application) {
 		super(application);

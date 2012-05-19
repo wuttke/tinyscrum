@@ -16,14 +16,14 @@ import com.vaadin.ui.Table;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
 
-public class UserStoryTable 
+public class BaseUserStoryTable 
 extends Table
 implements DropHandler, ItemClickListener {
 
 	protected BeanItemContainer<UserStory> storyContainer = new BeanItemContainer<UserStory>(UserStory.class);
 	protected TinyScrumApplication application;
 
-	public UserStoryTable(TinyScrumApplication application) {
+	public BaseUserStoryTable(TinyScrumApplication application) {
 		this.application = application;
 		
 		setContainerDataSource(storyContainer);
@@ -44,10 +44,10 @@ implements DropHandler, ItemClickListener {
 	@Override
 	public void drop(DragAndDropEvent event) {
         DataBoundTransferable t = (DataBoundTransferable)event.getTransferable();
-        if (!UserStoryTable.class.isAssignableFrom(t.getSourceComponent().getClass()))
+        if (!BaseUserStoryTable.class.isAssignableFrom(t.getSourceComponent().getClass()))
             return;
 
-        UserStoryTable source = (UserStoryTable)t.getSourceComponent();
+        BaseUserStoryTable source = (BaseUserStoryTable)t.getSourceComponent();
         Object sourceItemId = t.getItemId();
         UserStory sourceItem = (UserStory)sourceItemId;
 
@@ -106,6 +106,7 @@ implements DropHandler, ItemClickListener {
 		story.setSequenceNumber(newSequenceNumber);
 		updateStoryParent(story);
 		em.merge(story);
+		em.flush();
 		
 		// alle möglichen Sequenzen neu laden
 		application.getMainView().refreshContent();

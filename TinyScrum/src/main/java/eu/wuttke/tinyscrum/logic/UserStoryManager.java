@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
+import eu.wuttke.tinyscrum.domain.Task;
 import eu.wuttke.tinyscrum.domain.UserStory;
 
 /**
@@ -45,6 +46,13 @@ public class UserStoryManager {
 		EntityManager em = UserStory.entityManager();
 		Query q = em.createQuery("FROM Iteration WHERE project = ? ORDER BY startDate", Iteration.class);
 		q.setParameter(1, p);
+		return q.getResultList();		
+	}
+
+	public List<Task> loadTasks(UserStory story) {
+		EntityManager em = Task.entityManager();
+		Query q = em.createQuery("FROM Task WHERE story = ? ORDER BY sequenceNumber", Task.class);
+		q.setParameter(1, story);
 		return q.getResultList();		
 	}
 
