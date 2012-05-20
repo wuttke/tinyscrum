@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -50,6 +51,7 @@ public class UserStoryEditorView extends VerticalLayout {
 		form = new Form();
 		form.setCaption("User Story Details");
 		form.setSizeFull();
+		form.setImmediate(true);
 		form.setFormFieldFactory(new FormFieldFactory() {
 			private static final long serialVersionUID = 1L;
 
@@ -57,6 +59,7 @@ public class UserStoryEditorView extends VerticalLayout {
 				if (propertyId.equals("title")) {
 					TextField tf = new TextField("Title");
 					tf.setRequired(true);
+					tf.setRequiredError("Please enter a story title.");
 					tf.setWidth("100%");
 					return tf;
 				} else if (propertyId.equals("owner")) {
@@ -71,6 +74,7 @@ public class UserStoryEditorView extends VerticalLayout {
 					return sel;
 				} else if (propertyId.equals("estimate")) {
 					TextField tf = new TextField("Estimate");
+					tf.addValidator(new DoubleValidator("Please enter a number."));
 					return tf;
 				} else if (propertyId.equals("iteration")) {
 					iterationSelect = new Select("Iteration");

@@ -19,6 +19,14 @@ public enum TimeUnit {
 	/**
 	 * Days
 	 */
-	DAYS
+	DAYS;
 	
+	public String toString() {
+		switch (this) {
+			case DAYS: return "d";
+			case HOURS: return "h";
+			case POINTS: return "pts";
+			default: return "?";
+		}
+	}
 }

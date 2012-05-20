@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -52,12 +53,14 @@ public class TaskEditorView extends VerticalLayout {
 		form = new Form();
 		form.setCaption("Task Details");
 		form.setSizeFull();
+		form.setImmediate(true);
 		form.setFormFieldFactory(new FormFieldFactory() {
 			private static final long serialVersionUID = 1L;
 			public Field createField(Item item, Object propertyId, Component uiContext) {
 				if (propertyId.equals("name")) {
 					TextField tf = new TextField("Name");
 					tf.setRequired(true);
+					tf.setRequiredError("Please enter a task title.");
 					tf.setWidth("100%");
 					return tf;
 				} else if (propertyId.equals("developer1")) {
@@ -82,6 +85,7 @@ public class TaskEditorView extends VerticalLayout {
 					return sel;
 				} else if (propertyId.equals("estimate")) {
 					TextField tf = new TextField("Estimate");
+					tf.addValidator(new DoubleValidator("Please enter a number."));
 					return tf;
 				} else if (propertyId.equals("description")) {
 					RichTextArea rta = new RichTextArea("Description");

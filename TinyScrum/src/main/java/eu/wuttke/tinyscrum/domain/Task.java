@@ -87,7 +87,7 @@ implements Serializable {
      * @return String
      */
     public String getDeveloper() {
-    	if (getDeveloper2() != null && getDeveloper2().length() == 0)
+    	if (getDeveloper2() != null && getDeveloper2().length() > 0)
     		return getDeveloper1() + " | " + getDeveloper2();
     	else
     		return getDeveloper1();

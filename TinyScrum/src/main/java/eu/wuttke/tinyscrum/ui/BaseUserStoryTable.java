@@ -5,6 +5,7 @@ import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.DataBoundTransferable;
 import com.vaadin.event.ItemClickEvent;
@@ -37,6 +38,8 @@ implements DropHandler, ItemClickListener {
 		setColumnExpandRatio("owner", 3);
 		setColumnExpandRatio("estimate", 1);
 		setColumnExpandRatio("status", 2);
+		setColumnAlignment("id", ALIGN_RIGHT);
+		setColumnAlignment("estimate", ALIGN_RIGHT);
 		setSortDisabled(true);
 		
 		setFooterVisible(true);
@@ -60,7 +63,16 @@ implements DropHandler, ItemClickListener {
 		}
 		
 		setColumnFooter("status", open + "/" + test + "/" + close);
-		setColumnFooter("estimate", Double.toString(estimate));
+		setColumnFooter("estimate", Double.toString(estimate) + " " + application.getCurrentProject().getStoryEstimateUnit());
+	}
+	
+	@Override
+	protected String formatPropertyValue(Object rowId, Object colId,
+			Property property) {
+		if (colId.equals("estimate"))
+			return super.formatPropertyValue(rowId, colId, property) + " " + application.getCurrentProject().getStoryEstimateUnit();
+		else
+			return super.formatPropertyValue(rowId, colId, property);
 	}
 	
 	@Override

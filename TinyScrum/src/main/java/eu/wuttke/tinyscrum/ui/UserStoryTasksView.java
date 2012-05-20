@@ -6,6 +6,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -70,11 +71,16 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		newTaskTitle = new TextField();
 		newTaskTitle.setInputPrompt("Task Title");
 		newTaskTitle.setWidth("100%");
+		newTaskTitle.setRequired(true);
+		newTaskTitle.setRequiredError("Please enter the task title.");
+		newTaskTitle.setImmediate(true);
 		
 		newTaskEstimate = new TextField();
 		newTaskEstimate.setInputPrompt("Estimate");
 		newTaskEstimate.setWidth("80px");
-
+		newTaskEstimate.addValidator(new DoubleValidator("Please enter a number."));
+		newTaskEstimate.setImmediate(true);
+		
 		@SuppressWarnings("serial")
 		Button addTaskButton = new Button("Add Task", new ClickListener() {
 			public void buttonClick(ClickEvent event) {
@@ -149,7 +155,7 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		t.setProject(story.getProject());
 		t.setStatus(TaskStatus.TASK_OPEN);
 		t.setName("");
-		t.setEstimate(0d);
+		t.setEstimate(null);
 		t.setDescription("");
 		return t;
 	}
