@@ -52,6 +52,17 @@ implements Serializable {
     public String toString() {
     	return getName();
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	Long myId = getId();
+    	if (obj != null && obj instanceof ProjectRelease) {
+	    	Long otherId = ((ProjectRelease)obj).getId();
+	    	if (myId != null && otherId != null)
+	    		return myId.longValue() == otherId.longValue();
+    	}
+		return super.equals(obj);
+    }
 
     private static final long serialVersionUID = 1L;
     

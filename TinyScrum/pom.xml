@@ -433,4 +433,5 @@
             </plugin>
         </plugins>
     </build>
+    <description>TinyScrum is a Vaadin web application you can use to manage Scrum projects. It supports backlog management (features, releases, user stories, tasks), iteration planning and a personalized dashboard. </description>
 </project>

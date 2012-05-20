@@ -46,10 +46,13 @@ implements Serializable {
     
     @Override
     public boolean equals(Object obj) {
-    	if (getId() != null && ((ProjectFeature)obj).getId() != null)
-    		return ((ProjectFeature)obj).getId().intValue() == getId().intValue();
-		else
-			return super.equals(obj);
+    	Long myId = getId();
+    	if (obj != null && obj instanceof ProjectFeature) {
+	    	Long otherId = ((ProjectFeature)obj).getId();
+	    	if (myId != null && otherId != null)
+	    		return myId.longValue() == otherId.longValue();
+    	}
+		return super.equals(obj);
     }
 
 	private static final long serialVersionUID = 1L;
