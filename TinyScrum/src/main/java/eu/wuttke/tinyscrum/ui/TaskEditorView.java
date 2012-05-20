@@ -84,7 +84,7 @@ public class TaskEditorView extends VerticalLayout {
 					sel.setNullSelectionAllowed(false);
 					return sel;
 				} else if (propertyId.equals("estimate")) {
-					TextField tf = new TextField("Estimate");
+					TextField tf = new TextField("Estimate (" + application.getCurrentProject().getTaskEstimateUnit() + ")");
 					tf.addValidator(new DoubleValidator("Please enter a number."));
 					return tf;
 				} else if (propertyId.equals("description")) {
