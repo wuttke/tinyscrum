@@ -49,6 +49,7 @@ public class UserStoryManager {
 		return q.getResultList();		
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Task> loadTasks(UserStory story) {
 		EntityManager em = Task.entityManager();
 		Query q = em.createQuery("FROM Task WHERE story = ? ORDER BY sequenceNumber", Task.class);

@@ -22,6 +22,7 @@ extends BaseUserStoryTable {
 		storyContainer.removeAllItems();
 		if (iteration != null)
 			storyContainer.addAll(userStoryManager.loadIterationUserStories(iteration));
+		recalculateFooter();
 	}
 	
 	@Override

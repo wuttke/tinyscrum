@@ -21,6 +21,7 @@ extends BaseUserStoryTable {
 		List<UserStory> l = userStoryManager.loadBacklogUserStories(application.getCurrentProject());
 		storyContainer.removeAllItems();
 		storyContainer.addAll(l);
+		recalculateFooter();
 	}
 
 	@Override

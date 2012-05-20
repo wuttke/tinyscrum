@@ -15,6 +15,7 @@ import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.ui.Table;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 
 public class BaseUserStoryTable 
 extends Table
@@ -30,16 +31,40 @@ implements DropHandler, ItemClickListener {
 		setSelectable(true);
 		setSizeFull();
 		
-		setVisibleColumns(new String[]{"id", "title", "owner"});
+		setVisibleColumns(new String[]{"id", "title", "owner", "estimate", "status"});
 		setColumnExpandRatio("id", 1);
 		setColumnExpandRatio("title", 5);
 		setColumnExpandRatio("owner", 3);
+		setColumnExpandRatio("estimate", 1);
+		setColumnExpandRatio("status", 2);
 		setSortDisabled(true);
+		
+		setFooterVisible(true);
 		
 		setDragMode(TableDragMode.ROW);
 		setDropHandler(this);
 		addListener((ItemClickListener)this);
 	}
+	
+
+	protected void recalculateFooter() {
+		int counter = 0, open = 0, test = 0, close = 0;
+		double estimate = 0;
+		for (UserStory story : storyContainer.getItemIds()) {
+			counter++;
+			if (story.getStatus() == UserStoryStatus.STORY_OPEN)
+				open++;
+			else if (story.getStatus() == UserStoryStatus.STORY_TEST)
+				test++;
+			else if (story.getStatus() == UserStoryStatus.STORY_DONE)
+				close++;
+			estimate += story.getEstimate();
+		}
+		
+		setColumnFooter("title", "Open/Test/Done/Total: " + open + "/" + test + "/" + close + "/" + counter);
+		setColumnFooter("estimate", "Sum: " + estimate);
+	}
+
 	
 	@Override
 	public void drop(DragAndDropEvent event) {

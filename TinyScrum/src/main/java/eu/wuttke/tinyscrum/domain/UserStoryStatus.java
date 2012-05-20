@@ -20,5 +20,14 @@ public enum UserStoryStatus {
      * Finished story
      */
     STORY_DONE;
+ 
+    public String toString() {
+    	switch (this) {
+    	case STORY_DONE: return "Done";
+    	case STORY_OPEN: return "Open";
+    	case STORY_TEST: return "Test";
+    	default: return "Unknown";
+    	}
+    }
     
 }
