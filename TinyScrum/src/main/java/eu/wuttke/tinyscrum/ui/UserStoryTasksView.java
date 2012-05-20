@@ -71,8 +71,6 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		newTaskTitle = new TextField();
 		newTaskTitle.setInputPrompt("Task Title");
 		newTaskTitle.setWidth("100%");
-		newTaskTitle.setRequired(true);
-		newTaskTitle.setRequiredError("Please enter the task title.");
 		newTaskTitle.setImmediate(true);
 		
 		newTaskEstimate = new TextField();
@@ -84,7 +82,8 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		@SuppressWarnings("serial")
 		Button addTaskButton = new Button("Add Task", new ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				addTask();
+				if (((String)newTaskTitle.getValue()).length() > 0)
+					addTask();
 			}
 		});
 		
@@ -109,7 +108,9 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 	protected void addTask() {
 		Task t = createEmptyTask();
 		t.setName((String)newTaskTitle.getValue());
-		t.setEstimate(Double.parseDouble((String)newTaskEstimate.getValue()));
+		try {
+			t.setEstimate(Double.parseDouble((String)newTaskEstimate.getValue()));
+		} catch (NumberFormatException e) { }
 		taskManager.saveTask(t);
 		
 		taskTable.loadTasks();
