@@ -83,7 +83,8 @@ public class UserStoryEditorView extends VerticalLayout {
 					return releaseSelect;
 				} else if (propertyId.equals("description")) {
 					RichTextArea rta = new RichTextArea("Description");
-					rta.setSizeFull();
+					rta.setWidth("100%");
+					rta.setHeight("370px");
 					return rta;
 				} else
 					return null;
@@ -91,16 +92,12 @@ public class UserStoryEditorView extends VerticalLayout {
 		});		
 		addComponent(form);
 		
-		HorizontalLayout hl = new HorizontalLayout();
-		hl.setSpacing(true);
-		hl.setWidth("100%");
 		Button btnSave = new Button("Save Story");
 		btnSave.addListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				saveStory();
 			}
 		});
-		hl.addComponent(btnSave);
 		
 		Button btnCancel = new Button("Cancel");
 		btnCancel.addListener(new ClickListener() {
@@ -108,9 +105,14 @@ public class UserStoryEditorView extends VerticalLayout {
 				getWindow().getParent().removeWindow(getWindow());
 			}
 		});
+
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.setSpacing(true);
+		hl.addComponent(btnSave);
 		hl.addComponent(btnCancel);
-		hl.setComponentAlignment(btnSave, Alignment.BOTTOM_RIGHT);
-		form.getFooter().addComponent(hl);
+
+		addComponent(hl);
+		setComponentAlignment(hl, Alignment.BOTTOM_RIGHT);
 		
 		setExpandRatio(form, 1f);
 	}
