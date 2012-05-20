@@ -102,3 +102,4 @@ finder list --class ~.domain.UserStory
 finder add --finderName findUserStorysByProject
 hint
 perform package
+perform package

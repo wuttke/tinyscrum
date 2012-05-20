@@ -39,7 +39,6 @@ public class UserStoryEditorView extends VerticalLayout {
 		this.application = application;
 		
 		item = new BeanItem<UserStory>(userStory);
-		final List<String> owners = Arrays.asList(new String[]{"user1", "user2", "user3"});
 
 		setSizeFull();
 		setSpacing(true);
@@ -54,10 +53,14 @@ public class UserStoryEditorView extends VerticalLayout {
 					tf.setRequired(true);
 					tf.setWidth("100%");
 					return tf;
-				} else if (propertyId.equals("owner"))
-					return new Select("Owner", owners);
-				else if (propertyId.equals("status")) {
+				} else if (propertyId.equals("owner")) {
+					final List<String> owners = Arrays.asList(new String[]{"user1", "user2", "user3"});
+					Select sel = new Select("Owner", owners);
+					sel.setWidth("200px");
+					return sel;
+				} else if (propertyId.equals("status")) {
 					Select sel = new Select("Status", Arrays.asList(UserStoryStatus.values()));
+					sel.setWidth("200px");
 					sel.setNullSelectionAllowed(false);
 					return sel;
 				} else if (propertyId.equals("estimate")) {
@@ -65,14 +68,17 @@ public class UserStoryEditorView extends VerticalLayout {
 					return tf;
 				} else if (propertyId.equals("iteration")) {
 					iterationSelect = new Select("Iteration");
+					iterationSelect.setWidth("200px");
 					iterationSelect.setContainerDataSource(new IndexedContainer(userStoryManager.loadIterations(application.getCurrentProject())));
 					return iterationSelect;
 				} else if (propertyId.equals("projectFeature")) {
 					featureSelect = new Select("Feature");
+					featureSelect.setWidth("200px");
 					featureSelect.setContainerDataSource(new IndexedContainer(userStoryManager.loadFeatures(application.getCurrentProject())));
 					return featureSelect;
 				} else if (propertyId.equals("projectRelease")) {
 					releaseSelect = new Select("Release");
+					releaseSelect.setWidth("200px");
 					releaseSelect.setContainerDataSource(new IndexedContainer(userStoryManager.loadReleases(application.getCurrentProject())));
 					return releaseSelect;
 				} else if (propertyId.equals("description")) {
