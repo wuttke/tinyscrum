@@ -1,10 +1,11 @@
 package eu.wuttke.tinyscrum.ui;
 
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.Task;
@@ -18,6 +19,8 @@ implements RefreshableComponent {
 	private TinyScrumApplication application;
 	private UserStory story;
 	private TaskTable taskTable;
+	private TextField newTaskTitle;
+	private TextField newTaskEstimate;
 	
 	public UserStoryTasksView(TinyScrumApplication application, UserStory userStory) {
 		this.application = application;
@@ -34,26 +37,37 @@ implements RefreshableComponent {
 		taskTable = new TaskTable(story);
 		addComponent(taskTable);
 		
-		Button addTask = new Button("Add Task", new ClickListener() {
+		newTaskTitle = new TextField();
+		newTaskTitle.setInputPrompt("Task Title");
+		newTaskTitle.setWidth("100%");
+		
+		newTaskEstimate = new TextField();
+		newTaskEstimate.setInputPrompt("Estimate");
+		newTaskEstimate.setWidth("80px");
+
+		@SuppressWarnings("serial")
+		Button addTaskButton = new Button("Add Task", new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				addTask();
 			}
 		});
 		
-		Button deleteTask = new Button("Delete Task", new ClickListener() {
-			public void buttonClick(ClickEvent event) {
-				deleteTask();
-			}
-		});
-
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.addComponent(addTask);
-		layout.addComponent(deleteTask);
-		addComponent(layout);
+		HorizontalLayout newTaskLayout = new HorizontalLayout();
+		newTaskLayout.setSpacing(true);
+		newTaskLayout.addComponent(newTaskTitle);
+		newTaskLayout.addComponent(newTaskEstimate);
+		newTaskLayout.addComponent(addTaskButton);
+		newTaskLayout.setWidth("100%");
+		newTaskLayout.setExpandRatio(newTaskTitle, 1f);
+		
+		Panel newTaskPanel = new Panel();
+		newTaskPanel.setCaption("New Task");
+		newTaskPanel.getContent().setSizeFull();
+		newTaskPanel.addComponent(newTaskLayout);
+		newTaskPanel.setWidth("100%");
+		addComponent(newTaskPanel);
 		
 		setExpandRatio(taskTable, 1f);
-		setComponentAlignment(layout, Alignment.BOTTOM_RIGHT);
 		
 		// TODO später
 		taskTable.loadTasks();
@@ -64,11 +78,14 @@ implements RefreshableComponent {
 		t.setStory(story);
 		t.setProject(story.getProject());
 		t.setStatus(TaskStatus.TASK_OPEN);
-		t.setName("");
+		t.setName((String)newTaskTitle.getValue());
+		// TODO Estimate
 		taskTable.addTask(t);
-	}
-	
-	protected void deleteTask() {
+		
+		// Reset field for next task
+		newTaskTitle.setValue("");
+		newTaskEstimate.setValue("");
+		newTaskTitle.selectAll();
 	}
 	
 	@Override

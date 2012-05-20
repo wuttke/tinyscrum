@@ -20,7 +20,7 @@ import org.springframework.roo.addon.tostring.RooToString;
  */
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord
+@RooJpaActiveRecord(finders={"findTasksByDeveloperOrTester"})
 public class Task 
 implements Serializable {
 	

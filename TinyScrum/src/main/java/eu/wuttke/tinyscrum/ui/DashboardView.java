@@ -17,8 +17,11 @@ extends VerticalLayout {
 		this.application = application;
 		
 		setSizeFull();
+		setMargin(true);
+		setSpacing(true);
 		
 		Table table = new Table();
+		table.setSizeFull();
 		addComponent(table);
 		
 		HorizontalLayout buttonLayout = new HorizontalLayout();

@@ -46,12 +46,10 @@ implements DropHandler, ItemClickListener {
 		addListener((ItemClickListener)this);
 	}
 	
-
 	protected void recalculateFooter() {
-		int counter = 0, open = 0, test = 0, close = 0;
+		int open = 0, test = 0, close = 0;
 		double estimate = 0;
 		for (UserStory story : storyContainer.getItemIds()) {
-			counter++;
 			if (story.getStatus() == UserStoryStatus.STORY_OPEN)
 				open++;
 			else if (story.getStatus() == UserStoryStatus.STORY_TEST)
@@ -61,10 +59,9 @@ implements DropHandler, ItemClickListener {
 			estimate += story.getEstimate();
 		}
 		
-		setColumnFooter("title", "Open/Test/Done/Total: " + open + "/" + test + "/" + close + "/" + counter);
-		setColumnFooter("estimate", "Sum: " + estimate);
+		setColumnFooter("status", open + "/" + test + "/" + close);
+		setColumnFooter("estimate", Double.toString(estimate));
 	}
-
 	
 	@Override
 	public void drop(DragAndDropEvent event) {
@@ -145,7 +142,7 @@ implements DropHandler, ItemClickListener {
 		if (event.isDoubleClick()) {
 			UserStory story = (UserStory)event.getItemId();
 			if (story != null) {
-				UserStoryWindow w = new UserStoryWindow(application, story);
+				UserStoryViewWindow w = new UserStoryViewWindow(application, story);
 				application.getMainWindow().addWindow(w);
 			}
 		}

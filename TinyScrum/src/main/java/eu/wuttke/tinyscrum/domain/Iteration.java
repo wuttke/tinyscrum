@@ -77,7 +77,14 @@ implements Serializable {
 		Date date2 = new Date(date.getTime() + 86400000L * durationDays);
 		return date.before(date2);
 	}
-    
+
+	/**
+	 * Returns the name.
+	 */
+    public String toString() {
+    	return getName();
+    }
+
 	private static final long serialVersionUID = 1L;
 
 }

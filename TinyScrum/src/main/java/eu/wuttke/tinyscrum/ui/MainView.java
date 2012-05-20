@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -54,7 +55,8 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		cbProjectChooser.addListener(this);
 		
 		HorizontalLayout headerLayout = new HorizontalLayout();
-		Label lblTinyScrum = new Label("Tiny Scrum: Welcome, Matthias Wuttke");
+		Label lblTinyScrum = new Label();
+		lblTinyScrum.setIcon(new ThemeResource("img/logo.png"));
 		headerLayout.addComponent(lblTinyScrum);
 		headerLayout.addComponent(cbProjectChooser);
 		headerLayout.setComponentAlignment(lblTinyScrum, Alignment.MIDDLE_LEFT);

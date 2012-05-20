@@ -40,6 +40,18 @@ implements Serializable {
     @ManyToOne
     private Project project;
     
+    public String toString() {
+    	return getName();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (getId() != null && ((ProjectFeature)obj).getId() != null)
+    		return ((ProjectFeature)obj).getId().intValue() == getId().intValue();
+		else
+			return super.equals(obj);
+    }
+
 	private static final long serialVersionUID = 1L;
 
 }

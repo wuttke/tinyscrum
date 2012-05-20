@@ -1,16 +1,9 @@
 package eu.wuttke.tinyscrum.ui;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
 import com.vaadin.Application;
 import com.vaadin.ui.Window;
 
-import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
-import eu.wuttke.tinyscrum.domain.UserStory;
 
 public class TinyScrumApplication 
 extends Application {
@@ -21,6 +14,8 @@ extends Application {
 	
 	@Override
 	public void init() {
+		setTheme("tinyscrum");
+		
 		mainView = new MainView(this);
 		Window mainWindow = new Window("TinyScrum");
 		mainWindow.getContent().setSizeFull();

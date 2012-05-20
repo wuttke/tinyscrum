@@ -49,6 +49,10 @@ implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date plannedDate;
 
+    public String toString() {
+    	return getName();
+    }
+
     private static final long serialVersionUID = 1L;
     
 }

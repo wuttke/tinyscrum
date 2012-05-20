@@ -94,3 +94,11 @@ field boolean --fieldName active --notNull
 // Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-19 16:40:55
 focus --class ~.domain.UserStory
 perform tests
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-05-20 02:57:33
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-20 16:59:24
+hint
+hint finders
+finder list --class ~.domain.UserStory 
+finder add --finderName findUserStorysByProject
+hint
+perform package
