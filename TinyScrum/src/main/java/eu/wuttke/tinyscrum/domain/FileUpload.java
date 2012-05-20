@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum;
+package eu.wuttke.tinyscrum.domain;
 
 import javax.validation.constraints.Size;
 import org.springframework.roo.addon.javabean.RooJavaBean;

@@ -15,6 +15,8 @@ import com.vaadin.ui.VerticalLayout;
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
+import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
+import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
 @Configurable(autowire=Autowire.BY_NAME)
 public class BacklogView 
@@ -82,7 +84,11 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 
 	public void editUserStory(UserStory userStory) {
 		if (userStory != null) {
-			UserStoryEditorWindow w = new UserStoryEditorWindow(application, userStory);
+			UserStoryEditorWindow w = new UserStoryEditorWindow(application, userStory, new ObjectSavedListener() {
+				public void objectSaved(Object object) {
+					application.getMainView().refreshContent();
+				}
+			});
 			application.getMainWindow().addWindow(w);
 		}
 	}
@@ -92,7 +98,8 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 			ConfirmDialog.show(getWindow(), "Delete User Story", 
 					"Delete user story '" + userStory.getTitle() + "' and all contained tasks?",
 			        "Yes", "No", new ConfirmDialog.Listener() {
-			            public void onClose(ConfirmDialog dialog) {
+						private static final long serialVersionUID = 1L;
+						public void onClose(ConfirmDialog dialog) {
 			                if (dialog.isConfirmed()) {
 			        			userStoryManager.deleteUserStory(userStory);
 			        			refreshContent();
@@ -110,7 +117,11 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 		us.setProject(application.getCurrentProject());
 		us.setStatus(UserStoryStatus.STORY_OPEN);
 		
-		UserStoryEditorWindow w = new UserStoryEditorWindow(application, us);
+		UserStoryEditorWindow w = new UserStoryEditorWindow(application, us, new ObjectSavedListener() {
+			public void objectSaved(Object object) {
+				application.getMainView().refreshContent();
+			}
+		});
 		application.getMainWindow().addWindow(w);
 	}
 	

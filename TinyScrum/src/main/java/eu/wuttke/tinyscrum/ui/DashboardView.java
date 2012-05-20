@@ -2,10 +2,8 @@ package eu.wuttke.tinyscrum.ui;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
-
 
 public class DashboardView 
 extends VerticalLayout {

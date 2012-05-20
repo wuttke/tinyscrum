@@ -1,5 +1,11 @@
 package eu.wuttke.tinyscrum.ui;
 
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.vaadin.dialogs.ConfirmDialog;
+
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -11,16 +17,23 @@ import com.vaadin.ui.VerticalLayout;
 import eu.wuttke.tinyscrum.domain.Task;
 import eu.wuttke.tinyscrum.domain.TaskStatus;
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.logic.TaskManager;
+import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
+import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
+@Configurable(autowire=Autowire.BY_NAME)
 public class UserStoryTasksView 
 extends VerticalLayout
-implements RefreshableComponent {
+implements RefreshableComponent, ClickListener, ValueChangeListener {
 
 	private TinyScrumApplication application;
 	private UserStory story;
 	private TaskTable taskTable;
 	private TextField newTaskTitle;
 	private TextField newTaskEstimate;
+	private Button btnAddTask;
+	private Button btnEditTask;
+	private Button btnDeleteTask;
 	
 	public UserStoryTasksView(TinyScrumApplication application, UserStory userStory) {
 		this.application = application;
@@ -34,8 +47,25 @@ implements RefreshableComponent {
 		setMargin(true);
 		setSpacing(true);
 
-		taskTable = new TaskTable(story);
+		taskTable = new TaskTable(application, story);
+		taskTable.addListener((ValueChangeListener)this);
+		taskTable.setImmediate(true);
 		addComponent(taskTable);
+		
+		// Buttons
+		btnAddTask = new Button("Add Task", this);
+		btnEditTask = new Button("Edit Task", this);
+		btnEditTask.setEnabled(false);
+		btnDeleteTask = new Button("Delete Task", this);
+		btnDeleteTask.setEnabled(false);
+		
+		// Button Bar
+		HorizontalLayout buttonBar = new HorizontalLayout();
+		buttonBar.addComponent(btnAddTask);
+		buttonBar.addComponent(btnEditTask);
+		buttonBar.addComponent(btnDeleteTask);
+		buttonBar.setSpacing(true);
+		addComponent(buttonBar);
 		
 		newTaskTitle = new TextField();
 		newTaskTitle.setInputPrompt("Task Title");
@@ -68,9 +98,6 @@ implements RefreshableComponent {
 		addComponent(newTaskPanel);
 		
 		setExpandRatio(taskTable, 1f);
-		
-		// TODO später
-		taskTable.loadTasks();
 	}
 	
 	protected void addTask() {
@@ -79,7 +106,9 @@ implements RefreshableComponent {
 		t.setProject(story.getProject());
 		t.setStatus(TaskStatus.TASK_OPEN);
 		t.setName((String)newTaskTitle.getValue());
-		// TODO Estimate
+		t.setEstimate(0d);
+		t.setDescription("");
+		
 		taskTable.addTask(t);
 		
 		// Reset field for next task
@@ -92,7 +121,60 @@ implements RefreshableComponent {
 	public void refreshContent() {
 		taskTable.loadTasks();
 	}
+	
+	@Override
+	public void buttonClick(ClickEvent event) {
+		if (event.getButton() == btnAddTask) {
+			Task t = new Task();
+			t.setStory(story);
+			t.setProject(story.getProject());
+			t.setStatus(TaskStatus.TASK_OPEN);
+			t.setName("");
+			t.setEstimate(0d);
+			t.setDescription("");
+			newOrEditTask(t);
+		} else if (event.getButton() == btnEditTask) {
+			Task t = (Task)taskTable.getValue();
+			newOrEditTask(t);
+		} else if (event.getButton() == btnDeleteTask) {
+			final Task t = (Task)taskTable.getValue();
+			ConfirmDialog.show(getWindow(), "Delete Task", 
+					"Delete task '" + t.getName() + "'?",
+			        "Yes", "No", new ConfirmDialog.Listener() {
+						private static final long serialVersionUID = 1L;
+						public void onClose(ConfirmDialog dialog) {
+			                if (dialog.isConfirmed()) {
+			        			taskManager.deleteTask(t);
+			        			refreshContent();
+			                }
+			            }
+			        });
 
+		}
+	}
+	
+	private void newOrEditTask(Task t) {
+		TaskEditorWindow editor = new TaskEditorWindow(application, t, new ObjectSavedListener() {
+			public void objectSaved(Object object) {
+				refreshContent();
+			}
+		});
+		application.getMainWindow().addWindow(editor);
+	}
+
+	@Override
+	public void valueChange(ValueChangeEvent event) {
+		boolean enable = taskTable.getValue() != null;
+		btnEditTask.setEnabled(enable);
+		btnDeleteTask.setEnabled(enable);
+	}
+	
+	public void setTaskManager(TaskManager taskManager) {
+		this.taskManager = taskManager;
+	}
+
+	private TaskManager taskManager;
+	
 	private static final long serialVersionUID = 1L;
 
 }

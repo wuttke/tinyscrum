@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.misc;
 
 public interface RefreshableComponent {
 

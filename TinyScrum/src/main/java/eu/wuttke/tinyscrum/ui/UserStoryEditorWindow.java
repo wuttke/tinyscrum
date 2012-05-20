@@ -3,11 +3,12 @@ package eu.wuttke.tinyscrum.ui;
 import com.vaadin.ui.Window;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 
 public class UserStoryEditorWindow 
 extends Window {
 	
-	public UserStoryEditorWindow(TinyScrumApplication application, UserStory userStory) {
+	public UserStoryEditorWindow(TinyScrumApplication application, UserStory userStory, ObjectSavedListener listener) {
 		setModal(true);
         setWidth("80%");
         setHeight("80%");
@@ -19,7 +20,7 @@ extends Window {
         getContent().setSizeFull();
         center();
 		
-        UserStoryEditorView editor = new UserStoryEditorView(application, userStory);
+        UserStoryEditorView editor = new UserStoryEditorView(application, userStory, listener);
         editor.initForm();
 		addComponent(editor);
 	}

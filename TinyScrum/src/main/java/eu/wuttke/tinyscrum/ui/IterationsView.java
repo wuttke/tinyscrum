@@ -10,7 +10,8 @@ import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.VerticalSplitPanel;
 
 import eu.wuttke.tinyscrum.domain.Iteration;
-import eu.wuttke.tinyscrum.logic.UserStoryManager;
+import eu.wuttke.tinyscrum.logic.ProjectManager;
+import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
 @Configurable(autowire=Autowire.BY_NAME)
 public class IterationsView
@@ -48,7 +49,7 @@ implements RefreshableComponent {
 	public void refreshContent() {
 		backlogView.refreshContent();
 		
-		List<Iteration> l = userStoryManager.loadIterations(application.getCurrentProject());
+		List<Iteration> l = projectManager.loadIterations(application.getCurrentProject());
 		if (l != null) {
 			iterationView1.setIterations(l);
 			iterationView2.setIterations(l);
@@ -81,12 +82,12 @@ implements RefreshableComponent {
 		return null;
 	}
 	
-	public void setUserStoryManager(UserStoryManager userStoryManager) {
-		this.userStoryManager = userStoryManager;
+	public void setProjectManager(ProjectManager projectManager) {
+		this.projectManager = projectManager;
 	}
-	
-	private UserStoryManager userStoryManager;
 
+	private ProjectManager projectManager;
+	
 	private static final long serialVersionUID = 1L;
 	
 }

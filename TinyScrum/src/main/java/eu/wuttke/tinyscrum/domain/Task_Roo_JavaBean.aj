@@ -18,12 +18,20 @@ privileged aspect Task_Roo_JavaBean {
         this.name = name;
     }
     
-    public String Task.getDeveloper() {
-        return this.developer;
+    public String Task.getDeveloper1() {
+        return this.developer1;
     }
     
-    public void Task.setDeveloper(String developer) {
-        this.developer = developer;
+    public void Task.setDeveloper1(String developer1) {
+        this.developer1 = developer1;
+    }
+    
+    public String Task.getDeveloper2() {
+        return this.developer2;
+    }
+    
+    public void Task.setDeveloper2(String developer2) {
+        this.developer2 = developer2;
     }
     
     public String Task.getTester() {
@@ -72,14 +80,6 @@ privileged aspect Task_Roo_JavaBean {
     
     public void Task.setEstimate(Double estimate) {
         this.estimate = estimate;
-    }
-    
-    public int Task.getSequenceNumber() {
-        return this.sequenceNumber;
-    }
-    
-    public void Task.setSequenceNumber(int sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
     
 }

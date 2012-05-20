@@ -10,6 +10,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.CommentType;
+import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
 public class CommentsView 
 extends VerticalLayout 
@@ -72,6 +73,7 @@ implements RefreshableComponent {
 		
 		// add children to commentsLayout
 		Label myComment = new Label("<b>mwuttke 20.05.2012</b>: The quick brown fox jumps over the lazy dog.");
+		myComment.setContentMode(Label.CONTENT_XHTML);
 		commentsLayout.addComponent(myComment);
 	}
 

@@ -103,7 +103,7 @@ finder add --finderName findUserStorysByProject
 hint
 perform package
 perform package
-entity jpa --class eu.wuttke.tinyscrum.FileUpload
+entity jpa --class eu.wuttke.tinyscrum.domain.FileUpload
 field string --fieldName fileName --sizeMax 500
 finder list 
 finder add findFileUploadsByFileNameEquals
