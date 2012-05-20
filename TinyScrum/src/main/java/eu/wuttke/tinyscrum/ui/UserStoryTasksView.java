@@ -101,15 +101,12 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 	}
 	
 	protected void addTask() {
-		Task t = new Task();
-		t.setStory(story);
-		t.setProject(story.getProject());
-		t.setStatus(TaskStatus.TASK_OPEN);
+		Task t = createEmptyTask();
 		t.setName((String)newTaskTitle.getValue());
-		t.setEstimate(0d);
-		t.setDescription("");
+		t.setEstimate(Double.parseDouble((String)newTaskEstimate.getValue()));
+		taskManager.saveTask(t);
 		
-		taskTable.addTask(t);
+		taskTable.loadTasks();
 		
 		// Reset field for next task
 		newTaskTitle.setValue("");
@@ -125,20 +122,13 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == btnAddTask) {
-			Task t = new Task();
-			t.setStory(story);
-			t.setProject(story.getProject());
-			t.setStatus(TaskStatus.TASK_OPEN);
-			t.setName("");
-			t.setEstimate(0d);
-			t.setDescription("");
-			newOrEditTask(t);
+			newOrEditTask(createEmptyTask());
 		} else if (event.getButton() == btnEditTask) {
 			Task t = (Task)taskTable.getValue();
 			newOrEditTask(t);
 		} else if (event.getButton() == btnDeleteTask) {
 			final Task t = (Task)taskTable.getValue();
-			ConfirmDialog.show(getWindow(), "Delete Task", 
+			ConfirmDialog.show(application.getMainWindow(), "Delete Task", 
 					"Delete task '" + t.getName() + "'?",
 			        "Yes", "No", new ConfirmDialog.Listener() {
 						private static final long serialVersionUID = 1L;
@@ -153,6 +143,17 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		}
 	}
 	
+	private Task createEmptyTask() {
+		Task t = new Task();
+		t.setStory(story);
+		t.setProject(story.getProject());
+		t.setStatus(TaskStatus.TASK_OPEN);
+		t.setName("");
+		t.setEstimate(0d);
+		t.setDescription("");
+		return t;
+	}
+
 	private void newOrEditTask(Task t) {
 		TaskEditorWindow editor = new TaskEditorWindow(application, t, new ObjectSavedListener() {
 			public void objectSaved(Object object) {

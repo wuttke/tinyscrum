@@ -47,13 +47,6 @@ implements ItemClickListener {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Transactional
-	public void addTask(Task t) {
-		assert t.getStory() == story;
-		taskContainer.addBean(t);
-		taskManager.saveTask(t);
-	}
-	
 	@Override
 	public void itemClick(ItemClickEvent event) {
 		if (event.isDoubleClick()) {
