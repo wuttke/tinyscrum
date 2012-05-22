@@ -107,3 +107,8 @@ entity jpa --class eu.wuttke.tinyscrum.domain.FileUpload
 field string --fieldName fileName --sizeMax 500
 finder list 
 finder add findFileUploadsByFileNameEquals
+exit
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-05-22 11:19:46
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-22 11:19:53
+focus --class ~.domain.UserStory
+finder list 

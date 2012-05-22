@@ -11,7 +11,7 @@ extends Application {
 	private static final long serialVersionUID = -1486443784466891755L;
 
 	private MainView mainView;
-	
+
 	@Override
 	public void init() {
 		setTheme("tinyscrum");
@@ -21,6 +21,9 @@ extends Application {
 		mainWindow.getContent().setSizeFull();
 		mainWindow.addComponent(mainView);
 		setMainWindow(mainWindow);
+		
+		// vorheriger Refresh blockiert
+		getMainView().refreshContent();
 	}
 	
 	public MainView getMainView() {

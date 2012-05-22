@@ -26,7 +26,7 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 	private Button btnAddUserStory;
 	private Button btnEditUserStory;
 	private Button btnDeleteUserStory;
-	private BacklogTable backlogTable;
+	private BacklogStoryTable backlogTable;
 	
 	private TinyScrumApplication application;
 	
@@ -37,7 +37,7 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 		setSpacing(true);
 		setSizeFull();
 		
-		backlogTable = new BacklogTable(application);
+		backlogTable = new BacklogStoryTable(application);
 		backlogTable.setSizeFull();
 		backlogTable.addListener(this);
 		backlogTable.setImmediate(true);

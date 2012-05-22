@@ -29,12 +29,16 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 	private BeanItemContainer<Project> projectContainer;
 	private TinyScrumApplication application;
 	private TabSheet tabSheet;
+	private boolean blockProjectValueChanged = false;
 	
+
 	public MainView(TinyScrumApplication application) {
 		this.application = application;
-		
+
+		blockProjectValueChanged = true;
 		initializeLayout();
 		loadProjects();
+		blockProjectValueChanged = false;
 	}
 	
 	private void initializeLayout() {
@@ -92,7 +96,8 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 	@Override
 	public void valueChange(ValueChangeEvent event) {
 		// project changed
-		refreshContent();
+		if (!blockProjectValueChanged)
+			refreshContent();
 	}
 	
 	@Override

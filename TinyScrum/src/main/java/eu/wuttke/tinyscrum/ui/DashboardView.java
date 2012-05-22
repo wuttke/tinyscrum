@@ -1,15 +1,24 @@
 package eu.wuttke.tinyscrum.ui;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Table;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Configurable;
+
 import com.vaadin.ui.VerticalLayout;
 
-public class DashboardView 
-extends VerticalLayout {
+import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
-	@SuppressWarnings("unused")
+/**
+ * Dashboard view with open user tasks and stories.
+ * @author Matthias Wuttke
+ */
+@Configurable(autowire=Autowire.BY_NAME)
+public class DashboardView 
+extends VerticalLayout 
+implements RefreshableComponent {
+
 	private TinyScrumApplication application;
+	private DashboardTaskStoryTable dashboardTaskStoryTable;
+	private DashboardStoryTable dashboardStoryTable;
 	
 	public DashboardView(TinyScrumApplication application) {
 		this.application = application;
@@ -18,16 +27,21 @@ extends VerticalLayout {
 		setMargin(true);
 		setSpacing(true);
 		
-		Table table = new Table();
-		table.setSizeFull();
-		addComponent(table);
+		dashboardTaskStoryTable = new DashboardTaskStoryTable(this.application);
+		dashboardStoryTable = new DashboardStoryTable(this.application);
+
+		addComponent(dashboardTaskStoryTable);
+		addComponent(dashboardStoryTable);
+		setExpandRatio(dashboardTaskStoryTable, 2f);
+		setExpandRatio(dashboardStoryTable, 1f);
+	}
+	
+	@Override
+	public void refreshContent() {
+		String user = "user1"; // TODO
 		
-		HorizontalLayout buttonLayout = new HorizontalLayout();
-		buttonLayout.addComponent(new Button("User Stories"));
-		buttonLayout.addComponent(new Button("Tasks"));
-		addComponent(buttonLayout);
-		
-		setExpandRatio(table, 1f);
+		dashboardTaskStoryTable.loadDashboardTasks(user);
+		dashboardStoryTable.loadDashboardStories(user);
 	}
 
 	private static final long serialVersionUID = 1L;

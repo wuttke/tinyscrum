@@ -10,10 +10,10 @@ import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
 
 @Configurable(autowire=Autowire.BY_NAME)
-public class BacklogTable
+public class BacklogStoryTable
 extends BaseUserStoryTable {
 	
-	public BacklogTable(TinyScrumApplication application) {
+	public BacklogStoryTable(TinyScrumApplication application) {
 		super(application);
 	}
 	

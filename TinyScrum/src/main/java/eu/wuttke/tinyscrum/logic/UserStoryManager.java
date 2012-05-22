@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 
 /**
  * User story business logic
@@ -86,6 +87,19 @@ public class UserStoryManager {
 		q1.executeUpdate();
 	
 		em.flush();
+	}
+	
+	/**
+	 * Retrieves user stories assigned to the given user whose status is not 'done'.
+	 * @param user
+	 * @return
+	 */
+	public List<UserStory> loadUserUserStories(String user) {
+		EntityManager em = UserStory.entityManager();
+		TypedQuery<UserStory> q = em.createQuery("FROM UserStory WHERE owner = ? AND status != ?", UserStory.class);
+		q.setParameter(1, user);
+		q.setParameter(2, UserStoryStatus.STORY_DONE);
+		return q.getResultList();
 	}
 
 }
