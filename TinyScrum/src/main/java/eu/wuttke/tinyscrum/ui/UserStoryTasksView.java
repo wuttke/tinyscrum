@@ -97,7 +97,7 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		
 		Panel newTaskPanel = new Panel();
 		newTaskPanel.setCaption("New Task");
-		newTaskPanel.getContent().setSizeFull();
+		newTaskPanel.getContent().setWidth("100%");
 		newTaskPanel.addComponent(newTaskLayout);
 		newTaskPanel.setWidth("100%");
 		addComponent(newTaskPanel);

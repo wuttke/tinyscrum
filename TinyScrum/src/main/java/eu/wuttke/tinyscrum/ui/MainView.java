@@ -46,6 +46,7 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		tabSheet.addTab(new DashboardView(application), "My Dashboard");
 		tabSheet.addTab(new BacklogView(application), "Backlog Management");
 		tabSheet.addTab(new IterationsView(application), "Iteration Planning");
+		tabSheet.addTab(new AdminView(application), "Administration");
 		tabSheet.addListener(this);
 		tabSheet.setSizeFull();
 		

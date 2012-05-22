@@ -47,19 +47,21 @@ implements RefreshableComponent {
 		});
 
 		VerticalLayout vl = new VerticalLayout();
-		vl.addComponent(lblDescription);
 		vl.setWidth("100%");
 		vl.addComponent(editButton);
+		vl.addComponent(lblDescription);
 		vl.setComponentAlignment(editButton, Alignment.BOTTOM_RIGHT);
 		
 		Panel descriptionPanel = new Panel();
 		descriptionPanel.setCaption("Description");
+		descriptionPanel.setSizeFull();
 		descriptionPanel.addComponent(vl);
 
 		comments = new CommentsView(CommentType.USER_STORY, userStory.getId());
-
+		
 		addComponent(descriptionPanel);
 		addComponent(comments);		
+		setExpandRatio(descriptionPanel, 1f);
 		setExpandRatio(comments, 1f);
 	}
 	
