@@ -65,4 +65,12 @@ privileged aspect FileUpload_Roo_JavaBean {
         this.createDateTime = createDateTime;
     }
     
+    public String FileUpload.getUserName() {
+        return this.userName;
+    }
+    
+    public void FileUpload.setUserName(String userName) {
+        this.userName = userName;
+    }
+    
 }

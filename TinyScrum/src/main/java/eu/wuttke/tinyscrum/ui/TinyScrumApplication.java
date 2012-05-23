@@ -8,6 +8,7 @@ import com.vaadin.ui.Window;
 
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.ScrumUser;
+import eu.wuttke.tinyscrum.ui.misc.FileDownloadHandler;
 import eu.wuttke.tinyscrum.ui.misc.LoginCompletedListener;
 
 public class TinyScrumApplication 
@@ -28,6 +29,11 @@ extends Application {
 		mainWindow.getContent().setSizeFull();
 		mainWindow.addComponent(mainView);
 		setMainWindow(mainWindow);
+		
+		FileDownloadHandler fdh = new FileDownloadHandler();
+		mainWindow.addParameterHandler(fdh);
+		mainWindow.addURIHandler(fdh);
+		
 		doLogin();
 	}
 

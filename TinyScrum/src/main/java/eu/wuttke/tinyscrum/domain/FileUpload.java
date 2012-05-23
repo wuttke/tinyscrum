@@ -16,7 +16,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findFileUploadsByFileNameEquals" })
+@RooJpaActiveRecord()
 public class FileUpload {
 
 	/**
@@ -62,5 +62,12 @@ public class FileUpload {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date createDateTime;
+    
+	/**
+	 * User who did the upload
+	 */
+    @NotNull
+    @Size(max = 100)
+    private String userName;
     
 }

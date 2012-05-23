@@ -26,6 +26,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
+import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.Comment;
@@ -63,7 +64,7 @@ implements RefreshableComponent {
 		Panel commentsPanel = new Panel();
 		commentsPanel.setSizeFull();
 		commentsPanel.setCaption("Comments");
-		commentsPanel.getContent().setSizeFull();
+		//commentsPanel.getContent().setSizeFull();
 		commentsPanel.addComponent(commentsLayout);
 		
 		newCommentText = new TextArea();
@@ -130,8 +131,14 @@ implements RefreshableComponent {
 		u.setMimeType(lastUploadMimetype);
 		u.setParentId(parentId);
 		u.setCreateDateTime(new Date());
+		u.setUserName(application.getCurrentUser().getUserName());
 		u.persist();
 		lastUploadStream = null;
+		
+		application.getMainWindow().showNotification("Your upload has been received successfully (" + u.getMimeType() + ", " +
+				u.getFileSize() + " bytes).", Notification.TYPE_HUMANIZED_MESSAGE);
+		
+		refreshContent();
 	}
 
 	protected void newComment() {
@@ -144,7 +151,6 @@ implements RefreshableComponent {
 		comment.persist();
 		
 		newCommentText.setValue("");
-		
 		refreshContent();
 	}
 	
@@ -155,7 +161,7 @@ implements RefreshableComponent {
 		q1.setParameter(2, parentId);
 		List<Comment> comments = q1.getResultList();
 		
-		TypedQuery<Object[]> q2 = em.createQuery("SELECT id, fileSize, fileName, mimeType, createDateTime FROM FileUpload WHERE commentType = ? AND parentId = ? ORDER BY createDateTime", Object[].class);
+		TypedQuery<Object[]> q2 = em.createQuery("SELECT id, fileSize, fileName, mimeType, createDateTime, userName FROM FileUpload WHERE commentType = ? AND parentId = ? ORDER BY createDateTime", Object[].class);
 		q2.setParameter(1, commentType);
 		q2.setParameter(2, parentId);
 		List<Object[]> files = q2.getResultList();
@@ -192,8 +198,9 @@ implements RefreshableComponent {
 				String fn = (String)cdo.upload[2];
 				String mt = (String)cdo.upload[3];
 				Date cdt = (Date)cdo.upload[4];
-				String capt = fn + " (" + mt + ", " + size + " bytes, " + df.format(cdt) + ")";
-				Resource res = new ExternalResource("file?id=" + id, mt);
+				String un = (String)cdo.upload[5];
+				String capt = fn + " (" + mt + ", " + size + " bytes, " + un + ", " + df.format(cdt) + ")";
+				Resource res = new ExternalResource("/TinyScrum/getFile?binaryId=" + id, mt); // Kontextname?
 				Link l = new Link(capt, res);
 				l.setTargetName("_blank");
 				commentsLayout.addComponent(l);
