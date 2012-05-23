@@ -49,6 +49,10 @@ public class TaskAndStory {
 		return getTask().getStatus();
 	}
 	
+	public Double getTaskEstimate() {
+		return getTask().getEstimate();
+	}
+	
 	public Task getTask() {
 		return task;
 	}

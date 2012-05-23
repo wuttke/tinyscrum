@@ -81,6 +81,8 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		headerLayout.setComponentAlignment(lblTinyScrum, Alignment.MIDDLE_LEFT);
 		headerLayout.setComponentAlignment(btnLogout, Alignment.MIDDLE_RIGHT);
 		headerLayout.setComponentAlignment(cbProjectChooser, Alignment.MIDDLE_RIGHT);
+		headerLayout.setExpandRatio(lblTinyScrum, 1f);
+		headerLayout.setSpacing(true);
 		headerLayout.setWidth("100%");
 		
 		Label lblFooter = new Label("TinyScrum Footer");

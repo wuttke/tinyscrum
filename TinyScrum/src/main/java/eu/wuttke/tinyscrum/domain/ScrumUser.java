@@ -71,6 +71,14 @@ implements Serializable {
     		return getUserName().equals(((ScrumUser)obj).getUserName());
     }
     
+    /**
+     * Get user name hash.
+     */
+    @Override
+    public int hashCode() {
+    	return getUserName().hashCode();
+    }
+    
 	private static final long serialVersionUID = 1L;
 
 }
