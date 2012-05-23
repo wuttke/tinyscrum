@@ -23,7 +23,6 @@ import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import eu.wuttke.tinyscrum.domain.ScrumUser;
 import eu.wuttke.tinyscrum.domain.Task;
 import eu.wuttke.tinyscrum.domain.TaskStatus;
 import eu.wuttke.tinyscrum.logic.TaskManager;
@@ -39,9 +38,10 @@ public class TaskEditorView extends VerticalLayout {
 	
 	private Form form;
 	private BeanItem<Task> item;
-	@SuppressWarnings("unused")
 	private TinyScrumApplication application;
 	private ObjectSavedListener listener;
+	private List<String> users;
+	
 	
 	public TaskEditorView(final TinyScrumApplication application, Task task, ObjectSavedListener listener) {
 		this.application = application;
@@ -56,8 +56,6 @@ public class TaskEditorView extends VerticalLayout {
 		form.setCaption("Task Details");
 		form.setSizeFull();
 		form.setImmediate(true);
-		
-		final List<ScrumUser> users = userManager.getProjectUsers(application.getCurrentProject());
 		
 		form.setFormFieldFactory(new FormFieldFactory() {
 			private static final long serialVersionUID = 1L;
@@ -128,6 +126,8 @@ public class TaskEditorView extends VerticalLayout {
 	}
 	
 	public void initForm() {
+		users = userManager.getProjectUserNames(application.getCurrentProject());
+		
 		form.setItemDataSource(item, Arrays.asList(new String[]{
 				"name", "developer1", "developer2", "tester", "status", "estimate",
 				"description"

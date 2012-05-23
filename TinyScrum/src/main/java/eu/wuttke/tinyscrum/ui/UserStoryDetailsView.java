@@ -1,5 +1,8 @@
 package eu.wuttke.tinyscrum.ui;
 
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Configurable;
+
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -11,9 +14,12 @@ import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.CommentType;
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.domain.UserStoryStatus;
+import eu.wuttke.tinyscrum.logic.UserStoryManager;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
+@Configurable(autowire=Autowire.BY_NAME)
 public class UserStoryDetailsView 
 extends VerticalLayout 
 implements RefreshableComponent {
@@ -46,20 +52,35 @@ implements RefreshableComponent {
 				}));
 			}
 		});
-		Label lblTitle = new Label("#" + userStory.getId() + ": " + userStory.getTitle());
+		
+		Button nextStateButton = new Button(getNextStateLabel(userStory.getStatus()), new ClickListener() {
+			private static final long serialVersionUID = 1L;
+			public void buttonClick(ClickEvent event) {
+				doNextState(application, userStory);
+				getWindow().getParent().removeWindow(getWindow());
+				application.getMainView().refreshContent();
+			}
+		});
+		nextStateButton.setVisible(userStory.getStatus() != UserStoryStatus.STORY_DONE);
+
+		Label lblTitle = new Label("#" + userStory.getId() + ": " + userStory.getTitle() + " (" + userStory.getStatus() + ")");
 		
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.addComponent(lblTitle);
+		hl.addComponent(nextStateButton);
 		hl.addComponent(editButton);
+		hl.setComponentAlignment(nextStateButton, Alignment.TOP_RIGHT);
 		hl.setComponentAlignment(editButton, Alignment.TOP_RIGHT);
+		hl.setSpacing(true);
 		hl.setWidth("100%");
+		hl.setExpandRatio(lblTitle, 1f);
 
 		Panel descriptionPanel = new Panel();
 		descriptionPanel.setCaption("Description");
 		descriptionPanel.setSizeFull();
 		descriptionPanel.addComponent(lblDescription);
 
-		comments = new CommentsView(CommentType.USER_STORY, userStory.getId());
+		comments = new CommentsView(application, CommentType.USER_STORY, userStory.getId());
 		
 		addComponent(hl);
 		addComponent(descriptionPanel);
@@ -68,10 +89,35 @@ implements RefreshableComponent {
 		setExpandRatio(comments, 2f);
 	}
 	
+	private String getNextStateLabel(UserStoryStatus status) {
+		switch (status) {
+		case STORY_DONE: return "Already done";
+		case STORY_OPEN: return "Mark as 'Test'";
+		case STORY_TEST: return "Mark as 'Done'";
+		default: throw new IllegalArgumentException("unknown state: " + status);
+		}
+	}
+
+	public void doNextState(TinyScrumApplication application, UserStory story) {
+		if (story.getStatus() == UserStoryStatus.STORY_OPEN) {
+			story.setStatus(UserStoryStatus.STORY_TEST);
+			userStoryManager.saveUserStory(story);
+		} else if (story.getStatus() == UserStoryStatus.STORY_TEST) {
+			story.setStatus(UserStoryStatus.STORY_DONE);
+			userStoryManager.saveUserStory(story);
+		}
+	}
+	
 	public void refreshContent() {
 		comments.refreshContent();
 	}
+	
+	public void setUserStoryManager(UserStoryManager userStoryManager) {
+		this.userStoryManager = userStoryManager;
+	}
 
+	private UserStoryManager userStoryManager;
+	
 	private static final long serialVersionUID = 1L;
 
 }

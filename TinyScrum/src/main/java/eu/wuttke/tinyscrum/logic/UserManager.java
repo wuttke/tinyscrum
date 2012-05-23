@@ -26,6 +26,17 @@ public class UserManager {
 		// maybe honor team / iteration?
 		return ScrumUser.findAllScrumUsers();
 	}
+	
+	/**
+	 * Lists all user names.
+	 * @param project
+	 * @return
+	 */	
+	public List<String> getProjectUserNames(Project project) {
+		EntityManager em = ScrumUser.entityManager();
+		TypedQuery<String> q = em.createQuery("SELECT userName FROM ScrumUser", String.class);
+		return q.getResultList();		
+	}
 
 	/**
 	 * Performs a user authentification.

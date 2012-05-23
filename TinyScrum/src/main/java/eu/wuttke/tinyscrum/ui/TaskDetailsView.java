@@ -57,7 +57,7 @@ implements RefreshableComponent {
 		});
 		nextStateButton.setVisible(task.getStatus() != TaskStatus.TASK_DONE);
 		
-		Label lblTitle = new Label("#" + task.getId() + ": " + task.getName());
+		Label lblTitle = new Label("#" + task.getId() + ": " + task.getName() + " (" + task.getStatus() + ")");
 		
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.addComponent(lblTitle);
@@ -65,6 +65,7 @@ implements RefreshableComponent {
 		hl.addComponent(editButton);
 		hl.setComponentAlignment(nextStateButton, Alignment.TOP_RIGHT);
 		hl.setComponentAlignment(editButton, Alignment.TOP_RIGHT);
+		hl.setSpacing(true);
 		hl.setWidth("100%");
 		hl.setExpandRatio(lblTitle, 1f);
 		
@@ -73,7 +74,7 @@ implements RefreshableComponent {
 		descriptionPanel.setSizeFull();
 		descriptionPanel.addComponent(lblDescription);
 
-		comments = new CommentsView(CommentType.TASK, task.getId());
+		comments = new CommentsView(application, CommentType.TASK, task.getId());
 
 		addComponent(hl);
 		addComponent(descriptionPanel);

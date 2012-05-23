@@ -3,7 +3,9 @@
 
 package eu.wuttke.tinyscrum.domain;
 
+import eu.wuttke.tinyscrum.domain.CommentType;
 import eu.wuttke.tinyscrum.domain.FileUpload;
+import java.util.Date;
 
 privileged aspect FileUpload_Roo_JavaBean {
     
@@ -13,6 +15,54 @@ privileged aspect FileUpload_Roo_JavaBean {
     
     public void FileUpload.setFileName(String fileName) {
         this.fileName = fileName;
+    }
+    
+    public String FileUpload.getMimeType() {
+        return this.mimeType;
+    }
+    
+    public void FileUpload.setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
+    
+    public byte[] FileUpload.getBinaryData() {
+        return this.binaryData;
+    }
+    
+    public void FileUpload.setBinaryData(byte[] binaryData) {
+        this.binaryData = binaryData;
+    }
+    
+    public CommentType FileUpload.getCommentType() {
+        return this.commentType;
+    }
+    
+    public void FileUpload.setCommentType(CommentType commentType) {
+        this.commentType = commentType;
+    }
+    
+    public long FileUpload.getParentId() {
+        return this.parentId;
+    }
+    
+    public void FileUpload.setParentId(long parentId) {
+        this.parentId = parentId;
+    }
+    
+    public long FileUpload.getFileSize() {
+        return this.fileSize;
+    }
+    
+    public void FileUpload.setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+    
+    public Date FileUpload.getCreateDateTime() {
+        return this.createDateTime;
+    }
+    
+    public void FileUpload.setCreateDateTime(Date createDateTime) {
+        this.createDateTime = createDateTime;
     }
     
 }

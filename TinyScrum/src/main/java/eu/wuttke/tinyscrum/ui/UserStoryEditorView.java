@@ -24,7 +24,6 @@ import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import eu.wuttke.tinyscrum.domain.ScrumUser;
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 import eu.wuttke.tinyscrum.logic.ProjectManager;
@@ -65,7 +64,7 @@ public class UserStoryEditorView extends VerticalLayout {
 					tf.setWidth("100%");
 					return tf;
 				} else if (propertyId.equals("owner")) {
-					final List<ScrumUser> owners = userManager.getProjectUsers(application.getCurrentProject());
+					final List<String> owners = userManager.getProjectUserNames(application.getCurrentProject());
 					Select sel = new Select("Owner", owners);
 					sel.setWidth("200px");
 					return sel;

@@ -33,15 +33,17 @@ implements DropHandler, ItemClickListener {
 		setSizeFull();
 		
 		setVisibleColumns(new String[]{"id", "title", "owner", "estimate", "status"});
+		
 		setColumnExpandRatio("id", 1);
 		setColumnExpandRatio("title", 5);
 		setColumnExpandRatio("owner", 3);
 		setColumnExpandRatio("estimate", 1);
 		setColumnExpandRatio("status", 2);
+
 		setColumnAlignment("id", ALIGN_RIGHT);
 		setColumnAlignment("estimate", ALIGN_RIGHT);
-		setSortDisabled(true);
 		
+		setSortDisabled(true);
 		setFooterVisible(true);
 		
 		setDragMode(TableDragMode.ROW);

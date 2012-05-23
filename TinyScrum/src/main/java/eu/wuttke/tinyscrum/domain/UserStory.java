@@ -87,6 +87,10 @@ implements Serializable {
      */
     private double estimate;
     
+    public String getIterationName() {
+    	return iteration != null ? iteration.getName() : "Backlog";
+    }
+    
 	private static final long serialVersionUID = 1L;
 
 }

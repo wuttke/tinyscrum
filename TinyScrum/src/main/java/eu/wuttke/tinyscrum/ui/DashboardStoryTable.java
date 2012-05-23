@@ -16,6 +16,10 @@ extends BaseUserStoryTable {
 		super(application);
 		setDragMode(TableDragMode.NONE);
 		setSizeFull();
+		
+		setVisibleColumns(new String[]{"id", "title", "owner", "iterationName", "estimate", "status"});
+		setColumnHeader("iterationName", "Iteration Name");
+		setColumnExpandRatio("iterationName", 3);
 	}
 	
 	public void loadDashboardStories(String user) {
