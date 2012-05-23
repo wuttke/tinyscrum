@@ -1,1 +1,6 @@
 @import "../reindeer/styles.css";
+
+.v-app .v-app-loginpage {
+	spacing: 5 pt;
+	background: green;
+}

@@ -41,7 +41,7 @@ extends Window {
 		});
 		
 		Panel loginPanel = new Panel("Login");
-		loginPanel.setWidth("250px");
+		loginPanel.setWidth("100%");
 		loginPanel.addComponent(loginForm);
 		
 		addComponent(loginPanel);

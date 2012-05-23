@@ -24,9 +24,11 @@ import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import eu.wuttke.tinyscrum.domain.ScrumUser;
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 import eu.wuttke.tinyscrum.logic.ProjectManager;
+import eu.wuttke.tinyscrum.logic.UserManager;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 
@@ -63,7 +65,7 @@ public class UserStoryEditorView extends VerticalLayout {
 					tf.setWidth("100%");
 					return tf;
 				} else if (propertyId.equals("owner")) {
-					final List<String> owners = Arrays.asList(new String[]{"user1", "user2", "user3"});
+					final List<ScrumUser> owners = userManager.getProjectUsers(application.getCurrentProject());
 					Select sel = new Select("Owner", owners);
 					sel.setWidth("200px");
 					return sel;
@@ -158,9 +160,14 @@ public class UserStoryEditorView extends VerticalLayout {
 	public void setProjectManager(ProjectManager projectManager) {
 		this.projectManager = projectManager;
 	}
+	
+	public void setUserManager(UserManager userManager) {
+		this.userManager = userManager;
+	}
 
 	private UserStoryManager userStoryManager;
 	private ProjectManager projectManager;
+	private UserManager userManager;
 	
 	private static final long serialVersionUID = 1L;
 	

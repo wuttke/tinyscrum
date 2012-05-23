@@ -23,9 +23,11 @@ import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import eu.wuttke.tinyscrum.domain.ScrumUser;
 import eu.wuttke.tinyscrum.domain.Task;
 import eu.wuttke.tinyscrum.domain.TaskStatus;
 import eu.wuttke.tinyscrum.logic.TaskManager;
+import eu.wuttke.tinyscrum.logic.UserManager;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 
 @Configurable(autowire=Autowire.BY_NAME)
@@ -54,6 +56,9 @@ public class TaskEditorView extends VerticalLayout {
 		form.setCaption("Task Details");
 		form.setSizeFull();
 		form.setImmediate(true);
+		
+		final List<ScrumUser> users = userManager.getProjectUsers(application.getCurrentProject());
+		
 		form.setFormFieldFactory(new FormFieldFactory() {
 			private static final long serialVersionUID = 1L;
 			public Field createField(Item item, Object propertyId, Component uiContext) {
@@ -64,18 +69,15 @@ public class TaskEditorView extends VerticalLayout {
 					tf.setWidth("100%");
 					return tf;
 				} else if (propertyId.equals("developer1")) {
-					final List<String> owners = Arrays.asList(new String[]{"user1", "user2", "user3"});
-					Select sel = new Select("Developer 1", owners);
+					Select sel = new Select("Developer 1", users);
 					sel.setWidth("200px");
 					return sel;
 				} else if (propertyId.equals("developer2")) {
-					final List<String> owners = Arrays.asList(new String[]{"user1", "user2", "user3"});
-					Select sel = new Select("Developer 2", owners);
+					Select sel = new Select("Developer 2", users);
 					sel.setWidth("200px");
 					return sel;
 				} else if (propertyId.equals("tester")) {
-					final List<String> owners = Arrays.asList(new String[]{"user1", "user2", "user3"});
-					Select sel = new Select("Tester", owners);
+					Select sel = new Select("Tester", users);
 					sel.setWidth("200px");
 					return sel;
 				} else if (propertyId.equals("status")) {
@@ -146,8 +148,13 @@ public class TaskEditorView extends VerticalLayout {
 		this.taskManager = taskManager;
 	}
 	
+	public void setUserManager(UserManager userManager) {
+		this.userManager = userManager;
+	}
+	
 	private TaskManager taskManager;
-
+	private UserManager userManager;
+	
 	private static final long serialVersionUID = 1L;
 	
 }
