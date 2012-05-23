@@ -33,27 +33,25 @@ implements RefreshableComponent {
 				getWindow().getParent().removeWindow(getWindow());
 				application.getMainWindow().addWindow(new TaskEditorWindow(application, task, new ObjectSavedListener() {
 					public void objectSaved(Object object) {
-						refreshContent();
+						application.getMainView().refreshContent();
 					}
 				}));
 			}
 		});
 
-		VerticalLayout vl = new VerticalLayout();
-		vl.addComponent(lblDescription);
-		vl.setWidth("100%");
-		vl.addComponent(editButton);
-		vl.setComponentAlignment(editButton, Alignment.BOTTOM_RIGHT);
-		
 		Panel descriptionPanel = new Panel();
 		descriptionPanel.setCaption("Description");
-		descriptionPanel.addComponent(vl);
+		descriptionPanel.setSizeFull();
+		descriptionPanel.addComponent(lblDescription);
 
 		comments = new CommentsView(CommentType.TASK, task.getId());
 
+		addComponent(editButton);
 		addComponent(descriptionPanel);
-		addComponent(comments);		
-		setExpandRatio(comments, 1f);
+		addComponent(comments);	
+		setComponentAlignment(editButton, Alignment.TOP_RIGHT);
+		setExpandRatio(descriptionPanel, 1f);
+		setExpandRatio(comments, 2f);
 	}
 	
 	public void refreshContent() {

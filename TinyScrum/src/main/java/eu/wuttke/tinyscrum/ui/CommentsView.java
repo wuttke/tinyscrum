@@ -59,8 +59,8 @@ implements RefreshableComponent {
 		});
 
 		HorizontalLayout hl = new HorizontalLayout();
-		hl.addComponent(newCommentButton);
 		hl.addComponent(uploadButton);
+		hl.addComponent(newCommentButton);
 		hl.setSpacing(true);
 
 		VerticalLayout newCommentLayout = new VerticalLayout();

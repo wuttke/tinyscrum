@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -87,8 +88,10 @@ implements Serializable {
      * @return String
      */
     public String getDeveloper() {
-    	if (getDeveloper2() != null && getDeveloper2().length() > 0)
+    	if (StringUtils.isNotEmpty(getDeveloper1()) && StringUtils.isNotEmpty(getDeveloper2()))
     		return getDeveloper1() + " | " + getDeveloper2();
+    	else if (StringUtils.isNotEmpty(getDeveloper2()))
+    		return getDeveloper2();
     	else
     		return getDeveloper1();
     }
