@@ -94,11 +94,12 @@ public class UserStoryManager {
 	 * @param user
 	 * @return
 	 */
-	public List<UserStory> loadUserUserStories(String user) {
+	public List<UserStory> loadUserUserStories(String user, Project project) {
 		EntityManager em = UserStory.entityManager();
-		TypedQuery<UserStory> q = em.createQuery("FROM UserStory WHERE owner = ? AND status != ?", UserStory.class);
+		TypedQuery<UserStory> q = em.createQuery("FROM UserStory WHERE owner = ? AND project = ? AND status != ?", UserStory.class);
 		q.setParameter(1, user);
-		q.setParameter(2, UserStoryStatus.STORY_DONE);
+		q.setParameter(2, project);
+		q.setParameter(3, UserStoryStatus.STORY_DONE);
 		return q.getResultList();
 	}
 

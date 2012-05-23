@@ -4,6 +4,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
@@ -45,6 +46,13 @@ implements RefreshableComponent {
 				}));
 			}
 		});
+		Label lblTitle = new Label("#" + userStory.getId() + ": " + userStory.getTitle());
+		
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.addComponent(lblTitle);
+		hl.addComponent(editButton);
+		hl.setComponentAlignment(editButton, Alignment.TOP_RIGHT);
+		hl.setWidth("100%");
 
 		Panel descriptionPanel = new Panel();
 		descriptionPanel.setCaption("Description");
@@ -53,10 +61,9 @@ implements RefreshableComponent {
 
 		comments = new CommentsView(CommentType.USER_STORY, userStory.getId());
 		
-		addComponent(editButton);
+		addComponent(hl);
 		addComponent(descriptionPanel);
 		addComponent(comments);		
-		setComponentAlignment(editButton, Alignment.TOP_RIGHT);
 		setExpandRatio(descriptionPanel, 1f);
 		setExpandRatio(comments, 2f);
 	}

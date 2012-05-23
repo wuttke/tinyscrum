@@ -4,6 +4,7 @@ import com.vaadin.Application;
 import com.vaadin.ui.Window;
 
 import eu.wuttke.tinyscrum.domain.Project;
+import eu.wuttke.tinyscrum.domain.ScrumUser;
 
 public class TinyScrumApplication 
 extends Application {
@@ -11,7 +12,8 @@ extends Application {
 	private static final long serialVersionUID = -1486443784466891755L;
 
 	private MainView mainView;
-
+	private ScrumUser currentUser;
+	
 	@Override
 	public void init() {
 		setTheme("tinyscrum");
@@ -32,6 +34,10 @@ extends Application {
 	
 	public Project getCurrentProject() {
 		return getMainView().getCurrentProject();
+	}
+
+	public ScrumUser getCurrentUser() {
+		return currentUser;
 	}
 
 }
