@@ -9,6 +9,9 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -47,7 +50,7 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		
 		tabSheet = new TabSheet();
 		tabSheet.setSizeFull();
-		tabSheet.addTab(new DashboardView(application), "My Dashboard");
+		tabSheet.addTab(new DashboardView(application), "Dashboard");
 		tabSheet.addTab(new BacklogView(application), "Backlog Management");
 		tabSheet.addTab(new IterationsView(application), "Iteration Planning");
 		tabSheet.addTab(new AdminView(application), "Administration");
@@ -60,12 +63,23 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		cbProjectChooser.setImmediate(true);
 		cbProjectChooser.addListener(this);
 		
-		HorizontalLayout headerLayout = new HorizontalLayout();
 		Label lblTinyScrum = new Label();
 		lblTinyScrum.setIcon(new ThemeResource("img/logo.png"));
+		
+		Button btnLogout = new Button("Logout");
+		btnLogout.addListener(new ClickListener() {
+			private static final long serialVersionUID = 1L;
+			public void buttonClick(ClickEvent event) {
+				application.doLogout();
+			}
+		});
+		
+		HorizontalLayout headerLayout = new HorizontalLayout();
 		headerLayout.addComponent(lblTinyScrum);
+		headerLayout.addComponent(btnLogout);
 		headerLayout.addComponent(cbProjectChooser);
 		headerLayout.setComponentAlignment(lblTinyScrum, Alignment.MIDDLE_LEFT);
+		headerLayout.setComponentAlignment(btnLogout, Alignment.MIDDLE_RIGHT);
 		headerLayout.setComponentAlignment(cbProjectChooser, Alignment.MIDDLE_RIGHT);
 		headerLayout.setWidth("100%");
 		

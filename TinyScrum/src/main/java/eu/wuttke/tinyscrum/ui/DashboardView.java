@@ -15,6 +15,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.ScrumUser;
 import eu.wuttke.tinyscrum.logic.UserManager;
+import eu.wuttke.tinyscrum.ui.misc.LoginCompletedListener;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
 /**
@@ -30,7 +31,8 @@ implements RefreshableComponent {
 	private DashboardTaskStoryTable dashboardTaskStoryTable;
 	private DashboardStoryTable dashboardStoryTable;
 	private ComboBox cbDashboardUser;
-	
+	private UserManager userManager;
+		
 	public DashboardView(TinyScrumApplication application) {
 		this.application = application;
 		
@@ -48,6 +50,7 @@ implements RefreshableComponent {
 		});
 		cbDashboardUser.setNullSelectionAllowed(false);
 		cbDashboardUser.setTextInputAllowed(false);
+		cbDashboardUser.setImmediate(true);
 		
 		Form separator1 = new Form();
 		separator1.setCaption("Tasks");
@@ -69,19 +72,25 @@ implements RefreshableComponent {
 		setExpandRatio(dashboardTaskStoryTable, 2f);
 		setExpandRatio(dashboardStoryTable, 1f);
 		setComponentAlignment(cbDashboardUser, Alignment.TOP_RIGHT);
+		
+		application.addLoginCompletedListener(new LoginCompletedListener() {
+			public void loginCompleted(ScrumUser newUser) {
+				blockValueChanged = true;
+				cbDashboardUser.setValue(newUser);
+				blockValueChanged = false;
+			}
+		});
 	}
 	
 	private boolean blockValueChanged = false;
 	
 	@Override
 	public void refreshContent() {
-		if (cbDashboardUser.getContainerDataSource() == null)
+		if (cbDashboardUser.getContainerDataSource().size() == 0)
 			initUserComboBox();
 		
-		ScrumUser user = application.getCurrentUser();
-		String userName = "user1"; // TODO
-		if (user != null)
-			userName = user.getUserName();
+		ScrumUser user = (ScrumUser)cbDashboardUser.getValue();
+		String userName = user != null ? user.getUserName() : "nobody";
 		
 		dashboardTaskStoryTable.loadDashboardTasks(userName);
 		dashboardStoryTable.loadDashboardStories(userName);
@@ -101,8 +110,6 @@ implements RefreshableComponent {
 		this.userManager = userManager;
 	}
 
-	private UserManager userManager;
-	
 	private static final long serialVersionUID = 1L;
 
 }

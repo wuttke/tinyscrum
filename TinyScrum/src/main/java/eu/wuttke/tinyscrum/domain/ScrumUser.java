@@ -52,6 +52,25 @@ implements Serializable {
     @NotNull
     private Boolean active;
     
+    /**
+     * Return full name as String representation.
+     */
+    @Override
+    public String toString() {
+    	return getFullName();
+    }
+    
+    /**
+     * Compare by (unique) user name.
+     */
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj == null || !(obj instanceof ScrumUser) || getUserName() == null)
+    		return super.equals(obj);
+    	else
+    		return getUserName().equals(((ScrumUser)obj).getUserName());
+    }
+    
 	private static final long serialVersionUID = 1L;
 
 }
