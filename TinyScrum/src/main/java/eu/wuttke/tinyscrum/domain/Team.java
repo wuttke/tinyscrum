@@ -32,6 +32,18 @@ implements Serializable {
     @Size(max = 2000)
     private String description;
 
+    public String toString() {
+    	return getName();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj != null && getId() != null && (obj instanceof Team))
+    		return getId().equals(((Team)obj).getId());
+    	else
+    		return super.equals(obj);
+    }
+    
 	private static final long serialVersionUID = 1L;
 
 }
