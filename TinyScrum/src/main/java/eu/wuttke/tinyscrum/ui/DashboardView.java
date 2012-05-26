@@ -11,6 +11,8 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Form;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.ScrumUser;
@@ -27,6 +29,7 @@ public class DashboardView
 extends VerticalLayout 
 implements RefreshableComponent {
 
+	private Label lblWelcome;
 	private TinyScrumApplication application;
 	private DashboardTaskStoryTable dashboardTaskStoryTable;
 	private DashboardStoryTable dashboardStoryTable;
@@ -64,19 +67,28 @@ implements RefreshableComponent {
 
 		dashboardStoryTable = new DashboardStoryTable(this.application);
 
-		addComponent(cbDashboardUser);
+		lblWelcome = new Label("Welcome to TinyScrum!");
+		
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.addComponent(lblWelcome);
+		hl.addComponent(cbDashboardUser);
+		hl.setExpandRatio(lblWelcome, 1f);
+		hl.setComponentAlignment(cbDashboardUser, Alignment.TOP_RIGHT);
+		hl.setWidth("100%");
+		
+		addComponent(hl);
 		addComponent(separator1);
 		addComponent(dashboardTaskStoryTable);
 		addComponent(separator2);
 		addComponent(dashboardStoryTable);
 		setExpandRatio(dashboardTaskStoryTable, 2f);
 		setExpandRatio(dashboardStoryTable, 1f);
-		setComponentAlignment(cbDashboardUser, Alignment.TOP_RIGHT);
 		
 		application.addLoginCompletedListener(new LoginCompletedListener() {
 			public void loginCompleted(ScrumUser newUser) {
 				blockValueChanged = true;
 				cbDashboardUser.setValue(newUser);
+				lblWelcome.setValue("Welcome, " + newUser.getFullName() + "!");
 				blockValueChanged = false;
 			}
 		});

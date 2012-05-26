@@ -57,4 +57,12 @@ implements Serializable {
     	return getName();
     }
     
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj != null && obj instanceof Project && getId() != null)
+    		return getId().equals(((Project)obj).getId());
+    	else
+    		return super.equals(obj);
+    }
+    
 }

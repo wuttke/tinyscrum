@@ -34,7 +34,7 @@ public class FileUpload {
     /**
      * Blob
      */
-    @Column(columnDefinition="longblob")
+    @Column(length=1000000)
     private byte[] binaryData;
     
     /**

@@ -132,8 +132,16 @@ implements RefreshableComponent {
 		u.setParentId(parentId);
 		u.setCreateDateTime(new Date());
 		u.setUserName(application.getCurrentUser().getUserName());
-		u.persist();
 		lastUploadStream = null;
+		
+		int maxSize = 1048576 / 2; // MySQL max_allowed_packet
+		if (u.getFileSize() >= maxSize) {
+			application.getMainWindow().showNotification("Your upload has not been accepted because it is too large (" + u.getMimeType() + ", " +
+					u.getFileSize() + " bytes). The maximum supported file size is " + maxSize + " bytes.", Notification.TYPE_HUMANIZED_MESSAGE);
+			return;
+		}
+		
+		u.persist();
 		
 		application.getMainWindow().showNotification("Your upload has been received successfully (" + u.getMimeType() + ", " +
 				u.getFileSize() + " bytes).", Notification.TYPE_HUMANIZED_MESSAGE);
