@@ -4,7 +4,7 @@
     <groupId>eu.wuttke.tinyscrum</groupId>
     <artifactId>TinyScrum</artifactId>
     <packaging>war</packaging>
-    <version>0.1.0.BUILD-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>TinyScrum</name>
     <properties>
         <aspectj.version>1.6.12</aspectj.version>

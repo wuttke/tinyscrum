@@ -116,3 +116,5 @@ finder list
 // Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-05-25 07:57:30
 // Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-25 07:57:36
 focus --class eu.wuttke.tinyscrum.ui.AdminBeanField
+hint
+perform package

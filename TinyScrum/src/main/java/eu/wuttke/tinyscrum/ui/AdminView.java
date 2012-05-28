@@ -208,6 +208,7 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 			if (object == null) {
 				try {
 					object = lister.getBeanClass().newInstance();
+					initEmptyBean(object);
 				} catch (Exception e) {
 				}
 			}
@@ -216,6 +217,15 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 			adminPanel.removeAllComponents();
 			adminPanel.addComponent(details);
 			refreshContent();
+		}
+	}
+
+	private void initEmptyBean(Object object) {
+		// set String properties to "empty" instead of null (if not a reference)
+		// (this can be done more efficiently)
+		for (String propertyId : BeanUtil.getBeanPropertiesByType(object.getClass(), String.class)) {
+			if (BeanUtil.getPropertyValue(object, propertyId) == null)
+				BeanUtil.setPropertyValue(object, propertyId, "");
 		}
 	}
 

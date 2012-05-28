@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -15,6 +16,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.Select;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
@@ -85,11 +87,12 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		headerLayout.setSpacing(true);
 		headerLayout.setWidth("100%");
 		
-		Label lblFooter = new Label("TinyScrum Footer");
+		Link footerLink = new Link("TinyScrum, http://code.google.com/p/tinyscrum", new ExternalResource("http://code.google.com/p/tinyscrum"));
+		footerLink.setTargetName("_blank");
 		
 		addComponent(headerLayout);
 		addComponent(tabSheet);
-		addComponent(lblFooter);
+		addComponent(footerLink);
 		setExpandRatio(tabSheet, 1);
 	}
 
