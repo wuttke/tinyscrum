@@ -11,9 +11,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.servlet.ServletContext;
 
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.Resource;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -26,8 +28,8 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
-import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window.Notification;
 
 import eu.wuttke.tinyscrum.domain.Comment;
 import eu.wuttke.tinyscrum.domain.CommentType;
@@ -200,6 +202,10 @@ implements RefreshableComponent {
 				myComment.setContentMode(Label.CONTENT_XHTML);
 				commentsLayout.addComponent(myComment);
 			} else {
+				WebApplicationContext wc = (WebApplicationContext)application.getContext();
+				ServletContext ctx = wc.getHttpSession().getServletContext();
+				String ctxPath = ctx.getContextPath();
+				
 				// add upload
 				long id = (Long)cdo.upload[0];
 				long size = (Long)cdo.upload[1];
@@ -208,7 +214,7 @@ implements RefreshableComponent {
 				Date cdt = (Date)cdo.upload[4];
 				String un = (String)cdo.upload[5];
 				String capt = fn + " (" + mt + ", " + size + " bytes, " + un + ", " + df.format(cdt) + ")";
-				Resource res = new ExternalResource("/TinyScrum/getFile?binaryId=" + id, mt); // Kontextname?
+				Resource res = new ExternalResource(ctxPath + "/getFile?binaryId=" + id, mt); // Kontextname?
 				Link l = new Link(capt, res);
 				l.setTargetName("_blank");
 				commentsLayout.addComponent(l);

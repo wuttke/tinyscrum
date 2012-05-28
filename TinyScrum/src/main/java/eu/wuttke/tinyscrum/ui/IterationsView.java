@@ -50,7 +50,7 @@ implements RefreshableComponent {
 		backlogView.refreshContent();
 		
 		List<Iteration> l = projectManager.loadIterations(application.getCurrentProject());
-		if (l != null) {
+		if (l != null && l.size() > 0) {
 			iterationView1.setIterations(l);
 			iterationView2.setIterations(l);
 			
@@ -67,8 +67,8 @@ implements RefreshableComponent {
 
 	private Iteration findNextIteration(List<Iteration> l,
 			Iteration currentIteration) {
-		int idx = l.indexOf(currentIteration);
-		if (idx + 1 < l.size())
+		int idx = currentIteration != null ? l.indexOf(currentIteration) : -1;
+		if (idx != -1 && idx + 1 < l.size())
 			return l.get(idx + 1);
 		else
 			return null;

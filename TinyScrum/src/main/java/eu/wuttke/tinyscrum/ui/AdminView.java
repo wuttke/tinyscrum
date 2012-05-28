@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.transaction.annotation.Transactional;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Item;
 import com.vaadin.ui.Button;
@@ -32,7 +33,6 @@ public class AdminView
 extends VerticalLayout 
 implements RefreshableComponent, ClickListener, ListerListener, DetailsListener {
 
-	@SuppressWarnings("unused")
 	private TinyScrumApplication application;
 	private VerticalLayout adminPanel;
 	@PersistenceContext
@@ -148,11 +148,20 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 	
 	@Override
 	@Transactional
-	public void handleDeleteObject(Object object) {
-		object = entityManager.merge(object);
-		entityManager.remove(object);
-		entityManager.flush();
-		refreshContent();
+	public void handleDeleteObject(final Object object) {
+		ConfirmDialog.show(application.getMainWindow(), "Delete Object", 
+				"Delete '" + object.toString() + "'?",
+		        "Yes", "No", new ConfirmDialog.Listener() {
+					private static final long serialVersionUID = 1L;
+					public void onClose(ConfirmDialog dialog) {
+		                if (dialog.isConfirmed()) {
+							Object obj2 = entityManager.merge(object);
+							entityManager.remove(obj2);
+							entityManager.flush();
+							refreshContent();
+		                }
+					}
+		});
 	}
 	
 	@Override

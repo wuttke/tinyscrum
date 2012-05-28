@@ -67,7 +67,8 @@ implements Property.ValueChangeListener {
 		if (iterationId != null) {
 			Iteration iteration = iterationContainer.getItem(iterationId).getBean();
 			iterationTable.loadIteration(iteration);
-		}
+		} else
+			iterationTable.loadIteration(null);
 	}
 	
 	private static final long serialVersionUID = 1L;

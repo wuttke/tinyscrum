@@ -37,8 +37,26 @@
         </init-param>
     </servlet>
     
+    <!--
+    <servlet>
+    	<servlet-name>TinyScrum Vaadin Mobile Servlet</servlet-name>
+    	<servlet-class>com.vaadin.addon.touchkit.server.TouchKitApplicationServlet</servlet-class>
+        <init-param>
+            <param-name>application</param-name>
+            <param-value>eu.wuttke.tinyscrum.ui.mobile.TinyScrumMobileApplication</param-value>
+        </init-param>
+    </servlet>
+    -->
+    
     <servlet-mapping>
         <servlet-name>TinyScrum Vaadin Application Servlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
+    
+    <!-- 
+    <servlet-mapping>
+        <servlet-name>TinyScrum Vaadin Mobile Servlet</servlet-name>
+        <url-pattern>/mob/*</url-pattern>
+    </servlet-mapping>
+     -->
 </web-app>
