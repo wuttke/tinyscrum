@@ -1,20 +1,27 @@
 package eu.wuttke.tinyscrum.ui;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.CommentType;
+import eu.wuttke.tinyscrum.domain.Task;
+import eu.wuttke.tinyscrum.domain.TaskStatus;
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
+import eu.wuttke.tinyscrum.logic.TaskManager;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
@@ -66,10 +73,7 @@ implements RefreshableComponent {
 		Button splitStoryButton = new Button("Split Story", new ClickListener() {
 			private static final long serialVersionUID = 1L;
 			public void buttonClick(ClickEvent event) {
-				if (splitStory(application, userStory)) {
-					getWindow().getParent().removeWindow(getWindow());
-					application.getMainView().refreshContent();
-				}
+				splitStory(application, userStory);
 			}
 		});
 
@@ -101,10 +105,60 @@ implements RefreshableComponent {
 		setExpandRatio(comments, 2f);
 	}
 	
-	protected boolean splitStory(TinyScrumApplication application,
+	protected void splitStory(final TinyScrumApplication application,
+			final UserStory userStory) {
+		ConfirmDialog.show(application.getMainWindow(), "Split User Story", 
+				"Split user story '" + userStory.getTitle() + "'? Unfinished tasks will be moved to a new user story in the backlog.",
+		        "Yes", "No", new ConfirmDialog.Listener() {
+					private static final long serialVersionUID = 1L;
+					public void onClose(ConfirmDialog dialog) {
+		                if (dialog.isConfirmed()) {
+		        			reallySplitStory(application, userStory);
+		    				getWindow().getParent().removeWindow(getWindow());
+		    				application.getMainView().refreshContent();
+		                }
+		            }
+		        });
+	}
+
+	protected void reallySplitStory(TinyScrumApplication application,
 			UserStory userStory) {
-		// TODO Auto-generated method stub
-		return false;
+		int open = 0, notOpen = 0;
+		
+		List<Task> tasks = taskManager.loadTasksForStory(userStory);
+		for (Task task : tasks)
+			if (task.getStatus() == TaskStatus.TASK_OPEN)
+				open++;
+			else
+				notOpen++;
+		
+		if (open > 0 && notOpen > 0) {
+			UserStory us2 = new UserStory();
+			us2.setDescription(userStory.getDescription());
+			us2.setEstimate(userStory.getEstimate());
+			us2.setIteration(null);
+			us2.setOwner(userStory.getOwner());
+			us2.setProject(userStory.getProject());
+			us2.setProjectFeature(userStory.getProjectFeature());
+			us2.setProjectRelease(userStory.getProjectRelease());
+			us2.setSequenceNumber(0);
+			us2.setStatus(UserStoryStatus.STORY_OPEN);
+			us2.setTitle(userStory.getTitle() + " (2)");
+			UserStory newStory = userStoryManager.saveUserStory(us2);
+			
+			for (Task task : tasks) {
+				if (task.getStatus() == TaskStatus.TASK_OPEN) {
+					task.setStory(newStory);
+					taskManager.saveTask(task);
+				}
+			}
+		} else if (open == 0) {
+			application.getMainWindow().showNotification("The user story does not contain open tasks: Splitting is not possible.", 
+					Notification.TYPE_TRAY_NOTIFICATION);
+		} else if (notOpen == 0) {
+			application.getMainWindow().showNotification("The user story contains only open tasks: Splitting is not possible.", 
+					Notification.TYPE_TRAY_NOTIFICATION);
+		}
 	}
 
 	private String getNextStateLabel(UserStoryStatus status) {
@@ -134,7 +188,12 @@ implements RefreshableComponent {
 		this.userStoryManager = userStoryManager;
 	}
 
+	public void setTaskManager(TaskManager taskManager) {
+		this.taskManager = taskManager;
+	}
+	
 	private UserStoryManager userStoryManager;
+	private TaskManager taskManager;
 	
 	private static final long serialVersionUID = 1L;
 
