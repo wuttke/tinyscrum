@@ -62,14 +62,26 @@ implements RefreshableComponent {
 			}
 		});
 		nextStateButton.setVisible(userStory.getStatus() != UserStoryStatus.STORY_DONE);
+		
+		Button splitStoryButton = new Button("Split Story", new ClickListener() {
+			private static final long serialVersionUID = 1L;
+			public void buttonClick(ClickEvent event) {
+				if (splitStory(application, userStory)) {
+					getWindow().getParent().removeWindow(getWindow());
+					application.getMainView().refreshContent();
+				}
+			}
+		});
 
 		Label lblTitle = new Label("#" + userStory.getId() + ": " + userStory.getTitle() + " (" + userStory.getStatus() + ")");
 		
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.addComponent(lblTitle);
 		hl.addComponent(nextStateButton);
+		hl.addComponent(splitStoryButton);
 		hl.addComponent(editButton);
 		hl.setComponentAlignment(nextStateButton, Alignment.TOP_RIGHT);
+		hl.setComponentAlignment(splitStoryButton, Alignment.TOP_RIGHT);
 		hl.setComponentAlignment(editButton, Alignment.TOP_RIGHT);
 		hl.setSpacing(true);
 		hl.setWidth("100%");
@@ -89,6 +101,12 @@ implements RefreshableComponent {
 		setExpandRatio(comments, 2f);
 	}
 	
+	protected boolean splitStory(TinyScrumApplication application,
+			UserStory userStory) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	private String getNextStateLabel(UserStoryStatus status) {
 		switch (status) {
 		case STORY_DONE: return "Already done";
