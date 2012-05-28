@@ -113,15 +113,16 @@ implements RefreshableComponent {
 					private static final long serialVersionUID = 1L;
 					public void onClose(ConfirmDialog dialog) {
 		                if (dialog.isConfirmed()) {
-		        			reallySplitStory(application, userStory);
-		    				getWindow().getParent().removeWindow(getWindow());
-		    				application.getMainView().refreshContent();
+		        			if (reallySplitStory(application, userStory)) {
+			    				getWindow().getParent().removeWindow(getWindow());
+			    				application.getMainView().refreshContent();
+		        			}
 		                }
 		            }
 		        });
 	}
 
-	protected void reallySplitStory(TinyScrumApplication application,
+	protected boolean reallySplitStory(TinyScrumApplication application,
 			UserStory userStory) {
 		int open = 0, notOpen = 0;
 		
@@ -152,6 +153,8 @@ implements RefreshableComponent {
 					taskManager.saveTask(task);
 				}
 			}
+			
+			return true;
 		} else if (open == 0) {
 			application.getMainWindow().showNotification("The user story does not contain open tasks: Splitting is not possible.", 
 					Notification.TYPE_TRAY_NOTIFICATION);
@@ -159,6 +162,7 @@ implements RefreshableComponent {
 			application.getMainWindow().showNotification("The user story contains only open tasks: Splitting is not possible.", 
 					Notification.TYPE_TRAY_NOTIFICATION);
 		}
+		return false;
 	}
 
 	private String getNextStateLabel(UserStoryStatus status) {
