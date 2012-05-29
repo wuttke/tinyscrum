@@ -42,7 +42,8 @@ implements RefreshableComponent, ItemClickListener {
 	private Button btnAdd;
 	private Button btnEdit;
 	private Button btnDelete;
-
+	private HorizontalLayout footer;
+	
 	private String addButtonCaption = "Add";
 	private String editButtonCaption = "Edit";
 	private String deleteButtonCaption = "Delete";
@@ -126,7 +127,7 @@ implements RefreshableComponent, ItemClickListener {
 		});
 		btnDelete.setEnabled(false);
 		
-		HorizontalLayout footer = new HorizontalLayout();
+		footer = new HorizontalLayout();
 		footer.addComponent(btnAdd);
 		footer.addComponent(btnEdit);
 		footer.addComponent(btnDelete);
@@ -243,6 +244,10 @@ implements RefreshableComponent, ItemClickListener {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public HorizontalLayout getFooter() {
+		return footer;
 	}
 
 	private static final long serialVersionUID = 1L;

@@ -16,7 +16,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
-import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.ProjectFeature;
 import eu.wuttke.tinyscrum.domain.ProjectRelease;
@@ -46,7 +45,7 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 		new AdminBeanLister("Projects", Project.class, new String[]{"id", "name"}, null, new float[] {1f,4f}, this),
 		new AdminBeanLister("Features", ProjectFeature.class, new String[]{"id", "project", "name"}, null, new float[] {1f,4f,4f}, this),
 		new AdminBeanLister("Releases", ProjectRelease.class, new String[]{"id", "project", "name"}, null, new float[] {1f,4f,4f}, this),
-		new AdminBeanLister("Iterations", Iteration.class, new String[]{"id", "project", "name", "startDate", "durationDays", "status"}, new String[]{"Id", "Project", "Name", "Start Date", "Duration", "Status"}, new float[] {1f,3f,3f,2f,1f,2f}, this),
+		new IterationAdminLister(this),
 		new AdminBeanLister("Users", ScrumUser.class, new String[]{"active", "userName", "fullName", "email"}, new String[]{"Active", "User Name", "Full Name", "E-Mail"}, new float[] {1f,3f,4f,3f}, this),
 		new AdminBeanLister("Teams", Team.class, new String[]{"id", "name"}, null, new float[] {1f,4f}, this)		
 	};
