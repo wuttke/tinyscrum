@@ -87,7 +87,7 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		headerLayout.setSpacing(true);
 		headerLayout.setWidth("100%");
 		
-		Link footerLink = new Link("TinyScrum, http://code.google.com/p/tinyscrum", new ExternalResource("http://code.google.com/p/tinyscrum"));
+		Link footerLink = new Link("TinyScrum " + TinyScrumApplication.VERSION + ", http://code.google.com/p/tinyscrum", new ExternalResource("http://code.google.com/p/tinyscrum"));
 		footerLink.setTargetName("_blank");
 		
 		addComponent(headerLayout);
