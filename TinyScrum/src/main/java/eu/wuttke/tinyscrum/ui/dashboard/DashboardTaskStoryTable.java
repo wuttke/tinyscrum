@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.dashboard;
 
 import java.util.List;
 
@@ -14,6 +14,9 @@ import com.vaadin.ui.Table;
 import eu.wuttke.tinyscrum.domain.TaskAndStory;
 import eu.wuttke.tinyscrum.domain.TaskStatus;
 import eu.wuttke.tinyscrum.logic.TaskManager;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
+import eu.wuttke.tinyscrum.ui.task.TaskDetailsWindow;
+import eu.wuttke.tinyscrum.ui.userstory.UserStoryViewWindow;
 
 @Configurable(autowire=Autowire.BY_NAME)
 public class DashboardTaskStoryTable 

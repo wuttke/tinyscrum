@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.admin;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;

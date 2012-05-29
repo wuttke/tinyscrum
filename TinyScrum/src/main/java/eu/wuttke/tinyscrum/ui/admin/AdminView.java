@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.admin;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,9 +22,10 @@ import eu.wuttke.tinyscrum.domain.ProjectFeature;
 import eu.wuttke.tinyscrum.domain.ProjectRelease;
 import eu.wuttke.tinyscrum.domain.ScrumUser;
 import eu.wuttke.tinyscrum.domain.Team;
-import eu.wuttke.tinyscrum.ui.AdminBeanDetails.DetailsListener;
-import eu.wuttke.tinyscrum.ui.AdminBeanField.AdminBeanFieldType;
-import eu.wuttke.tinyscrum.ui.AdminBeanLister.ListerListener;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
+import eu.wuttke.tinyscrum.ui.admin.AdminBeanDetails.DetailsListener;
+import eu.wuttke.tinyscrum.ui.admin.AdminBeanField.AdminBeanFieldType;
+import eu.wuttke.tinyscrum.ui.admin.AdminBeanLister.ListerListener;
 import eu.wuttke.tinyscrum.ui.misc.BeanUtil;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 

@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.admin;
 
 import java.util.Arrays;
 import java.util.Date;

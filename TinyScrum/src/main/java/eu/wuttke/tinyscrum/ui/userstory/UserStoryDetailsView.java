@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.userstory;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 import eu.wuttke.tinyscrum.logic.TaskManager;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
+import eu.wuttke.tinyscrum.ui.CommentsView;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 

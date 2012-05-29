@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.dashboard;
 
 import java.util.List;
 
@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
+import eu.wuttke.tinyscrum.ui.userstory.BaseUserStoryTable;
 
 @Configurable(autowire=Autowire.BY_NAME)
 public class DashboardStoryTable

@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.iteration;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import com.vaadin.ui.Select;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.Iteration;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 
 public class IterationView 
 extends VerticalLayout 

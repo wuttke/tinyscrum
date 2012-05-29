@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.task;
 
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -16,6 +16,8 @@ import eu.wuttke.tinyscrum.domain.CommentType;
 import eu.wuttke.tinyscrum.domain.Task;
 import eu.wuttke.tinyscrum.domain.TaskStatus;
 import eu.wuttke.tinyscrum.logic.TaskManager;
+import eu.wuttke.tinyscrum.ui.CommentsView;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 

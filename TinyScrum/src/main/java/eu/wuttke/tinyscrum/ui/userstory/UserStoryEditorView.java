@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.userstory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -23,70 +24,75 @@ import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import eu.wuttke.tinyscrum.domain.Task;
-import eu.wuttke.tinyscrum.domain.TaskStatus;
-import eu.wuttke.tinyscrum.logic.TaskManager;
+import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.domain.UserStoryStatus;
+import eu.wuttke.tinyscrum.logic.ProjectManager;
 import eu.wuttke.tinyscrum.logic.UserManager;
+import eu.wuttke.tinyscrum.logic.UserStoryManager;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 
 @Configurable(autowire=Autowire.BY_NAME)
-public class TaskEditorView extends VerticalLayout {
+public class UserStoryEditorView extends VerticalLayout {
 
-	public interface TaskSaved {
-		public void taskSaved();
-	}
-	
 	private Form form;
-	private BeanItem<Task> item;
+	private BeanItem<UserStory> item;
+	private Select iterationSelect, featureSelect, releaseSelect;
 	private TinyScrumApplication application;
 	private ObjectSavedListener listener;
-	private List<String> users;
 	
-	
-	public TaskEditorView(final TinyScrumApplication application, Task task, ObjectSavedListener listener) {
+	public UserStoryEditorView(final TinyScrumApplication application, UserStory userStory, ObjectSavedListener listener) {
 		this.application = application;
 		this.listener = listener;
 		
-		item = new BeanItem<Task>(task);
+		item = new BeanItem<UserStory>(userStory);
 
 		setSizeFull();
 		setSpacing(true);
 		
 		form = new Form();
-		form.setCaption("Task Details");
+		form.setCaption("User Story Details");
 		form.setSizeFull();
 		form.setImmediate(true);
-		
 		form.setFormFieldFactory(new FormFieldFactory() {
 			private static final long serialVersionUID = 1L;
+
 			public Field createField(Item item, Object propertyId, Component uiContext) {
-				if (propertyId.equals("name")) {
-					TextField tf = new TextField("Name");
+				if (propertyId.equals("title")) {
+					TextField tf = new TextField("Title");
 					tf.setRequired(true);
-					tf.setRequiredError("Please enter a task title.");
+					tf.setRequiredError("Please enter a story title.");
 					tf.setWidth("100%");
 					return tf;
-				} else if (propertyId.equals("developer1")) {
-					Select sel = new Select("Developer 1", users);
-					sel.setWidth("200px");
-					return sel;
-				} else if (propertyId.equals("developer2")) {
-					Select sel = new Select("Developer 2", users);
-					sel.setWidth("200px");
-					return sel;
-				} else if (propertyId.equals("tester")) {
-					Select sel = new Select("Tester", users);
+				} else if (propertyId.equals("owner")) {
+					final List<String> owners = userManager.getProjectUserNames(application.getCurrentProject());
+					Select sel = new Select("Owner", owners);
 					sel.setWidth("200px");
 					return sel;
 				} else if (propertyId.equals("status")) {
-					Select sel = new Select("Status", Arrays.asList(TaskStatus.values()));
+					Select sel = new Select("Status", Arrays.asList(UserStoryStatus.values()));
 					sel.setWidth("200px");
 					sel.setNullSelectionAllowed(false);
 					return sel;
 				} else if (propertyId.equals("estimate")) {
-					TextField tf = new TextField("Estimate (" + application.getCurrentProject().getTaskEstimateUnit() + ")");
+					TextField tf = new TextField("Estimate (" + application.getCurrentProject().getStoryEstimateUnit() + ")");
 					tf.addValidator(new DoubleValidator("Please enter a number."));
 					return tf;
+				} else if (propertyId.equals("iteration")) {
+					iterationSelect = new Select("Iteration");
+					iterationSelect.setWidth("200px");
+					iterationSelect.setContainerDataSource(new IndexedContainer(projectManager.loadIterations(application.getCurrentProject())));
+					return iterationSelect;
+				} else if (propertyId.equals("projectFeature")) {
+					featureSelect = new Select("Feature");
+					featureSelect.setWidth("200px");
+					featureSelect.setContainerDataSource(new IndexedContainer(projectManager.loadFeatures(application.getCurrentProject())));
+					return featureSelect;
+				} else if (propertyId.equals("projectRelease")) {
+					releaseSelect = new Select("Release");
+					releaseSelect.setWidth("200px");
+					releaseSelect.setContainerDataSource(new IndexedContainer(projectManager.loadReleases(application.getCurrentProject())));
+					return releaseSelect;
 				} else if (propertyId.equals("description")) {
 					RichTextArea rta = new RichTextArea("Description");
 					rta.setWidth("100%");
@@ -98,11 +104,11 @@ public class TaskEditorView extends VerticalLayout {
 		});		
 		addComponent(form);
 		
-		Button btnSave = new Button("Save Task");
+		Button btnSave = new Button("Save Story");
 		btnSave.addListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 			public void buttonClick(ClickEvent event) {
-				saveTask();
+				saveStory();
 			}
 		});
 		
@@ -126,33 +132,41 @@ public class TaskEditorView extends VerticalLayout {
 	}
 	
 	public void initForm() {
-		users = userManager.getProjectUserNames(application.getCurrentProject());
-		
 		form.setItemDataSource(item, Arrays.asList(new String[]{
-				"name", "developer1", "developer2", "tester", "status", "estimate",
+				"title", "owner", "status", "estimate",
+				"iteration", "projectFeature", "projectRelease",
 				"description"
 		}));
 		
 		form.focus();
 	}
 	
-	public void saveTask() {
+	public void saveStory() {
+		boolean newStory = item.getBean().getId() == null;
 		form.commit();
-		Task task = taskManager.saveTask(item.getBean());
+		UserStory story = userStoryManager.saveUserStory(item.getBean());
 		getWindow().getParent().removeWindow(getWindow());
+		//application.getMainView().refreshContent();
 		if (listener != null)
-			listener.objectSaved(task);
+			listener.objectSaved(story);
+		if (newStory)
+			application.getMainWindow().addWindow(new UserStoryViewWindow(application, story));
 	}
 	
-	public void setTaskManager(TaskManager taskManager) {
-		this.taskManager = taskManager;
+	public void setUserStoryManager(UserStoryManager userStoryManager) {
+		this.userStoryManager = userStoryManager;
+	}
+	
+	public void setProjectManager(ProjectManager projectManager) {
+		this.projectManager = projectManager;
 	}
 	
 	public void setUserManager(UserManager userManager) {
 		this.userManager = userManager;
 	}
-	
-	private TaskManager taskManager;
+
+	private UserStoryManager userStoryManager;
+	private ProjectManager projectManager;
 	private UserManager userManager;
 	
 	private static final long serialVersionUID = 1L;

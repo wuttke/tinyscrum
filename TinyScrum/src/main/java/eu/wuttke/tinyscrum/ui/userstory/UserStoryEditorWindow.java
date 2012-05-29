@@ -1,8 +1,9 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.userstory;
 
 import com.vaadin.ui.Window;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 
 public class UserStoryEditorWindow 

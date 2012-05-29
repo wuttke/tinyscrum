@@ -1,41 +1,41 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.userstory;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import eu.wuttke.tinyscrum.domain.Iteration;
+
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 
 @Configurable(autowire=Autowire.BY_NAME)
-public class IterationTable
+public class BacklogStoryTable
 extends BaseUserStoryTable {
-
-	private Iteration iteration;
 	
-	public IterationTable(TinyScrumApplication application) {
+	public BacklogStoryTable(TinyScrumApplication application) {
 		super(application);
 	}
-
-	public void loadIteration(Iteration iteration) {
-		this.iteration = iteration;
+	
+	public void loadBacklog() {
+		List<UserStory> l = userStoryManager.loadBacklogUserStories(application.getCurrentProject());
 		storyContainer.removeAllItems();
-		if (iteration != null)
-			storyContainer.addAll(userStoryManager.loadIterationUserStories(iteration));
+		storyContainer.addAll(l);
 		recalculateFooter();
 	}
-	
+
 	@Override
 	protected void updateStoryParent(UserStory story) {
-		story.setIteration(iteration);
+		story.setIteration(null);
 	}
-
+	
 	public void setUserStoryManager(UserStoryManager userStoryManager) {
 		this.userStoryManager = userStoryManager;
 	}
 	
 	private UserStoryManager userStoryManager;
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2443442356903790932L;
 
 }

@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.dashboard;
 
 import java.util.List;
 
@@ -17,6 +17,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.ScrumUser;
 import eu.wuttke.tinyscrum.logic.UserManager;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.LoginCompletedListener;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 

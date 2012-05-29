@@ -24,7 +24,11 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.Project;
+import eu.wuttke.tinyscrum.ui.admin.AdminView;
+import eu.wuttke.tinyscrum.ui.dashboard.DashboardView;
+import eu.wuttke.tinyscrum.ui.iteration.IterationsView;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
+import eu.wuttke.tinyscrum.ui.userstory.BacklogView;
 
 public class MainView 
 extends VerticalLayout 

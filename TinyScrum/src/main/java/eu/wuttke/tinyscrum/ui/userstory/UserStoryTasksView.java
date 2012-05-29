@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.userstory;
 
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -19,8 +19,11 @@ import eu.wuttke.tinyscrum.domain.Task;
 import eu.wuttke.tinyscrum.domain.TaskStatus;
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.logic.TaskManager;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
+import eu.wuttke.tinyscrum.ui.task.TaskEditorWindow;
+import eu.wuttke.tinyscrum.ui.task.TaskTable;
 
 @Configurable(autowire=Autowire.BY_NAME)
 public class UserStoryTasksView 

@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.userstory;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
@@ -7,6 +7,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
 public class UserStoryViewWindow

@@ -112,9 +112,9 @@ exit
 // Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-22 11:19:53
 focus --class ~.domain.UserStory
 finder list 
-// [failed] focus --class eu.wuttke.tinyscrum.ui.AdminBeanField
+// [failed] focus --class eu.wuttke.tinyscrum.ui.admin.AdminBeanField
 // Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-05-25 07:57:30
 // Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-05-25 07:57:36
-focus --class eu.wuttke.tinyscrum.ui.AdminBeanField
+focus --class eu.wuttke.tinyscrum.ui.admin.AdminBeanField
 hint
 perform package

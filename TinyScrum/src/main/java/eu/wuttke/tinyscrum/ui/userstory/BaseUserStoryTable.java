@@ -1,4 +1,4 @@
-package eu.wuttke.tinyscrum.ui;
+package eu.wuttke.tinyscrum.ui.userstory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -17,6 +17,7 @@ import com.vaadin.ui.Table;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
+import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 
 public class BaseUserStoryTable 
 extends Table
