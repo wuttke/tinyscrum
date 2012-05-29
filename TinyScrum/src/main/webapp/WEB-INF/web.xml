@@ -5,7 +5,7 @@
     
 	<context-param>
         <param-name>productionMode</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
     </context-param>
     
     <context-param>
@@ -37,7 +37,6 @@
         </init-param>
     </servlet>
     
-    <!--
     <servlet>
     	<servlet-name>TinyScrum Vaadin Mobile Servlet</servlet-name>
     	<servlet-class>com.vaadin.addon.touchkit.server.TouchKitApplicationServlet</servlet-class>
@@ -45,18 +44,25 @@
             <param-name>application</param-name>
             <param-value>eu.wuttke.tinyscrum.ui.mobile.TinyScrumMobileApplication</param-value>
         </init-param>
+        <init-param>
+		    <param-name>widgetset</param-name>
+		    <param-value>eu.wuttke.tinyscrum.ui.mobile.TinyScrumMobileWidgetSet</param-value>
+		</init-param>
     </servlet>
-    -->
     
+    <servlet-mapping>
+        <servlet-name>TinyScrum Vaadin Application Servlet</servlet-name>
+        <url-pattern>/VAADIN/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>TinyScrum Vaadin Mobile Servlet</servlet-name>
+        <url-pattern>/mobile/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>TinyScrum Vaadin Application Servlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
     
-    <!-- 
-    <servlet-mapping>
-        <servlet-name>TinyScrum Vaadin Mobile Servlet</servlet-name>
-        <url-pattern>/mob/*</url-pattern>
-    </servlet-mapping>
-     -->
 </web-app>
