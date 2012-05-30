@@ -1,0 +1,2 @@
+# Module eu.wuttke.tinyscrum.ui.mobile.TinyScrumMobileWidgetSet
+# RPC service class, partial path of RPC policy file

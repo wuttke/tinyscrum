@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<module>
+  <inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" /> 
+  <inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
+</module>
