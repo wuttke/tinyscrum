@@ -91,7 +91,7 @@ public class TaskEditorView extends VerticalLayout {
 				} else if (propertyId.equals("description")) {
 					RichTextArea rta = new RichTextArea("Description");
 					rta.setWidth("100%");
-					rta.setHeight("370px");
+					rta.setHeight("340px");
 					return rta;
 				} else
 					return null;
