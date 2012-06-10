@@ -1,6 +1,6 @@
 @import "../reindeer/styles.css";
 
-.v-app .v-app-loginpage {
-	spacing: 5 pt;
-	background: green;
+/* Abstand für die Loginseite */
+.v-app-loginpage div .v-textfield {
+    margin-bottom: 15px;
 }
