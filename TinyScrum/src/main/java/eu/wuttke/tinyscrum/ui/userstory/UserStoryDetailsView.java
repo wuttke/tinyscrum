@@ -54,7 +54,8 @@ implements RefreshableComponent {
 			private static final long serialVersionUID = 1L;
 			public void buttonClick(ClickEvent event) {
 				getWindow().getParent().removeWindow(getWindow());
-				application.getMainWindow().addWindow(new UserStoryEditorWindow(application, userStory, new ObjectSavedListener() {
+				UserStory story = UserStory.findUserStory(userStory.getId());
+				application.getMainWindow().addWindow(new UserStoryEditorWindow(application, story, new ObjectSavedListener() {
 					public void objectSaved(Object object) {
 						application.getMainView().refreshContent();
 					}

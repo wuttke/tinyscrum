@@ -66,7 +66,8 @@ implements DropHandler, ItemClickListener {
 		}
 		
 		setColumnFooter("status", open + "/" + test + "/" + close);
-		setColumnFooter("estimate", Double.toString(estimate) + " " + application.getCurrentProject().getStoryEstimateUnit());
+		if (application.getCurrentProject() != null)
+			setColumnFooter("estimate", Double.toString(estimate) + " " + application.getCurrentProject().getStoryEstimateUnit());
 	}
 	
 	@Override

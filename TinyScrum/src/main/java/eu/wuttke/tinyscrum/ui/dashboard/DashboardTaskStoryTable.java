@@ -66,7 +66,8 @@ implements ItemClickListener {
 		}
 		
 		setColumnFooter("taskStatus", open + "/" + test + "/" + close);
-		setColumnFooter("taskEstimate", Double.toString(estimate) + " " + application.getCurrentProject().getTaskEstimateUnit());
+		if (application.getCurrentProject() != null)
+			setColumnFooter("taskEstimate", Double.toString(estimate) + " " + application.getCurrentProject().getTaskEstimateUnit());
 	}
 
 	@Override
