@@ -13,6 +13,10 @@
         <param-value>classpath*:META-INF/spring/applicationContext*.xml</param-value>
     </context-param>
     
+    <session-config>
+    	<session-timeout>240</session-timeout>
+    </session-config>
+    
     <filter>
         <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
         <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
