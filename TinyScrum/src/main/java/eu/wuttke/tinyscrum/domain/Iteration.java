@@ -74,7 +74,7 @@ implements Serializable {
 	public boolean containsDate(Date date) {
 		if (date.before(getStartDate()))
 			return false;
-		Date date2 = new Date(date.getTime() + 86400000L * durationDays);
+		Date date2 = new Date(getStartDate().getTime() + 86400000L * durationDays);
 		return date.before(date2);
 	}
 
