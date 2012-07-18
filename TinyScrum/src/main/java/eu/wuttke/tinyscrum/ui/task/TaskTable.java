@@ -46,6 +46,22 @@ implements ItemClickListener {
 		setColumnAlignment("id", ALIGN_RIGHT);
 		setColumnAlignment("estimate", ALIGN_RIGHT);
 		setFooterVisible(true);
+		
+		setCellStyleGenerator(new Table.CellStyleGenerator() {
+			private static final long serialVersionUID = 1L;
+			public String getStyle(Object itemId, Object propertyId) {
+				if (propertyId == null) {
+					Task task = (Task)itemId;
+					if (task.getStatus() == TaskStatus.TASK_DONE)
+						return "task-done";
+					else if (task.getStatus() == TaskStatus.TASK_TEST)
+						return "task-test";
+					else if (task.getStatus() == TaskStatus.TASK_OPEN)
+						return "task-open";
+				}
+				return null;
+			}
+		});
 
 		addListener((ItemClickListener)this);
 	}

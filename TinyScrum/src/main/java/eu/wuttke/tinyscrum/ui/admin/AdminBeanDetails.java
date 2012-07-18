@@ -26,13 +26,14 @@ implements RefreshableComponent, FormFieldFactory {
 		public void doDeleteObject(Object bean);
 	}
 
-	private Object bean;
-	private BeanItem<Object> item;
-	private AdminBeanField[] fields;
-	private String title;
-	private Form form;
-	private Button btnDelete;
-	private DetailsListener listener;
+	protected Object bean;
+	protected BeanItem<Object> item;
+	protected AdminBeanField[] fields;
+	
+	protected String title;
+	protected Form form;
+	protected Button btnDelete;
+	protected DetailsListener listener;
 	
 	public AdminBeanDetails(String title, DetailsListener listener, AdminBeanField[] fields) {
 		this.title = title;

@@ -30,6 +30,22 @@ implements ItemClickListener {
 		setSizeFull();
 		setSelectable(true);
 		setFooterVisible(true);
+		setCellStyleGenerator(new Table.CellStyleGenerator() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public String getStyle(Object itemId, Object propertyId) {
+				if (propertyId == null) {
+					TaskAndStory task = (TaskAndStory)itemId;
+					if (task.getTaskStatus() == TaskStatus.TASK_OPEN)
+						return "task-open";
+					else if (task.getTaskStatus() == TaskStatus.TASK_TEST)
+						return "task-test";
+					else if (task.getTaskStatus() == TaskStatus.TASK_DONE)
+						return "task-done";
+				}
+				return null;
+			}
+		});
 	}
 	
 	public void loadDashboardTasks(String user) {

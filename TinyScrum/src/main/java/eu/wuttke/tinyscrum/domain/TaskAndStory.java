@@ -1,11 +1,14 @@
 package eu.wuttke.tinyscrum.domain;
 
+import java.io.Serializable;
+
 /**
  * Task and parent user story.
  * For the dashboard.
  * @author Matthias Wuttke
  */
-public class TaskAndStory {
+public class TaskAndStory
+implements Serializable {
 
 	/**
 	 * Task
@@ -68,5 +71,7 @@ public class TaskAndStory {
 	public void setStory(UserStory story) {
 		this.story = story;
 	}
+	
+	private static final long serialVersionUID = 1L;
 	
 }
