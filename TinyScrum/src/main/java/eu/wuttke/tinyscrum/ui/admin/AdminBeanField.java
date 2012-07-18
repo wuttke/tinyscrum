@@ -22,7 +22,6 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.Select;
 import com.vaadin.ui.TextArea;
@@ -45,8 +44,7 @@ public class AdminBeanField {
 	enum AdminBeanFieldType {
 		PLAIN_TEXT,
 		MULTILINE_TEXT,
-		RICH_TEXT,
-		PASSWORD
+		RICH_TEXT
 	}
 	
 	public AdminBeanField(String propertyId, String caption,
@@ -93,8 +91,6 @@ public class AdminBeanField {
 				field = new TextArea(caption);
 			} else if (getFieldType() == AdminBeanFieldType.PLAIN_TEXT) {
 				field = new TextField(caption);
-			} else if (getFieldType() == AdminBeanFieldType.PASSWORD) {
-				field = new PasswordField(caption);
 			} else {
 				//?
 				return null;

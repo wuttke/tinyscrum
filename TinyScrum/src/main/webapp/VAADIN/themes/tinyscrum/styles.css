@@ -4,16 +4,3 @@
 .v-app-loginpage div .v-textfield {
     margin-bottom: 15px;
 }
-
-/* Task-Status */
-.v-table .v-table-row-task-open {
-}
-
-.v-table .v-table-row-task-done {
-	font-style: italic;
-	color: gray;
-}
-
-.v-table .v-table-row-task-test {
-	font-style: italic;	
-}

@@ -1,6 +1,5 @@
 package eu.wuttke.tinyscrum.logic;
 
-import java.security.MessageDigest;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -46,11 +45,10 @@ public class UserManager {
 	 * @return user
 	 */
 	public ScrumUser loginUser(String userName, String password) {
-		String sha1Password = makeSha1Hash(password);
 		EntityManager em = ScrumUser.entityManager();
 		TypedQuery<ScrumUser> q = em.createQuery("FROM ScrumUser WHERE userName = ? AND password = ? AND active = TRUE", ScrumUser.class);
 		q.setParameter(1, userName);
-		q.setParameter(2, sha1Password);
+		q.setParameter(2, password);
 		List<ScrumUser> l = q.getResultList();
 		if (l == null || l.size() < 1)
 			return null;
@@ -76,34 +74,4 @@ public class UserManager {
 			return l.get(0);
 	}
 
-	/**
-	 * Creates a SHA1 hash string for the given plaintext.
-	 * @param plaintext Plaintext password
-	 * @return Hashed password
-	 */
-	public static String makeSha1Hash(String plaintext) {
-		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA1");
-			digest.update(plaintext.getBytes("UTF-8"));
-			return bytesToHex(digest.digest());
-		} catch (Exception e) {
-			return plaintext;
-		}
-	}
-
-	/**
-	 * Converts a byte array to a hex string.
-	 * @param b byte array
-	 * @return hex string
-	 */
-	public static String bytesToHex(byte[] b) {
-		char[] hexDigit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-		StringBuffer buf = new StringBuffer();
-		for (int j = 0; j < b.length; j++) {
-			buf.append(hexDigit[(b[j] >> 4) & 0x0f]);
-			buf.append(hexDigit[b[j] & 0x0f]);
-		}
-		return buf.toString();
-	}
-	
 }

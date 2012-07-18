@@ -81,10 +81,10 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 				new AdminBeanField("description", "Description", AdminBeanFieldType.RICH_TEXT, false, "100%")
 		}),
 		
-		new ScrumUserAdminDetails("User", this, new AdminBeanField[]{
+		new AdminBeanDetails("User", this, new AdminBeanField[]{
 				new AdminBeanField("active", "Active", AdminBeanFieldType.PLAIN_TEXT, true, "200px"),				
 				new AdminBeanField("userName", "User name", AdminBeanFieldType.PLAIN_TEXT, true, "200px"),
-				new AdminBeanField("password", "Password", AdminBeanFieldType.PASSWORD, true, "200px"),
+				new AdminBeanField("password", "Password", AdminBeanFieldType.PLAIN_TEXT, true, "200px"),
 				new AdminBeanField("fullName", "Full name", AdminBeanFieldType.PLAIN_TEXT, false, "200px"),
 				new AdminBeanField("email", "E-Mail address", AdminBeanFieldType.PLAIN_TEXT, false, "200px")
 		}),

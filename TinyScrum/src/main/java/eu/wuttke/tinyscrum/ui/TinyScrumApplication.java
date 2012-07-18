@@ -14,7 +14,7 @@ import eu.wuttke.tinyscrum.ui.misc.LoginCompletedListener;
 public class TinyScrumApplication 
 extends Application {
 	
-	public static final String VERSION = "1.2.1";
+	public static final String VERSION = "1.2.0";
 	private static final long serialVersionUID = -1486443784466891755L;
 
 	private MainView mainView;
