@@ -6,6 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,8 @@ import eu.wuttke.tinyscrum.domain.UserStoryStatus;
  * @author Matthias Wuttke
  */
 @Component
+@Configurable(autowire=Autowire.BY_NAME)
+@RooJavaBean
 public class UserStoryManager {
 	
 	/**
@@ -55,6 +60,8 @@ public class UserStoryManager {
 	 */
 	@Transactional
 	public UserStory saveUserStory(UserStory bean) {
+		boolean newStory = bean.getId() == null;
+
 		EntityManager em = UserStory.entityManager();
 
 		if (bean.getSequenceNumber() == 0) {
@@ -66,6 +73,9 @@ public class UserStoryManager {
 		
 		UserStory story = em.merge(bean);
 		em.flush();
+		
+		mailManager.sendStoryMail(bean, newStory ? "Created" : "Changed");
+
 		return story;
 	}
 
@@ -76,6 +86,8 @@ public class UserStoryManager {
 	 */
 	@Transactional
 	public void deleteUserStory(UserStory userStory) {
+		mailManager.sendStoryMail(userStory, "Deleted");
+		
 		EntityManager em = UserStory.entityManager();
 		em.createQuery("DELETE FROM Task WHERE story = ?").setParameter(1, userStory).executeUpdate();
 		
@@ -103,4 +115,6 @@ public class UserStoryManager {
 		return q.getResultList();
 	}
 
+	private MailManager mailManager;
+	
 }

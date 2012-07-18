@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.servlet.ServletContext;
 
+import com.vaadin.event.ComponentEventListener;
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.Resource;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
@@ -52,10 +53,13 @@ implements RefreshableComponent {
 	private String lastUploadFileName;
 	private String lastUploadMimetype;
 	
-	public CommentsView(TinyScrumApplication application, CommentType type, Long parentId) {
+	private CommentSavedListener commentSavedListener;
+	
+	public CommentsView(TinyScrumApplication application, CommentType type, Long parentId, CommentSavedListener commentSavedListener) {
 		this.application = application;
 		this.commentType = type;
 		this.parentId = parentId;
+		this.commentSavedListener = commentSavedListener;
 		
 		setSizeFull();
 		setSpacing(true);
@@ -162,6 +166,9 @@ implements RefreshableComponent {
 		
 		newCommentText.setValue("");
 		refreshContent();
+		
+		if (commentSavedListener != null)
+			commentSavedListener.commentSaved(comment);
 	}
 	
 	public void refreshContent() {
@@ -231,6 +238,10 @@ implements RefreshableComponent {
 		public int compareTo(CommentDateObject o) {
 			return date.compareTo(o.date);
 		}
+	}
+
+	public interface CommentSavedListener extends ComponentEventListener {
+		public void commentSaved(Comment comment);
 	}
 
 	private static final long serialVersionUID = 1L;

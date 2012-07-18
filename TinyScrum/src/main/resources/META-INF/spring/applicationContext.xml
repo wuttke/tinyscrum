@@ -68,4 +68,7 @@
         <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    <bean id="mailManager" class="eu.wuttke.tinyscrum.logic.MailManager">
+    	<property name="smtpServer" value="localhost"/>
+    </bean>
 </beans>

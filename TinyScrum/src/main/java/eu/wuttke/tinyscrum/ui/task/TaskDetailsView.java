@@ -12,6 +12,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import eu.wuttke.tinyscrum.domain.Comment;
 import eu.wuttke.tinyscrum.domain.CommentType;
 import eu.wuttke.tinyscrum.domain.Task;
 import eu.wuttke.tinyscrum.domain.TaskStatus;
@@ -76,7 +77,13 @@ implements RefreshableComponent {
 		descriptionPanel.setSizeFull();
 		descriptionPanel.addComponent(lblDescription);
 
-		comments = new CommentsView(application, CommentType.TASK, task.getId());
+		comments = new CommentsView(application, CommentType.TASK, task.getId(),
+				new CommentsView.CommentSavedListener() {
+					private static final long serialVersionUID = 1L;
+					public void commentSaved(Comment comment) {
+						taskManager.getMailManager().sendTaskMail(task, "New Comment");
+					}
+				});
 
 		addComponent(hl);
 		addComponent(descriptionPanel);

@@ -58,4 +58,20 @@ public class UserManager {
 		}
 	}
 
+	/**
+	 * Lookups a user only by username.
+	 * @param userName user name
+	 * @return user object
+	 */
+	public ScrumUser getUser(String userName) {
+		EntityManager em = ScrumUser.entityManager();
+		TypedQuery<ScrumUser> q = em.createQuery("FROM ScrumUser WHERE userName = ?", ScrumUser.class);
+		q.setParameter(1, userName);
+		List<ScrumUser> l = q.getResultList();
+		if (l == null || l.size() < 1)
+			return null;
+		else
+			return l.get(0);
+	}
+
 }

@@ -6,6 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,8 @@ import eu.wuttke.tinyscrum.domain.UserStory;
  * @author Matthias Wuttke
  */
 @Component
+@Configurable(autowire=Autowire.BY_NAME)
+@RooJavaBean
 public class TaskManager {
 
 	/**
@@ -41,9 +46,11 @@ public class TaskManager {
 	 */
 	@Transactional
 	public Task saveTask(Task bean) {
+		boolean newTask = bean.getId() == null;
 		EntityManager em = UserStory.entityManager();
 		Task task = em.merge(bean);
 		em.flush();
+		mailManager.sendTaskMail(bean, newTask ? "Created" : "Changed");
 		return task;
 	}
 
@@ -53,6 +60,7 @@ public class TaskManager {
 	 */
 	@Transactional
 	public void deleteTask(Task task) {
+		mailManager.sendTaskMail(task, "Deleted");
 		EntityManager em = UserStory.entityManager();
 		task = em.merge(task);
 		em.remove(task);
@@ -84,5 +92,7 @@ public class TaskManager {
 			r.add(new TaskAndStory((Task)o[0], (UserStory)o[1]));
 		return r;
 	}
+	
+	private MailManager mailManager;
 	
 }
