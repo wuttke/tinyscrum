@@ -25,7 +25,9 @@ public class UserManager {
 	 */
 	public List<ScrumUser> getProjectUsers(Project project) {
 		// maybe honor team / iteration?
-		return ScrumUser.findAllScrumUsers();
+		//return ScrumUser.findAllScrumUsers();
+		TypedQuery<ScrumUser> q = ScrumUser.entityManager().createQuery("FROM ScrumUser WHERE active = TRUE", ScrumUser.class);
+		return q.getResultList();
 	}
 	
 	/**
