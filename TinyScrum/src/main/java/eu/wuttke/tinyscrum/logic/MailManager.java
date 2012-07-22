@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -60,21 +61,21 @@ public class MailManager {
 		String subject = "[TinyScrum] Task #" + task.getId() + ": " + task.getName() +  " - " + action;
 		
 		StringBuilder body = new StringBuilder();
-		body.append("<p>Task: <b>" + task.getName() + "</b> (#" + task.getId() + ")" + NL);
-		body.append("Story: <b>" + task.getStory().getTitle() + "</b> (#" + task.getStory().getId() + ")" + NL);
-		body.append("Iteration: <b>" + task.getStory().getIterationName() + "</b>" + NL);
-		body.append("Project: <b>" + task.getProject() + "</b>" + NL);
-		body.append("Status: <b>" + task.getStatus() + "</b></p>\r\n");
+		body.append("<p>Task: <b>" + StringEscapeUtils.escapeHtml4(task.getName()) + "</b> (#" + task.getId() + ")" + NL);
+		body.append("Story: <b>" + StringEscapeUtils.escapeHtml4(task.getStory().getTitle()) + "</b> (#" + task.getStory().getId() + ")" + NL);
+		body.append("Iteration: <b>" + StringEscapeUtils.escapeHtml4(task.getStory().getIterationName()) + "</b>" + NL);
+		body.append("Project: <b>" + StringEscapeUtils.escapeHtml4(task.getProject().toString()) + "</b>" + NL);
+		body.append("Status: <b>" + StringEscapeUtils.escapeHtml4(task.getStatus().toString()) + "</b></p>\r\n");
 		
 		if (!StringUtils.isEmpty(task.getDescription()))
-			body.append("<p>" + task.getDescription() + "</p>\r\n");
+			body.append("<p>" + StringEscapeUtils.escapeHtml4(task.getDescription()) + "</p>\r\n");
 		
 		List<Comment> comments = getComments(CommentType.TASK, task.getId());
 		if (comments != null && comments.size() > 0) {
 			body.append("<p>Comments:\r\n<ul>\r\n");
 			for (Comment comment : comments)
-				body.append("<li>" + comment.getComment() + 
-						" (<i>" + comment.getUserName() + ", " + comment.getCreateDateTime() + "</i>)</li>\r\n");
+				body.append("<li>" + StringEscapeUtils.escapeHtml4(comment.getComment()) + 
+						" (<i>" + StringEscapeUtils.escapeHtml4(comment.getUserName()) + ", " + comment.getCreateDateTime() + "</i>)</li>\r\n");
 			body.append("</ul></p>");
 		}
 		
@@ -104,20 +105,20 @@ public class MailManager {
 		String subject = "[TinyScrum] Story #" + story.getId() + ": " + story.getTitle() +  " - " + action;
 		
 		StringBuilder body = new StringBuilder();
-		body.append("<p>Story: <b>" + story.getTitle() + "</b> (#" + story.getId() + ")" + NL);
-		body.append("Iteration: <b>" + story.getIterationName() + "</b>" + NL);
-		body.append("Project: <b>" + story.getProject() + "</b>" + NL);
-		body.append("Status: <b>" + story.getStatus() + "</b></p>\r\n");
+		body.append("<p>Story: <b>" + StringEscapeUtils.escapeHtml4(story.getTitle()) + "</b> (#" + story.getId() + ")" + NL);
+		body.append("Iteration: <b>" + StringEscapeUtils.escapeHtml4(story.getIterationName()) + "</b>" + NL);
+		body.append("Project: <b>" + StringEscapeUtils.escapeHtml4(story.getProject().toString()) + "</b>" + NL);
+		body.append("Status: <b>" + StringEscapeUtils.escapeHtml4(story.getStatus().toString()) + "</b></p>\r\n");
 		
 		if (!StringUtils.isEmpty(story.getDescription()))
-			body.append("<p>" + story.getDescription() + "</p>\r\n");
+			body.append("<p>" + StringEscapeUtils.escapeHtml4(story.getDescription()) + "</p>\r\n");
 		
 		List<Comment> comments = getComments(CommentType.USER_STORY, story.getId());
 		if (comments != null && comments.size() > 0) {
 			body.append("<p>Comments:\r\n<ul>\r\n");
 			for (Comment comment : comments)
-				body.append("<li>" + comment.getComment() + 
-						" (<i>" + comment.getUserName() + ", " + comment.getCreateDateTime() + "</i>)</li>\r\n");
+				body.append("<li>" + StringEscapeUtils.escapeHtml4(comment.getComment()) + 
+						" (<i>" + StringEscapeUtils.escapeHtml4(comment.getUserName()) + ", " + comment.getCreateDateTime() + "</i>)</li>\r\n");
 			body.append("</ul></p>");
 		}
 		
