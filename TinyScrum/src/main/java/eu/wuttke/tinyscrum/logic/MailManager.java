@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import eu.wuttke.tinyscrum.domain.Comment;
 import eu.wuttke.tinyscrum.domain.CommentType;
@@ -69,7 +68,7 @@ public class MailManager {
 		body.append("Status: <b>" + StringEscapeUtils.escapeHtml4(task.getStatus().toString()) + "</b></p>\r\n");
 		
 		if (!StringUtils.isEmpty(task.getDescription()))
-			body.append("<p>" + StringEscapeUtils.escapeHtml4(task.getDescription()) + "</p>\r\n");
+			body.append("<p>" + task.getDescription() + "</p>\r\n");
 		
 		List<Comment> comments = getComments(CommentType.TASK, task.getId());
 		if (comments != null && comments.size() > 0) {
@@ -112,7 +111,7 @@ public class MailManager {
 		body.append("Status: <b>" + StringEscapeUtils.escapeHtml4(story.getStatus().toString()) + "</b></p>\r\n");
 		
 		if (!StringUtils.isEmpty(story.getDescription()))
-			body.append("<p>" + StringEscapeUtils.escapeHtml4(story.getDescription()) + "</p>\r\n");
+			body.append("<p>" + story.getDescription() + "</p>\r\n");
 		
 		List<Comment> comments = getComments(CommentType.USER_STORY, story.getId());
 		if (comments != null && comments.size() > 0) {
@@ -182,7 +181,7 @@ public class MailManager {
 	    props.put("mail.smtp.port", smtpPort);
 	
 	    Session session = Session.getDefaultInstance(props, null);
-		Message msg = new MimeMessage(session);
+		MimeMessage msg = new MimeMessage(session);
 	    msg.setFrom(new InternetAddress(from));
 	
 	    InternetAddress[] addressTo = new InternetAddress[recipients.length]; 
@@ -190,8 +189,9 @@ public class MailManager {
 	        addressTo[i] = new InternetAddress(recipients[i]);
 	    msg.setRecipients(Message.RecipientType.TO, addressTo);
 	   	
-	    msg.setSubject(subject);
-	    msg.setContent(message, "text/html");
+	    msg.setSubject(subject, "iso-8859-1");
+	    msg.setHeader("Content-Transfer-Encoding", "quoted-printable");
+	    msg.setContent(message, "text/html; charset=\"iso-8859-1\"");
 	    
 	    /*if (logger.isInfoEnabled())
 	    	logger.info("send mail: smtp.host=" + SMTP_SERVER + ", smtp.port=" + SMTP_PORT + ", from=" + from + ", to=" + recipients[0]);*/
