@@ -49,8 +49,8 @@ public class TaskManager {
 		boolean newTask = bean.getId() == null;
 		EntityManager em = UserStory.entityManager();
 		Task task = em.merge(bean);
+		mailManager.sendTaskMail(task, newTask ? "Created" : "Changed");
 		em.flush();
-		mailManager.sendTaskMail(bean, newTask ? "Created" : "Changed");
 		return task;
 	}
 

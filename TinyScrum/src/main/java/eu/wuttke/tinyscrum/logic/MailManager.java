@@ -57,7 +57,6 @@ public class MailManager {
 	 * @param task task
 	 * @param action action string
 	 */
-	@Transactional
 	public void sendTaskMail(Task task, String action) {
 		final String NL = "<br/>\r\n";
 		String subject = "[TinyScrum] Task #" + task.getId() + ": " + task.getName() +  " - " + action;
@@ -102,7 +101,6 @@ public class MailManager {
 	 * @param story user story
 	 * @param action action label
 	 */
-	@Transactional
 	public void sendStoryMail(UserStory story, String action) {
 		final String NL = "<br/>\r\n";
 		String subject = "[TinyScrum] Story #" + story.getId() + ": " + story.getTitle() +  " - " + action;
