@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import com.vaadin.data.Property;
+import com.vaadin.data.hbnutil.HbnContainer;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
@@ -48,8 +49,13 @@ implements ItemClickListener {
 		});
 	}
 	
-	public void loadDashboardTasks(String user) {
+	public void loadDashboardTasks(String user) { 
 		List<TaskAndStory> tasks = taskManager.loadUserTasks(user, application.getCurrentProject());
+		
+		// visit iteration names (trigger lazy loading)
+		for (TaskAndStory ts : tasks)
+			ts.getStory().getIterationName();
+		
 		setContainerDataSource(new BeanItemContainer<TaskAndStory>(TaskAndStory.class, tasks));
 		setVisibleColumns(new String[]{"taskName", "storyTitle", "iterationName", "taskDeveloper", "taskTester", "taskEstimate", "taskStatus"});
 		setColumnHeaders(new String[]{"Task", "Story", "Itereation Name", "Developer", "Tester", "Estimate", "Status"});
