@@ -10,15 +10,22 @@ import eu.wuttke.tinyscrum.logic.UserManager;
 public class ScrumUserAdminDetails
 extends AdminBeanDetails {
 	
+	private String prevPasswort;
+	
 	public ScrumUserAdminDetails(String title, DetailsListener listener, AdminBeanField[] fields) {
 		super(title, listener, fields);
 	}
 	
 	@Override
+	public void refreshContent() {
+		super.refreshContent();
+		ScrumUser user = (ScrumUser)bean;
+		prevPasswort = user.getPassword();
+	}
+		
+	@Override
 	protected void handleCommit() {
 		ScrumUser user = (ScrumUser)bean;
-		String prevPasswort = user.getPassword();
-		
 		form.commit();
 
 		String newPassword = user.getPassword();
