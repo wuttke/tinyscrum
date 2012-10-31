@@ -60,10 +60,10 @@ public class TaskManager {
 	 */
 	@Transactional
 	public void deleteTask(Task task) {
-		mailManager.sendTaskMail(task, "Deleted");
 		EntityManager em = UserStory.entityManager();
 		task = em.merge(task);
 		em.remove(task);
+		mailManager.sendTaskMail(task, "Deleted");
 		em.flush();
 	}
 
