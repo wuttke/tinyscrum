@@ -12,10 +12,6 @@ privileged aspect MailManager_Roo_JavaBean {
         return this.smtpServer;
     }
     
-    public void MailManager.setSmtpServer(String smtpServer) {
-        this.smtpServer = smtpServer;
-    }
-    
     public int MailManager.getSmtpPort() {
         return this.smtpPort;
     }

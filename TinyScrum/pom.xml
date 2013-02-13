@@ -14,6 +14,7 @@
 		<roo.version>1.2.1.RELEASE</roo.version>
 		<slf4j.version>1.6.4</slf4j.version>
 		<spring.version>3.1.0.RELEASE</spring.version>
+		<jasperreports.version>5.0.1</jasperreports.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -267,18 +268,9 @@
 			<artifactId>navigator</artifactId>
 			<version>0.3</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>com.vaadin.addon</groupId>
-			<artifactId>jpacontainer-addon-agpl-3.0</artifactId>
-			<version>2.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>hbncontainer</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-		 -->
+		<!-- <dependency> <groupId>com.vaadin.addon</groupId> <artifactId>jpacontainer-addon-agpl-3.0</artifactId> 
+			<version>2.1.0</version> </dependency> <dependency> <groupId>org.vaadin.addons</groupId> 
+			<artifactId>hbncontainer</artifactId> <version>1.1.0</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -304,6 +296,11 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperreports.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

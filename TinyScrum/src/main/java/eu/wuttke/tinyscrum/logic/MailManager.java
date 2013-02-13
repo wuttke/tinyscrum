@@ -199,4 +199,8 @@ public class MailManager {
 	    Transport.send(msg);
 	}
 	
+	public void setSmtpServer(String smtpServer) {
+		this.smtpServer = smtpServer;
+	}
+	
 }
