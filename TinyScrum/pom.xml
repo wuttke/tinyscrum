@@ -14,7 +14,6 @@
 		<roo.version>1.2.1.RELEASE</roo.version>
 		<slf4j.version>1.6.4</slf4j.version>
 		<spring.version>3.1.0.RELEASE</spring.version>
-		<jasperreports.version>5.0.1</jasperreports.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -296,11 +295,6 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>${jasperreports.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
