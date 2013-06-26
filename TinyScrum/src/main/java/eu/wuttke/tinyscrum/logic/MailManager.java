@@ -65,6 +65,8 @@ public class MailManager {
 		body.append("Story: <b>" + StringEscapeUtils.escapeHtml4(task.getStory().getTitle()) + "</b> (#" + task.getStory().getId() + ")" + NL);
 		body.append("Iteration: <b>" + StringEscapeUtils.escapeHtml4(task.getStory().getIterationName()) + "</b>" + NL);
 		body.append("Project: <b>" + StringEscapeUtils.escapeHtml4(task.getProject().toString()) + "</b>" + NL);
+		body.append("Developer: <b>" + StringEscapeUtils.escapeHtml4(task.getDeveloper()) + "</b></p>\r\n");
+		body.append("Tester: <b>" + StringEscapeUtils.escapeHtml4(task.getTester().toString()) + "</b></p>\r\n");
 		body.append("Status: <b>" + StringEscapeUtils.escapeHtml4(task.getStatus().toString()) + "</b></p>\r\n");
 		
 		if (!StringUtils.isEmpty(task.getDescription()))
@@ -108,6 +110,7 @@ public class MailManager {
 		body.append("<p>Story: <b>" + StringEscapeUtils.escapeHtml4(story.getTitle()) + "</b> (#" + story.getId() + ")" + NL);
 		body.append("Iteration: <b>" + StringEscapeUtils.escapeHtml4(story.getIterationName()) + "</b>" + NL);
 		body.append("Project: <b>" + StringEscapeUtils.escapeHtml4(story.getProject().toString()) + "</b>" + NL);
+		body.append("Owner: <b>" + StringEscapeUtils.escapeHtml4(story.getOwner()) + "</b></p>\r\n");
 		body.append("Status: <b>" + StringEscapeUtils.escapeHtml4(story.getStatus().toString()) + "</b></p>\r\n");
 		
 		if (!StringUtils.isEmpty(story.getDescription()))
