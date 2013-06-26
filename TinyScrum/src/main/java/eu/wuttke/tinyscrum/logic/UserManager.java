@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import eu.wuttke.tinyscrum.domain.Project;
@@ -49,6 +51,7 @@ public class UserManager {
 	 */
 	public ScrumUser loginUser(String userName, String password) {
 		String sha1Password = makeSha1Hash(password);
+		logger.info("login attempt, user {}, password (hash) {}", userName, sha1Password);
 		EntityManager em = ScrumUser.entityManager();
 		TypedQuery<ScrumUser> q = em.createQuery("FROM ScrumUser WHERE userName = ? AND password = ? AND active = TRUE", ScrumUser.class);
 		q.setParameter(1, userName);
@@ -107,5 +110,7 @@ public class UserManager {
 		}
 		return buf.toString();
 	}
+	
+	private static Logger logger = LoggerFactory.getLogger(UserManager.class);
 	
 }
