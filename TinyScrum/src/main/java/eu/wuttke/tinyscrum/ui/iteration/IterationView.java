@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Select;
@@ -20,9 +21,12 @@ implements Property.ValueChangeListener {
 	private BeanItemContainer<Iteration> iterationContainer = new BeanItemContainer<Iteration>(Iteration.class);
 	private TinyScrumApplication application;
 	private IterationTable iterationTable;
+	private ValueChangeListener iterationChangedListener;
+	private Iteration currentIteration;
 	
-	public IterationView(TinyScrumApplication application) {
+	public IterationView(TinyScrumApplication application, ValueChangeListener iterationChangedListener) {
 		this.application = application;
+		this.iterationChangedListener = iterationChangedListener;
 		initializeLayout();
 	}
 
@@ -62,14 +66,21 @@ implements Property.ValueChangeListener {
 		// load iteration wird durch den ValueChanged-Event ausgelöst
 	}
 	
+	public Iteration getCurrentIteration() {
+		return currentIteration;
+	}
+	
 	@Override
 	public void valueChange(ValueChangeEvent event) {
 		Object iterationId = cbIterationChooser.getValue();
-		if (iterationId != null) {
-			Iteration iteration = iterationContainer.getItem(iterationId).getBean();
-			iterationTable.loadIteration(iteration);
-		} else
-			iterationTable.loadIteration(null);
+		if (iterationId != null)
+			currentIteration = iterationContainer.getItem(iterationId).getBean();
+		else
+			currentIteration = null;
+
+		iterationTable.loadIteration(currentIteration);
+		if (iterationChangedListener != null)
+			iterationChangedListener.valueChange(null);
 	}
 	
 	private static final long serialVersionUID = 1L;

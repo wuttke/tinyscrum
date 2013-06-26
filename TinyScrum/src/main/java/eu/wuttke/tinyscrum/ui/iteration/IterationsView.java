@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.VerticalSplitPanel;
 
@@ -23,6 +25,7 @@ implements RefreshableComponent {
 	private TinyScrumApplication application;
 	private BacklogView backlogView;
 	private IterationView iterationView1, iterationView2;
+	private Iteration rememberIteration1, rememberIteration2;
 	
 	public IterationsView(TinyScrumApplication application) {
 		this.application = application;
@@ -32,8 +35,21 @@ implements RefreshableComponent {
 	
 	private void initializeLayout() {
 		backlogView = new BacklogView(application);
-		iterationView1 = new IterationView(application);
-		iterationView2 = new IterationView(application);
+		iterationView1 = new IterationView(application, new ValueChangeListener() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				rememberIteration1 = iterationView1.getCurrentIteration();
+			}
+		});
+
+		iterationView2 = new IterationView(application, new ValueChangeListener() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				rememberIteration2 = iterationView2.getCurrentIteration();
+			}
+		});
 		
 		//VerticalLayout iterationSplitPanel = new VerticalLayout(); 
 		VerticalSplitPanel iterationSplitPanel = new VerticalSplitPanel();
@@ -59,12 +75,27 @@ implements RefreshableComponent {
 			Iteration currentIteration = findCurrentIteration(l);
 			Iteration nextIteration = findNextIteration(l, currentIteration);
 			
+			if (rememberIteration1 != null)
+				currentIteration = findIterationById(l, rememberIteration1.getId());
+			if (rememberIteration2 != null)
+				nextIteration = findIterationById(l, rememberIteration2.getId());
+			
 			iterationView1.setCurrentIteration(currentIteration);
+			rememberIteration1 = currentIteration;
+			
 			iterationView2.setCurrentIteration(nextIteration);
+			rememberIteration2 = nextIteration;
 		} else {
 			iterationView1.setCurrentIteration(null);
 			iterationView2.setCurrentIteration(null);
 		}
+	}
+
+	private Iteration findIterationById(List<Iteration> l, long id) {
+		for (Iteration i : l)
+			if (i.getId().longValue() == id)
+				return i;
+		return null;
 	}
 
 	private Iteration findNextIteration(List<Iteration> l,
