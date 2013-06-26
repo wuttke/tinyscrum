@@ -68,6 +68,14 @@ privileged aspect UserStoryFilter_Roo_JavaBean {
         this.iterationEquals = iterationEquals;
     }
     
+    public boolean UserStoryFilter.isFilterIterationNotNull() {
+        return this.filterIterationNotNull;
+    }
+    
+    public void UserStoryFilter.setFilterIterationNotNull(boolean filterIterationNotNull) {
+        this.filterIterationNotNull = filterIterationNotNull;
+    }
+    
     public boolean UserStoryFilter.isFilterFeature() {
         return this.filterFeature;
     }

@@ -14,7 +14,8 @@ public class UserStoryFilter {
 	private String ownerEquals;
 
 	boolean filterIteration;
-	private Iteration iterationEquals; 
+	private Iteration iterationEquals;
+	boolean filterIterationNotNull;
 	
 	private boolean filterFeature;
 	private ProjectFeature featureEquals;

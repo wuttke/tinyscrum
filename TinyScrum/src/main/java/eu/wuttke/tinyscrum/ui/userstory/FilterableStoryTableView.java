@@ -52,6 +52,7 @@ implements ValueChangeListener {
 	
 	private ProjectFeature FEATURE_NOT_ASSIGNED = new ProjectFeature("NOT ASSIGNED");
 	private Iteration ITERATION_BACKLOG = new Iteration("BACKLOG");
+	private Iteration ITERATION_NOT_BACKLOG = new Iteration("NOT BACKLOG");
 	private ProjectRelease RELEASE_NOT_ASSIGNED = new ProjectRelease("NOT ASSIGNED");
 	private String USER_NOT_ASSIGNED = "NOT ASSIGNED";
 	
@@ -107,7 +108,9 @@ implements ValueChangeListener {
 		}
 
 		Iteration i = (Iteration)comboBoxIteration.getValue();
-		if (i != null) {
+		if (i == ITERATION_NOT_BACKLOG)
+			filter.setFilterIterationNotNull(true);
+		else if (i != null) {
 			filter.setFilterIteration(true);
 			if (i != ITERATION_BACKLOG)
 				filter.setIterationEquals(i);
@@ -154,6 +157,7 @@ implements ValueChangeListener {
 		comboBoxRelease.addListener(this);
 		
 		comboBoxIteration.addItem(ITERATION_BACKLOG);
+		comboBoxIteration.addItem(ITERATION_NOT_BACKLOG);
 		for (Iteration iteration : projectManager.loadIterations(p))
 			comboBoxIteration.addItem(iteration);
 		comboBoxIteration.setImmediate(true);

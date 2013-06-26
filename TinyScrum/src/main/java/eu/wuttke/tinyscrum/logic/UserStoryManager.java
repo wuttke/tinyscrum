@@ -141,7 +141,8 @@ public class UserStoryManager {
 				restrictions.add(cb.isNull(r.get("iteration")));
 			else
 				restrictions.add(cb.equal(r.get("iteration"), filter.getIterationEquals()));
-		}
+		} else if (filter.isFilterIterationNotNull())
+			restrictions.add(cb.isNotNull(r.get("iteration")));
 		
 		if (filter.isFilterFeature()) {
 			if (filter.getFeatureEquals() == null)
