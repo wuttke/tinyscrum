@@ -78,6 +78,13 @@ implements Serializable {
 		return date.before(date2);
 	}
 
+	public Iteration() {
+	}
+	
+	public Iteration(String name) {
+		setName(name);
+	}
+	
 	/**
 	 * Returns the name.
 	 */

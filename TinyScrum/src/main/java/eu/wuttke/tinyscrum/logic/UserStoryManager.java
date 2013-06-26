@@ -1,10 +1,15 @@
 package eu.wuttke.tinyscrum.logic;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -15,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.domain.UserStoryFilter;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 
 /**
@@ -116,5 +122,53 @@ public class UserStoryManager {
 	}
 
 	private MailManager mailManager;
+
+	public List<UserStory> loadUserStories(UserStoryFilter filter) {
+		EntityManager em = UserStory.entityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		
+		CriteriaQuery<UserStory> q = cb.createQuery(UserStory.class);
+		Root<UserStory> r = q.from(UserStory.class);
+		
+		List<Predicate> restrictions = new LinkedList<Predicate>();
+		restrictions.add(cb.equal(r.get("project"), filter.getProject()));
+		
+		if (filter.getStatusEquals() != null)
+			restrictions.add(cb.equal(r.get("status"), filter.getStatusEquals()));
+		
+		if (filter.isFilterIteration()) {
+			if (filter.getIterationEquals() == null)
+				restrictions.add(cb.isNull(r.get("iteration")));
+			else
+				restrictions.add(cb.equal(r.get("iteration"), filter.getIterationEquals()));
+		}
+		
+		if (filter.isFilterFeature()) {
+			if (filter.getFeatureEquals() == null)
+				restrictions.add(cb.isNull(r.get("projectFeature")));
+			else
+				restrictions.add(cb.equal(r.get("projectFeature"), filter.getFeatureEquals()));
+		}
+		
+		if (filter.isFilterRelease()) {
+			if (filter.getReleaseEquals() == null)
+				restrictions.add(cb.isNull(r.get("projectRelease")));
+			else
+				restrictions.add(cb.equal(r.get("projectRelease"), filter.getReleaseEquals()));
+		}
+		
+		if (filter.getTitleContains() != null)
+			restrictions.add(cb.like(r.<String>get("title"), "%" + filter.getTitleContains() + "%"));
+		
+		if (filter.isFilterOwner()) {
+			if (filter.getOwnerEquals() == null)
+				restrictions.add(cb.isNull(r.get("owner")));
+			else
+				restrictions.add(cb.equal(r.get("owner"), filter.getOwnerEquals()));
+		}
+		
+		q.select(r).where(cb.and(restrictions.toArray(new Predicate[restrictions.size()])));
+		return em.createQuery(q).getResultList();
+	}
 	
 }

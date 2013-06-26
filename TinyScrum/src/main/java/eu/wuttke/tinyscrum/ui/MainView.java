@@ -29,6 +29,7 @@ import eu.wuttke.tinyscrum.ui.dashboard.DashboardView;
 import eu.wuttke.tinyscrum.ui.iteration.IterationsView;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 import eu.wuttke.tinyscrum.ui.userstory.BacklogView;
+import eu.wuttke.tinyscrum.ui.userstory.StoriesView;
 
 public class MainView 
 extends VerticalLayout 
@@ -59,6 +60,7 @@ implements Property.ValueChangeListener, SelectedTabChangeListener, RefreshableC
 		tabSheet.addTab(new DashboardView(application), "Dashboard");
 		tabSheet.addTab(new BacklogView(application), "Backlog Management");
 		tabSheet.addTab(new IterationsView(application), "Iteration Planning");
+		tabSheet.addTab(new StoriesView(application), "User Stories");
 		tabSheet.addTab(new AdminView(application), "Administration");
 		tabSheet.addListener(this);
 		tabSheet.setSizeFull();

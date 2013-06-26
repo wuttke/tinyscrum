@@ -49,6 +49,13 @@ implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date plannedDate;
 
+    public ProjectRelease() {
+	}
+    
+    public ProjectRelease(String name) {
+    	setName(name);
+	}
+    
     public String toString() {
     	return getName();
     }

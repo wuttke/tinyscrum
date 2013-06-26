@@ -39,6 +39,13 @@ implements Serializable {
     @NotNull
     @ManyToOne
     private Project project;
+
+    public ProjectFeature() {
+    }
+    
+    public ProjectFeature(String name) {
+    	setName(name);
+    }
     
     public String toString() {
     	return getName();
