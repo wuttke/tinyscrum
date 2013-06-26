@@ -55,7 +55,8 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 				new AdminBeanField("name", "Name", AdminBeanFieldType.PLAIN_TEXT, true, "100%"),
 				new AdminBeanField("description", "Description", AdminBeanFieldType.RICH_TEXT, false, "100%"),
 				new AdminBeanField("storyEstimateUnit", "Story Estimate Unit", null, true, "80px"),
-				new AdminBeanField("taskEstimateUnit", "Task Estimate Unit", null, true, "80px")
+				new AdminBeanField("taskEstimateUnit", "Task Estimate Unit", null, true, "80px"),
+				new AdminBeanField("calculateStoryEstimates", "Calculate Story Estimates", null, true, "80px")
 		}),
 		
 		new AdminBeanDetails("Feature", this, new AdminBeanField[]{

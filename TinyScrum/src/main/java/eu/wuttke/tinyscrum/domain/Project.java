@@ -53,6 +53,11 @@ implements Serializable {
     @Column(length=30)
     private TimeUnit taskEstimateUnit = TimeUnit.HOURS;
     
+    /**
+     * Calculate story estimate based on task estimates
+     */
+    private boolean calculateStoryEstimates;
+    
     public String toString() {
     	return getName();
     }

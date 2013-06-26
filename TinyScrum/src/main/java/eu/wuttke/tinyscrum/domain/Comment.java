@@ -29,7 +29,7 @@ implements Serializable {
 	 * The comment (plain text)
 	 */
 	@NotNull
-    @Size(max = 4000)
+    @Size(max = 20000)
     private String comment;
 
 	/**

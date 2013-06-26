@@ -92,4 +92,12 @@ privileged aspect UserStory_Roo_JavaBean {
         this.estimate = estimate;
     }
     
+    public Double UserStory.getActualEffort() {
+        return this.actualEffort;
+    }
+    
+    public void UserStory.setActualEffort(Double actualEffort) {
+        this.actualEffort = actualEffort;
+    }
+    
 }

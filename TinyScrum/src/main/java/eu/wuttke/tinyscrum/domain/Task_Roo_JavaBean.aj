@@ -82,4 +82,12 @@ privileged aspect Task_Roo_JavaBean {
         this.estimate = estimate;
     }
     
+    public Double Task.getActualEffort() {
+        return this.actualEffort;
+    }
+    
+    public void Task.setActualEffort(Double actualEffort) {
+        this.actualEffort = actualEffort;
+    }
+    
 }

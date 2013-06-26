@@ -100,8 +100,18 @@ public class TaskManager {
 			task.setStory(story);
 			saveTask(task);
 		}
+		calculateStoryEffort(story);
 	}
 	
+	public void calculateStoryEffort(UserStory story) {
+		if (story.getProject().isCalculateStoryEstimates()) {
+			Object[] nums = (Object[])UserStory.entityManager().createQuery("SELECT SUM(estimate), SUM(actualEffort) FROM Task WHERE story = :story").setParameter("story", story).getSingleResult();
+			story.setEstimate((Double)nums[0]);
+			story.setActualEffort((Double)nums[1]);
+			story.merge();
+		}
+	}
+
 	private MailManager mailManager;
-	
+
 }

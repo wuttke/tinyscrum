@@ -34,7 +34,7 @@ implements Serializable {
     /**
      * Description
      */
-    @Size(max = 2000)
+    @Size(max = 20000)
     private String description;
 
     /**
@@ -86,6 +86,11 @@ implements Serializable {
      * Story effort estimate (story points)
      */
     private double estimate;
+    
+    /**
+     * Actual story effort
+     */
+    private Double actualEffort;
     
     public String getIterationName() {
     	return iteration != null ? iteration.getName() : "Backlog";

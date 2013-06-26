@@ -53,7 +53,7 @@ implements Serializable {
     /**
      * Description (html)
      */
-    @Size(max = 2000)
+    @Size(max = 20000)
     private String description;
 
     /**
@@ -82,6 +82,11 @@ implements Serializable {
      * Task effort estimate
      */
     private Double estimate;
+    
+    /**
+     * Actual effort
+     */
+    private Double actualEffort;
     
     /**
      * Returns the developer(s) of the task.

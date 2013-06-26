@@ -161,6 +161,9 @@ implements RefreshableComponent {
 				}
 			}
 			
+			taskManager.calculateStoryEffort(userStory);
+			taskManager.calculateStoryEffort(newStory);
+			
 			return true;
 		} else if (open == 0) {
 			application.getMainWindow().showNotification("The user story does not contain open tasks: Splitting is not possible.", 

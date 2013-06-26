@@ -204,7 +204,9 @@ implements RefreshableComponent {
 		for (CommentDateObject cdo : list) {
 			if (cdo.comment != null) {
 				// add comment
-				Label myComment = new Label(cdo.comment.getComment() + " (<i>" + 
+				String txt = cdo.comment.getComment();
+				txt = txt.replace("\n", "<br/>");
+				Label myComment = new Label(txt + " (<i>" + 
 						cdo.comment.getUserName() + ", " + df.format(cdo.comment.getCreateDateTime()) + "</i>)");
 				myComment.setContentMode(Label.CONTENT_XHTML);
 				commentsLayout.addComponent(myComment);

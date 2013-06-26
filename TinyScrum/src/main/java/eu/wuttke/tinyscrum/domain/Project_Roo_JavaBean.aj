@@ -40,4 +40,12 @@ privileged aspect Project_Roo_JavaBean {
         this.taskEstimateUnit = taskEstimateUnit;
     }
     
+    public boolean Project.isCalculateStoryEstimates() {
+        return this.calculateStoryEstimates;
+    }
+    
+    public void Project.setCalculateStoryEstimates(boolean calculateStoryEstimates) {
+        this.calculateStoryEstimates = calculateStoryEstimates;
+    }
+    
 }

@@ -22,6 +22,7 @@ import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 import eu.wuttke.tinyscrum.domain.Task;
 import eu.wuttke.tinyscrum.domain.TaskStatus;
@@ -42,7 +43,6 @@ public class TaskEditorView extends VerticalLayout {
 	private TinyScrumApplication application;
 	private ObjectSavedListener listener;
 	private List<String> users;
-	
 	
 	public TaskEditorView(final TinyScrumApplication application, Task task, ObjectSavedListener listener) {
 		this.application = application;
@@ -88,6 +88,10 @@ public class TaskEditorView extends VerticalLayout {
 					TextField tf = new TextField("Estimate (" + application.getCurrentProject().getTaskEstimateUnit() + ")");
 					tf.addValidator(new DoubleValidator("Please enter a number."));
 					return tf;
+				} else if (propertyId.equals("actualEffort")) {
+					TextField tf = new TextField("Effort (" + application.getCurrentProject().getTaskEstimateUnit() + ")");
+					tf.addValidator(new DoubleValidator("Please enter a number."));
+					return tf;
 				} else if (propertyId.equals("description")) {
 					RichTextArea rta = new RichTextArea("Description");
 					rta.setWidth("100%");
@@ -115,10 +119,29 @@ public class TaskEditorView extends VerticalLayout {
 			}
 		});
 
+		Button btnView = new Button("View Task");
+		btnView.addListener(new ClickListener() {
+			private static final long serialVersionUID = 1L;
+			public void buttonClick(ClickEvent event) {
+				Window parent = getWindow().getParent();
+				parent.removeWindow(getWindow());
+				TaskDetailsWindow tdw = new TaskDetailsWindow(application, item.getBean());
+				parent.addWindow(tdw);
+			}
+		});
+		
+		HorizontalLayout hl2 = new HorizontalLayout();
+		hl2.addComponent(btnView);
+		hl2.setComponentAlignment(btnView, Alignment.BOTTOM_LEFT);
+		hl2.setWidth("100%");
+		
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
+		hl.addComponent(hl2);
 		hl.addComponent(btnSave);
 		hl.addComponent(btnCancel);
+		hl.setExpandRatio(hl2, 1f);
+		hl.setWidth("100%");
 
 		addComponent(hl);
 		setComponentAlignment(hl, Alignment.BOTTOM_RIGHT);
@@ -131,7 +154,7 @@ public class TaskEditorView extends VerticalLayout {
 		
 		form.setItemDataSource(item, Arrays.asList(new String[]{
 				"name", "developer1", "developer2", "tester", "status", "estimate",
-				"description"
+				"actualEffort", "description"
 		}));
 		
 		form.focus();
@@ -140,6 +163,7 @@ public class TaskEditorView extends VerticalLayout {
 	public void saveTask() {
 		form.commit();
 		Task task = taskManager.saveTask(item.getBean());
+		taskManager.calculateStoryEffort(task.getStory());
 		getWindow().getParent().removeWindow(getWindow());
 		if (listener != null)
 			listener.objectSaved(task);

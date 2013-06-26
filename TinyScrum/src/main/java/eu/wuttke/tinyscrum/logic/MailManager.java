@@ -66,7 +66,7 @@ public class MailManager {
 		body.append("Iteration: <b>" + StringEscapeUtils.escapeHtml4(task.getStory().getIterationName()) + "</b>" + NL);
 		body.append("Project: <b>" + StringEscapeUtils.escapeHtml4(task.getProject().toString()) + "</b>" + NL);
 		body.append("Developer: <b>" + StringEscapeUtils.escapeHtml4(task.getDeveloper()) + "</b></p>\r\n");
-		body.append("Tester: <b>" + StringEscapeUtils.escapeHtml4(task.getTester().toString()) + "</b></p>\r\n");
+		body.append("Tester: <b>" + StringEscapeUtils.escapeHtml4(task.getTester()) + "</b></p>\r\n");
 		body.append("Status: <b>" + StringEscapeUtils.escapeHtml4(task.getStatus().toString()) + "</b></p>\r\n");
 		
 		if (!StringUtils.isEmpty(task.getDescription()))

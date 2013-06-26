@@ -10,6 +10,8 @@ import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 public class IterationAdminLister 
 extends AdminBeanLister {
 	
+	private static final long serialVersionUID = 1L;
+
 	public IterationAdminLister(AdminView parent) {
 		super("Iterations", Iteration.class, 
 				new String[]{"id", "project", "name", "startDate", "durationDays", "status"}, 

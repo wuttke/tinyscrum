@@ -11,7 +11,6 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.Window;
 
 import eu.wuttke.tinyscrum.domain.Task;

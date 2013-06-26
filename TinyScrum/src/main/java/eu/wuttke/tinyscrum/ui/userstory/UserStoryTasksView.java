@@ -123,6 +123,7 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 			t.setEstimate(Double.parseDouble((String)newTaskEstimate.getValue()));
 		} catch (NumberFormatException e) { }
 		taskManager.saveTask(t);
+		taskManager.calculateStoryEffort(story);
 		
 		taskTable.loadTasks();
 		
@@ -181,7 +182,9 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		                if (dialog.isConfirmed()) {
 		            		for (Task task : tasks)
 		            			taskManager.deleteTask(task);
-		        			refreshContent();
+		            		taskManager.calculateStoryEffort(story);
+		            		refreshContent();
+		            		application.getMainView().refreshContent();
 		                }
 		            }
 		        });
@@ -202,6 +205,7 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		TaskEditorWindow editor = new TaskEditorWindow(application, t, new ObjectSavedListener() {
 			public void objectSaved(Object object) {
 				refreshContent();
+				application.getMainView().refreshContent(); // story effort/estimate
 			}
 		});
 		application.getMainWindow().addWindow(editor);

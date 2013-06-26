@@ -78,6 +78,10 @@ public class UserStoryEditorView extends VerticalLayout {
 					TextField tf = new TextField("Estimate (" + application.getCurrentProject().getStoryEstimateUnit() + ")");
 					tf.addValidator(new DoubleValidator("Please enter a number."));
 					return tf;
+				} else if (propertyId.equals("actualEffort")) {
+					TextField tf = new TextField("Effort (" + application.getCurrentProject().getStoryEstimateUnit() + ")");
+					tf.addValidator(new DoubleValidator("Please enter a number."));
+					return tf;
 				} else if (propertyId.equals("iteration")) {
 					iterationSelect = new Select("Iteration");
 					iterationSelect.setWidth("200px");
@@ -133,7 +137,7 @@ public class UserStoryEditorView extends VerticalLayout {
 	
 	public void initForm() {
 		form.setItemDataSource(item, Arrays.asList(new String[]{
-				"title", "owner", "status", "estimate",
+				"title", "owner", "status", "estimate", "actualEffort",
 				"iteration", "projectFeature", "projectRelease",
 				"description"
 		}));
