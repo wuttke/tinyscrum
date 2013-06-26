@@ -17,6 +17,7 @@ import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.ProjectFeature;
 import eu.wuttke.tinyscrum.domain.ProjectRelease;
+import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryFilter;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 import eu.wuttke.tinyscrum.logic.ProjectManager;
@@ -54,14 +55,18 @@ implements ValueChangeListener {
 	private ProjectRelease RELEASE_NOT_ASSIGNED = new ProjectRelease("NOT ASSIGNED");
 	private String USER_NOT_ASSIGNED = "NOT ASSIGNED";
 	
-	public FilterableStoryTableView(TinyScrumApplication application) {
-		this.application = application;
+	public FilterableStoryTableView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		filterableStoryTable.application = application;
 		
 		textFieldTitle.setImmediate(true);
 		textFieldTitle.addListener(this);
+	}
+	
+	public void setApplication(TinyScrumApplication application) {
+		this.application = application;
+		filterableStoryTable.application = application;
 	}
 
 	public void refreshContent() {
@@ -258,5 +263,9 @@ implements ValueChangeListener {
 	}
 	
 	private static final long serialVersionUID = 1L;
+
+	public UserStory getSelectedStory() {
+		return (UserStory)filterableStoryTable.getValue();
+	}
 
 }

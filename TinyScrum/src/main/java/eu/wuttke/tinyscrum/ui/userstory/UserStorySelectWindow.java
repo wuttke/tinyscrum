@@ -2,6 +2,7 @@ package eu.wuttke.tinyscrum.ui.userstory;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
@@ -10,6 +11,7 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.Window;
 
 import eu.wuttke.tinyscrum.domain.Task;
@@ -48,8 +50,10 @@ extends Window {
         moveTasksParamsView.addOkListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				moveTasks();
-				close();
+				if (checkInput()) {
+					moveTasks();
+					close();
+				}
 			}
 			private static final long serialVersionUID = 1L;
 		});
@@ -63,6 +67,28 @@ extends Window {
 		});
         
         getContent().addComponent(moveTasksParamsView);
+        getContent().setSizeFull();
+        
+        moveTasksParamsView.setApplication(application);
+        moveTasksParamsView.refreshContent();
+	}
+
+	protected boolean checkInput() {
+		if (moveTasksParamsView.isCreateNewUserStory() &&
+			StringUtils.isEmpty(moveTasksParamsView.getNewStoryTitle())) {
+			Notification n = new Notification("Required field missing", "Please enter a title for the user story.", Notification.TYPE_ERROR_MESSAGE);
+			scrumApplication.getMainWindow().showNotification(n);
+			return false;
+		}
+		
+		if (!moveTasksParamsView.isCreateNewUserStory() &&
+			moveTasksParamsView.getSelectedStory() == null) {
+			Notification n = new Notification("Required selection missing", "Please select a user story.", Notification.TYPE_ERROR_MESSAGE);
+			scrumApplication.getMainWindow().showNotification(n);
+			return false;
+		}
+		
+		return true;
 	}
 
 	protected void moveTasks() {
@@ -77,7 +103,8 @@ extends Window {
 			story = moveTasksParamsView.getSelectedStory();
 		}
 		
-		taskManager.moveTasksToStory(selectedTasks, story);
+		if (story != null)
+			taskManager.moveTasksToStory(selectedTasks, story);
 		
 		if (objectSavedListener != null)
 			objectSavedListener.objectSaved(null);

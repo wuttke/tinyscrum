@@ -20,7 +20,8 @@ implements RefreshableComponent {
 		setSpacing(true);
 		setSizeFull();
 		
-		view = new FilterableStoryTableView(application);
+		view = new FilterableStoryTableView();
+		view.setApplication(application);
 		addComponent(view);
 	}
 	
