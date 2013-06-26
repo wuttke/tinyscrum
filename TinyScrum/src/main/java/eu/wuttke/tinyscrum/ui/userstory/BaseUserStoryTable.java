@@ -74,6 +74,7 @@ implements DropHandler, ItemClickListener {
 	}
 	
 	@Override
+	@Transactional // manchmal direkter Aufruf über Vaadin
 	protected String formatPropertyValue(Object rowId, Object colId,
 			Property property) {
 		if (colId.equals("estimate"))
