@@ -2,9 +2,13 @@ package eu.wuttke.tinyscrum.ui.iteration;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Select;
@@ -62,27 +66,56 @@ implements Property.ValueChangeListener {
 	}
 	
 	public void setCurrentIteration(Iteration iteration) {
+		currentIteration = iteration;
+		boolean willHaveChange = nullSafeGetId(getIterationFromComboBox()) != nullSafeGetId(iteration);
 		cbIterationChooser.setValue(iteration);
-		// load iteration wird durch den ValueChanged-Event ausgelöst
+		
+		// refreshIterationTable wird ansonsten durch den ValueChanged-Event ausgelöst
+		if (!willHaveChange)
+			refreshIterationTable();
+			
+		if (iteration != null)
+			logger.info("set current iteration: {}", iteration.getName());
 	}
 	
+	private long nullSafeGetId(Iteration iteration) {
+		if (iteration == null || iteration.getId() == null)
+			return 0;
+		else
+			return iteration.getId().longValue();
+	}
+
 	public Iteration getCurrentIteration() {
 		return currentIteration;
 	}
 	
 	@Override
 	public void valueChange(ValueChangeEvent event) {
+		currentIteration = getIterationFromComboBox();
+		refreshIterationTable();
+	}
+	
+	private Iteration getIterationFromComboBox() {
 		Object iterationId = cbIterationChooser.getValue();
-		if (iterationId != null)
-			currentIteration = iterationContainer.getItem(iterationId).getBean();
-		else
-			currentIteration = null;
-
+		if (iterationId instanceof Iteration)
+			return (Iteration)iterationId;
+		
+		if (iterationId != null) {
+			BeanItem<Iteration> i = iterationContainer.getItem(iterationId);
+			if (i != null)
+				return i.getBean();
+		}
+			
+		return null;
+	}
+	
+	private void refreshIterationTable() {
 		iterationTable.loadIteration(currentIteration);
 		if (iterationChangedListener != null)
 			iterationChangedListener.valueChange(null);
 	}
 	
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LoggerFactory.getLogger(IterationView.class);
 
 }

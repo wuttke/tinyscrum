@@ -1,5 +1,7 @@
 package eu.wuttke.tinyscrum.ui.iteration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -22,8 +24,10 @@ extends BaseUserStoryTable {
 	public void loadIteration(Iteration iteration) {
 		this.iteration = iteration;
 		storyContainer.removeAllItems();
-		if (iteration != null)
+		if (iteration != null) {
 			storyContainer.addAll(userStoryManager.loadIterationUserStories(iteration));
+			logger.info("reloaded iteration {}", iteration.getName());
+		}
 		recalculateFooter();
 	}
 	
@@ -39,5 +43,6 @@ extends BaseUserStoryTable {
 	private UserStoryManager userStoryManager;
 
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LoggerFactory.getLogger(IterationTable.class);
 
 }
