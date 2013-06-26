@@ -1,6 +1,7 @@
 package eu.wuttke.tinyscrum.ui.task;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -35,6 +36,7 @@ implements ItemClickListener {
 		
 		setSizeFull();
 		setSelectable(true);
+		setMultiSelect(true);
 		setContainerDataSource(taskContainer);
 		setVisibleColumns(new String[]{ "id", "name", "developer", "tester", "estimate", "status" });
 		setColumnExpandRatio("id", 1);
@@ -99,6 +101,16 @@ implements ItemClickListener {
 		
 		setColumnFooter("status", open + "/" + test + "/" + close);
 		setColumnFooter("estimate", Double.toString(estimate) + " " + application.getCurrentProject().getTaskEstimateUnit());
+	}
+	
+	public Task getFirstSelectedTask() {
+		Set<Task> tasks = getSelectedTasks();
+		return tasks != null && tasks.size() > 0 ? tasks.iterator().next() : null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Set<Task> getSelectedTasks() {
+		return (Set<Task>)getValue();
 	}
 
 	private static final long serialVersionUID = 1L;

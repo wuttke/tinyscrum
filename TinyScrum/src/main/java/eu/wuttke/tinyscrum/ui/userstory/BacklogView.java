@@ -13,7 +13,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
-import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
 import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
@@ -112,11 +111,7 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 
 	public void addUserStory() {
 		UserStory us = new UserStory();
-		us.setId(0L);
-		us.setTitle("");
-		us.setDescription("");
 		us.setProject(application.getCurrentProject());
-		us.setStatus(UserStoryStatus.STORY_OPEN);
 		
 		UserStoryEditorWindow w = new UserStoryEditorWindow(application, us, new ObjectSavedListener() {
 			public void objectSaved(Object object) {

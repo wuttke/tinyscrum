@@ -1,5 +1,9 @@
 package eu.wuttke.tinyscrum.ui.userstory;
 
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -37,7 +41,8 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 	private TextField newTaskEstimate;
 	private Button btnAddTask;
 	private Button btnEditTask;
-	private Button btnDeleteTask;
+	private Button btnDeleteTasks;
+	private Button btnMoveTasks;
 	
 	public UserStoryTasksView(TinyScrumApplication application, UserStory userStory) {
 		this.application = application;
@@ -60,14 +65,17 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		btnAddTask = new Button("Add Task", this);
 		btnEditTask = new Button("Edit Task", this);
 		btnEditTask.setEnabled(false);
-		btnDeleteTask = new Button("Delete Task", this);
-		btnDeleteTask.setEnabled(false);
+		btnMoveTasks = new Button("Move Tasks", this);
+		btnMoveTasks.setEnabled(false);
+		btnDeleteTasks = new Button("Delete Tasks", this);
+		btnDeleteTasks.setEnabled(false);
 		
 		// Button Bar
 		HorizontalLayout buttonBar = new HorizontalLayout();
 		buttonBar.addComponent(btnAddTask);
 		buttonBar.addComponent(btnEditTask);
-		buttonBar.addComponent(btnDeleteTask);
+		buttonBar.addComponent(btnMoveTasks);
+		buttonBar.addComponent(btnDeleteTasks);
 		buttonBar.setSpacing(true);
 		addComponent(buttonBar);
 		
@@ -134,25 +142,51 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		if (event.getButton() == btnAddTask) {
 			newOrEditTask(createEmptyTask());
 		} else if (event.getButton() == btnEditTask) {
-			Task t = (Task)taskTable.getValue();
-			newOrEditTask(t);
-		} else if (event.getButton() == btnDeleteTask) {
-			final Task t = (Task)taskTable.getValue();
-			ConfirmDialog.show(application.getMainWindow(), "Delete Task", 
-					"Delete task '" + t.getName() + "'?",
-			        "Yes", "No", new ConfirmDialog.Listener() {
-						private static final long serialVersionUID = 1L;
-						public void onClose(ConfirmDialog dialog) {
-			                if (dialog.isConfirmed()) {
-			        			taskManager.deleteTask(t);
-			        			refreshContent();
-			                }
-			            }
-			        });
-
+			Task t = taskTable.getFirstSelectedTask();
+			if (t != null)
+				newOrEditTask(t);
+		} else if (event.getButton() == btnMoveTasks) {
+			moveSelectedTasks();
+		} else if (event.getButton() == btnDeleteTasks) {
+			deleteSelectedTasks();
 		}
 	}
 	
+	private void moveSelectedTasks() {
+		UserStorySelectWindow w = new UserStorySelectWindow(application, taskTable.getSelectedTasks(), new ObjectSavedListener() {
+			public void objectSaved(Object object) {
+				logger.info("moved tasks");
+				refreshContent();
+			}
+		});
+		application.getMainWindow().addWindow(w);
+	}
+
+	private void deleteSelectedTasks() {
+		final Set<Task> tasks = taskTable.getSelectedTasks();
+		if (tasks == null || tasks.size() == 0)
+			return;
+		
+		String message;
+		if (tasks.size() == 1)
+			message = String.format("Delete task '%s'?", tasks.iterator().next().getName());
+		else
+			message = String.format("Delete %d tasks?", tasks.size());
+		
+		ConfirmDialog.show(application.getMainWindow(), "Delete Tasks", 
+				message,
+		        "Yes", "No", new ConfirmDialog.Listener() {
+					private static final long serialVersionUID = 1L;
+					public void onClose(ConfirmDialog dialog) {
+		                if (dialog.isConfirmed()) {
+		            		for (Task task : tasks)
+		            			taskManager.deleteTask(task);
+		        			refreshContent();
+		                }
+		            }
+		        });
+	}
+
 	private Task createEmptyTask() {
 		Task t = new Task();
 		t.setStory(story);
@@ -177,7 +211,8 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 	public void valueChange(ValueChangeEvent event) {
 		boolean enable = taskTable.getValue() != null;
 		btnEditTask.setEnabled(enable);
-		btnDeleteTask.setEnabled(enable);
+		btnMoveTasks.setEnabled(enable);
+		btnDeleteTasks.setEnabled(enable);
 	}
 	
 	public void setTaskManager(TaskManager taskManager) {
@@ -187,5 +222,6 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 	private TaskManager taskManager;
 	
 	private static final long serialVersionUID = 1L;
-
+	private static Logger logger = LoggerFactory.getLogger(UserStoryTasksView.class);
+	
 }

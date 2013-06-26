@@ -147,13 +147,10 @@ implements RefreshableComponent {
 			UserStory us2 = new UserStory();
 			us2.setDescription(userStory.getDescription());
 			us2.setEstimate(userStory.getEstimate());
-			us2.setIteration(null);
 			us2.setOwner(userStory.getOwner());
 			us2.setProject(userStory.getProject());
 			us2.setProjectFeature(userStory.getProjectFeature());
 			us2.setProjectRelease(userStory.getProjectRelease());
-			us2.setSequenceNumber(0);
-			us2.setStatus(UserStoryStatus.STORY_OPEN);
 			us2.setTitle(userStory.getTitle() + " (2)");
 			UserStory newStory = userStoryManager.saveUserStory(us2);
 			

@@ -93,4 +93,12 @@ implements Serializable {
     
 	private static final long serialVersionUID = 1L;
 
+	public UserStory() {
+		setId(0L);
+		setTitle("");
+		setDescription("");
+		setStatus(UserStoryStatus.STORY_OPEN);
+		setSequenceNumber(0);
+	}
+	
 }

@@ -2,6 +2,7 @@ package eu.wuttke.tinyscrum.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -91,6 +92,14 @@ public class TaskManager {
 		for (Object[] o : l)
 			r.add(new TaskAndStory((Task)o[0], (UserStory)o[1]));
 		return r;
+	}
+	
+	@Transactional
+	public void moveTasksToStory(Set<Task> tasks, UserStory story) {
+		for (Task task : tasks) {
+			task.setStory(story);
+			saveTask(task);
+		}
 	}
 	
 	private MailManager mailManager;
