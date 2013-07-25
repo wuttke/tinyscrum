@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.transaction.annotation.Transactional;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -116,6 +117,7 @@ implements RefreshableComponent, ClickListener, ValueChangeListener {
 		setExpandRatio(taskTable, 1f);
 	}
 	
+	@Transactional
 	protected void addTask() {
 		Task t = createEmptyTask();
 		t.setName((String)newTaskTitle.getValue());
