@@ -1,12 +1,15 @@
 package eu.wuttke.tinyscrum.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -19,7 +22,10 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-public class Quote {
+public class Quote 
+implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Datum der Ausgabe an den Kunden (Angebotsdatum)
@@ -76,5 +82,18 @@ public class Quote {
 	 */
 	@Column(length=2000)
 	private String comment;
+	
+	/**
+	 * Project
+	 */
+	@NotNull
+	@ManyToOne
+	private Project project;
+	
+	/**
+	 * Customer
+	 */
+	@ManyToOne
+	private Customer customer;
 	
 }

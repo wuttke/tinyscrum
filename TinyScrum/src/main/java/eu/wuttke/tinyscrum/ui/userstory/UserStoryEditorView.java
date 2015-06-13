@@ -15,6 +15,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormFieldFactory;
@@ -24,6 +25,7 @@ import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import eu.wuttke.tinyscrum.domain.Priority;
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 import eu.wuttke.tinyscrum.logic.ProjectManager;
@@ -82,6 +84,16 @@ public class UserStoryEditorView extends VerticalLayout {
 					TextField tf = new TextField("Effort (" + application.getCurrentProject().getStoryEstimateUnit() + ")");
 					tf.addValidator(new DoubleValidator("Please enter a number."));
 					return tf;
+				} else if (propertyId.equals("priority")) {
+					Select sel = new Select("Priority", Arrays.asList(Priority.values()));
+					sel.setWidth("200px");
+					return sel;
+				} else if (propertyId.equals("currentDueDate")) {
+					DateField df = new DateField("Current Due Date");
+					return df;
+				} else if (propertyId.equals("latestDueDate")) {
+					DateField df = new DateField("Latest Due Date");
+					return df;
 				} else if (propertyId.equals("iteration")) {
 					iterationSelect = new Select("Iteration");
 					iterationSelect.setWidth("200px");
@@ -97,6 +109,17 @@ public class UserStoryEditorView extends VerticalLayout {
 					releaseSelect.setWidth("200px");
 					releaseSelect.setContainerDataSource(new IndexedContainer(projectManager.loadReleases(application.getCurrentProject())));
 					return releaseSelect;
+				} else if (propertyId.equals("customerProject")) {
+					Select customerProjectSelect = new Select("Project");
+					customerProjectSelect.setWidth("200px");
+					// TODO customer lookup?
+					customerProjectSelect.setContainerDataSource(new IndexedContainer(projectManager.loadCustomerProjects(application.getCurrentProject(), null)));
+					return customerProjectSelect;
+				} else if (propertyId.equals("quote")) {
+					Select quoteProjectSelect = new Select("Quote");
+					quoteProjectSelect.setWidth("200px");
+					quoteProjectSelect.setContainerDataSource(new IndexedContainer(projectManager.loadQuotes(application.getCurrentProject())));
+					return quoteProjectSelect;
 				} else if (propertyId.equals("description")) {
 					RichTextArea rta = new RichTextArea("Description");
 					rta.setWidth("100%");

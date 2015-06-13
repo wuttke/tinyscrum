@@ -5,6 +5,7 @@ package eu.wuttke.tinyscrum.domain;
 
 import eu.wuttke.tinyscrum.domain.Customer;
 import eu.wuttke.tinyscrum.domain.CustomerProject;
+import eu.wuttke.tinyscrum.domain.Project;
 
 privileged aspect CustomerProject_Roo_JavaBean {
     
@@ -22,6 +23,14 @@ privileged aspect CustomerProject_Roo_JavaBean {
     
     public void CustomerProject.setCustomer(Customer customer) {
         this.customer = customer;
+    }
+    
+    public Project CustomerProject.getProject() {
+        return this.project;
+    }
+    
+    public void CustomerProject.setProject(Project project) {
+        this.project = project;
     }
     
 }

@@ -22,6 +22,8 @@ import org.springframework.roo.addon.tostring.RooToString;
 public class Project
 implements Serializable {
 
+	// should be renamed to "Client" = Mandant
+	
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -8,6 +8,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -96,30 +98,41 @@ implements Serializable {
     // NEUE FELDER
     
     /**
-     * Due date
+     * Latest Due date
      */
+    @Temporal(TemporalType.DATE)
     private Date latestDueDate;
-    
+
+    /**
+     * Current Due Date
+     */
+    @Temporal(TemporalType.DATE)
     private Date currentDueDate;
     
     /**
      * Priority
      */
+    @Enumerated(EnumType.STRING)
+    //Nullable
+    @Column(length=40)
     private Priority priority;
     
     /**
      * Customer ("UKLFR")
      */
+    @ManyToOne
     private Customer customer;
     
     /**
      * Projekt ("Ambulanz")
      */
+    @ManyToOne
     private CustomerProject customerProject;
     
     /**
      * Auftrag ("2015/002")
      */
+    @ManyToOne
     private Quote quote;
     
     public String getIterationName() {
@@ -134,6 +147,7 @@ implements Serializable {
 		setDescription("");
 		setStatus(UserStoryStatus.STORY_OPEN);
 		setSequenceNumber(0);
+		setPriority(Priority.MEDIUM);
 	}
 	
 }

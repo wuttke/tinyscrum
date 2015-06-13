@@ -14,7 +14,7 @@ privileged aspect Quote_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Quote.entityManager;
     
-    public static final List<String> Quote.fieldNames4OrderClauseFilter = java.util.Arrays.asList("issueDate", "orderDate", "deliveryDate", "quoteNumber", "orderNumber", "externalOrderNumber", "title", "status", "comment");
+    public static final List<String> Quote.fieldNames4OrderClauseFilter = java.util.Arrays.asList("serialVersionUID", "issueDate", "orderDate", "deliveryDate", "quoteNumber", "orderNumber", "externalOrderNumber", "title", "status", "comment", "project", "customer");
     
     public static final EntityManager Quote.entityManager() {
         EntityManager em = new Quote().entityManager;

@@ -3,6 +3,8 @@
 
 package eu.wuttke.tinyscrum.domain;
 
+import eu.wuttke.tinyscrum.domain.Customer;
+import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.Quote;
 import eu.wuttke.tinyscrum.domain.QuoteStatus;
 import java.util.Date;
@@ -79,6 +81,22 @@ privileged aspect Quote_Roo_JavaBean {
     
     public void Quote.setComment(String comment) {
         this.comment = comment;
+    }
+    
+    public Project Quote.getProject() {
+        return this.project;
+    }
+    
+    public void Quote.setProject(Project project) {
+        this.project = project;
+    }
+    
+    public Customer Quote.getCustomer() {
+        return this.customer;
+    }
+    
+    public void Quote.setCustomer(Customer customer) {
+        this.customer = customer;
     }
     
 }
