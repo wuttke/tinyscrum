@@ -150,6 +150,13 @@ public class UserStoryManager {
 			else
 				restrictions.add(cb.equal(r.get("projectFeature"), filter.getFeatureEquals()));
 		}
+
+		if (filter.isFilterCustomer()) {
+			if (filter.getCustomerEquals() == null)
+				restrictions.add(cb.isNull(r.get("customer")));
+			else
+				restrictions.add(cb.equal(r.get("customer"), filter.getCustomerEquals()));
+		}
 		
 		if (filter.isFilterRelease()) {
 			if (filter.getReleaseEquals() == null)

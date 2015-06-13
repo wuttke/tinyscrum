@@ -32,6 +32,7 @@ extends BaseUserStoryTable {
 		setColumnHeader("projectRelease", "Release Name");
 		setColumnHeader("latestDueDate", "Latest Due Date");
 		setColumnHeader("currentDueDate", "Current Due Date");
+		setColumnHeader("customerProject", "Customer Project");
 		setColumnExpandRatio("iterationName", 3);
 		setColumnExpandRatio("projectRelease", 2);
 		setDragMode(TableDragMode.NONE);
