@@ -55,7 +55,9 @@ public class UserStoryManager {
 		Project p = i.getProject();
 		q.setParameter(1, i);
 		q.setParameter(2, p);
-		return q.getResultList();		
+		List<UserStory> stories = q.getResultList();
+		touchIterationName(stories);
+		return stories;
 	}
 
 	/**
@@ -118,7 +120,9 @@ public class UserStoryManager {
 		q.setParameter(1, user);
 		q.setParameter(2, project);
 		q.setParameter(3, UserStoryStatus.STORY_DONE);
-		return q.getResultList();
+		List<UserStory> stories = q.getResultList();
+		touchIterationName(stories);
+		return stories;
 	}
 
 	private MailManager mailManager;
@@ -176,7 +180,16 @@ public class UserStoryManager {
 		}
 		
 		q.select(r).where(cb.and(restrictions.toArray(new Predicate[restrictions.size()])));
-		return em.createQuery(q).getResultList();
+
+		List<UserStory> stories = em.createQuery(q).getResultList();
+		touchIterationName(stories);
+		return stories;
 	}
 	
+	private void touchIterationName(List<UserStory> stories) {
+		// grr, vielleicht kriege ich so die Lazy Exception weg
+		for (UserStory story : stories)
+			story.getIterationName();
+	}
+
 }

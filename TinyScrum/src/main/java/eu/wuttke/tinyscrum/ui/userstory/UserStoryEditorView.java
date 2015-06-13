@@ -42,6 +42,7 @@ public class UserStoryEditorView extends VerticalLayout {
 	private Select iterationSelect, featureSelect, releaseSelect;
 	private TinyScrumApplication application;
 	private ObjectSavedListener listener;
+	private RichTextArea richTextAreaDescription;
 	
 	public UserStoryEditorView(final TinyScrumApplication application, UserStory userStory, ObjectSavedListener listener) {
 		this.application = application;
@@ -124,16 +125,24 @@ public class UserStoryEditorView extends VerticalLayout {
 					quoteProjectSelect.setWidth("200px");
 					quoteProjectSelect.setContainerDataSource(new IndexedContainer(projectManager.loadQuotes(application.getCurrentProject())));
 					return quoteProjectSelect;
-				} else if (propertyId.equals("description")) {
+				} /*else if (propertyId.equals("description")) {
 					RichTextArea rta = new RichTextArea("Description");
 					rta.setWidth("100%");
 					rta.setHeight("370px");
 					return rta;
-				} else
+				} */else
 					return null;
 			}
 		});		
-		addComponent(form);
+
+		richTextAreaDescription = new RichTextArea();
+		richTextAreaDescription.setWidth("600px");
+		richTextAreaDescription.setHeight("600px");
+
+		HorizontalLayout hl1 = new HorizontalLayout();
+		hl1.addComponent(form);
+		hl1.addComponent(richTextAreaDescription);
+		addComponent(hl1);
 		
 		Button btnSave = new Button("Save Story");
 		btnSave.addListener(new ClickListener() {
@@ -159,7 +168,7 @@ public class UserStoryEditorView extends VerticalLayout {
 		addComponent(hl);
 		setComponentAlignment(hl, Alignment.BOTTOM_RIGHT);
 		
-		setExpandRatio(form, 1f);
+		setExpandRatio(hl1, 1f);
 	}
 	
 	public void initForm() {
@@ -182,6 +191,8 @@ public class UserStoryEditorView extends VerticalLayout {
 		story.setCustomer(null);
 		if (story.getCustomerProject() != null)
 			story.setCustomer(story.getCustomerProject().getCustomer());
+		
+		story.setDescription((String)richTextAreaDescription.getValue());
 		
 		story = userStoryManager.saveUserStory(item.getBean());
 		getWindow().getParent().removeWindow(getWindow());

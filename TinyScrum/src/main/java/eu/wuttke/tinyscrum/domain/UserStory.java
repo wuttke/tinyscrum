@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * User Story
@@ -135,6 +136,7 @@ implements Serializable {
     @ManyToOne
     private Quote quote;
     
+    @Transactional // direkter Aufruf (?)
     public String getIterationName() {
     	return iteration != null ? iteration.getName() : "Backlog";
     }
@@ -148,6 +150,17 @@ implements Serializable {
 		setStatus(UserStoryStatus.STORY_OPEN);
 		setSequenceNumber(0);
 		setPriority(Priority.MEDIUM);
+	}
+	
+	public Date getDueDate() {
+		if (latestDueDate != null && currentDueDate != null)
+			return latestDueDate.before(currentDueDate) ? latestDueDate : currentDueDate;
+		else if (latestDueDate != null)
+			return latestDueDate;
+		else if (currentDueDate != null)
+			return currentDueDate; 
+		else
+			return null;
 	}
 	
 }

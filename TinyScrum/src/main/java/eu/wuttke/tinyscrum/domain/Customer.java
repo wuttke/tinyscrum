@@ -44,4 +44,15 @@ implements Serializable {
 		setName(name);
 	}
 	
+    @Override
+    public boolean equals(Object obj) {
+    	Long myId = getId();
+    	if (obj != null && obj instanceof Customer) {
+	    	Long otherId = ((Customer)obj).getId();
+	    	if (myId != null && otherId != null)
+	    		return myId.longValue() == otherId.longValue();
+    	}
+		return super.equals(obj);
+    }
+
 }
