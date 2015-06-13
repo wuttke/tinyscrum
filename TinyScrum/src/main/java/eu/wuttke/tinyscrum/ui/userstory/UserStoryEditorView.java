@@ -90,9 +90,13 @@ public class UserStoryEditorView extends VerticalLayout {
 					return sel;
 				} else if (propertyId.equals("currentDueDate")) {
 					DateField df = new DateField("Current Due Date");
+					df.setResolution(DateField.RESOLUTION_DAY);
+					df.setShowISOWeekNumbers(true);
 					return df;
 				} else if (propertyId.equals("latestDueDate")) {
 					DateField df = new DateField("Latest Due Date");
+					df.setResolution(DateField.RESOLUTION_DAY);
+					df.setShowISOWeekNumbers(true);
 					return df;
 				} else if (propertyId.equals("iteration")) {
 					iterationSelect = new Select("Iteration");
@@ -173,11 +177,18 @@ public class UserStoryEditorView extends VerticalLayout {
 	public void saveStory() {
 		boolean newStory = item.getBean().getId() == null;
 		form.commit();
-		UserStory story = userStoryManager.saveUserStory(item.getBean());
+		UserStory story = item.getBean();
+		
+		story.setCustomer(null);
+		if (story.getCustomerProject() != null)
+			story.setCustomer(story.getCustomerProject().getCustomer());
+		
+		story = userStoryManager.saveUserStory(item.getBean());
 		getWindow().getParent().removeWindow(getWindow());
-		//application.getMainView().refreshContent();
+
 		if (listener != null)
 			listener.objectSaved(story);
+		
 		if (newStory)
 			application.getMainWindow().addWindow(new UserStoryViewWindow(application, story));
 	}

@@ -96,4 +96,8 @@ implements Serializable {
 	@ManyToOne
 	private Customer customer;
 	
+	public String toString() {
+		return getQuoteNumber() + ": " + getTitle();
+	}
+	
 }

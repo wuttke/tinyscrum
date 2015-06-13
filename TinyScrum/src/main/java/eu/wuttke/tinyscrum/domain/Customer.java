@@ -33,4 +33,15 @@ implements Serializable {
 	@ManyToOne
 	private Project project;
 	
+	public String toString() {
+		return getName();
+	}
+	
+	public Customer() {
+	}
+	
+	public Customer(String name) {
+		setName(name);
+	}
+	
 }

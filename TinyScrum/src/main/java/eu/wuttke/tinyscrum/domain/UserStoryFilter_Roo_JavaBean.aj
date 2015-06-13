@@ -3,6 +3,7 @@
 
 package eu.wuttke.tinyscrum.domain;
 
+import eu.wuttke.tinyscrum.domain.Customer;
 import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.ProjectFeature;
@@ -106,6 +107,22 @@ privileged aspect UserStoryFilter_Roo_JavaBean {
     
     public void UserStoryFilter.setReleaseEquals(ProjectRelease releaseEquals) {
         this.releaseEquals = releaseEquals;
+    }
+    
+    public boolean UserStoryFilter.isFilterCustomer() {
+        return this.filterCustomer;
+    }
+    
+    public void UserStoryFilter.setFilterCustomer(boolean filterCustomer) {
+        this.filterCustomer = filterCustomer;
+    }
+    
+    public Customer UserStoryFilter.getCustomerEquals() {
+        return this.customerEquals;
+    }
+    
+    public void UserStoryFilter.setCustomerEquals(Customer customerEquals) {
+        this.customerEquals = customerEquals;
     }
     
 }

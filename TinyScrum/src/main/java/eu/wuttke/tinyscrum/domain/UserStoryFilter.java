@@ -22,5 +22,8 @@ public class UserStoryFilter {
 	
 	private boolean filterRelease;
 	private ProjectRelease releaseEquals;
+	
+	private boolean filterCustomer;
+	private Customer customerEquals;
 
 }

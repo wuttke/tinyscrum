@@ -80,8 +80,15 @@ public class ProjectManager {
 	}
 
 	public List<Quote> loadQuotes(Project project) {
-		EntityManager em = ProjectRelease.entityManager();
+		EntityManager em = Quote.entityManager();
 		TypedQuery<Quote> q = em.createQuery("FROM Quote WHERE project = ? ORDER BY issueDate", Quote.class);
+		q.setParameter(1, project);
+		return q.getResultList();		
+	}
+
+	public List<Customer> loadCustomers(Project project) {
+		EntityManager em = Customer.entityManager();
+		TypedQuery<Customer> q = em.createQuery("FROM Customer WHERE project = ? ORDER BY name", Customer.class);
 		q.setParameter(1, project);
 		return q.getResultList();		
 	}

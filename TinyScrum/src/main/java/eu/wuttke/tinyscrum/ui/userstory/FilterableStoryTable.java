@@ -25,12 +25,17 @@ extends BaseUserStoryTable {
 	}
 	
 	private void init() {
-		setVisibleColumns(new String[]{"id", "title", "owner", "iterationName", "projectFeature", "projectRelease", "estimate", "status"});
+		setVisibleColumns(new String[]{"id", "title", "owner", "iterationName", "projectFeature", 
+				"customerProject", "projectRelease", "estimate", 
+				"currentDueDate", "latestDueDate", "status"});
 		setColumnHeader("iterationName", "Iteration Name");
 		setColumnHeader("projectRelease", "Release Name");
+		setColumnHeader("latestDueDate", "Latest Due Date");
+		setColumnHeader("currentDueDate", "Current Due Date");
 		setColumnExpandRatio("iterationName", 3);
 		setColumnExpandRatio("projectRelease", 2);
 		setDragMode(TableDragMode.NONE);
+		setSortDisabled(false);
 	}
 	
 	public void loadStories(UserStoryFilter filter) {

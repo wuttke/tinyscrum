@@ -38,4 +38,19 @@ implements Serializable {
 	@NotNull
 	private Project project;
 	
+	public String toString() {
+		return getName();
+	}
+
+    @Override
+    public boolean equals(Object obj) {
+    	Long myId = getId();
+    	if (obj != null && obj instanceof CustomerProject) {
+	    	Long otherId = ((CustomerProject)obj).getId();
+	    	if (myId != null && otherId != null)
+	    		return myId.longValue() == otherId.longValue();
+    	}
+		return super.equals(obj);
+    }
+	
 }

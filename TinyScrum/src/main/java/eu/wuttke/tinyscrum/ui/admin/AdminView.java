@@ -16,9 +16,12 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
+import eu.wuttke.tinyscrum.domain.Customer;
+import eu.wuttke.tinyscrum.domain.CustomerProject;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.ProjectFeature;
 import eu.wuttke.tinyscrum.domain.ProjectRelease;
+import eu.wuttke.tinyscrum.domain.Quote;
 import eu.wuttke.tinyscrum.domain.ScrumUser;
 import eu.wuttke.tinyscrum.domain.Team;
 import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
@@ -45,6 +48,9 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 		new AdminBeanLister("Projects", Project.class, new String[]{"id", "name"}, null, new float[] {1f,4f}, this),
 		new AdminBeanLister("Features", ProjectFeature.class, new String[]{"id", "project", "name"}, null, new float[] {1f,4f,4f}, this),
 		new AdminBeanLister("Releases", ProjectRelease.class, new String[]{"id", "project", "name"}, null, new float[] {1f,4f,4f}, this),
+		new AdminBeanLister("Quotes", Quote.class, new String[]{"id", "project", "quoteNumber", "title"}, null, new float[] {1f,4f,4f,4f}, this),
+		new AdminBeanLister("Customers", Customer.class, new String[]{"id", "project", "name"}, null, new float[] {1f,4f,4f}, this),
+		new AdminBeanLister("Customer Projects", CustomerProject.class, new String[]{"id", "project", "customer", "name"}, null, new float[] {1f,4f,4f,4f}, this),
 		new IterationAdminLister(this),
 		new AdminBeanLister("Users", ScrumUser.class, new String[]{"active", "userName", "fullName", "email"}, new String[]{"Active", "User Name", "Full Name", "E-Mail"}, new float[] {1f,3f,4f,3f}, this),
 		new AdminBeanLister("Teams", Team.class, new String[]{"id", "name"}, null, new float[] {1f,4f}, this)		
@@ -70,6 +76,31 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 				new AdminBeanField("project", "Project", null, true, "200px"),
 				new AdminBeanField("plannedDate", "Planned Date", null, false, "200px"),
 				new AdminBeanField("description", "Description", AdminBeanFieldType.RICH_TEXT, false, "100%")
+		}),
+		
+		new AdminBeanDetails("Quote", this, new AdminBeanField[]{
+				new AdminBeanField("issueDate", "Issue Date", null, false, "200px"),
+				new AdminBeanField("orderDate", "Order Date", null, false, "200px"),
+				new AdminBeanField("deliveryDate", "Delivery Date", null, false, "200px"),
+				new AdminBeanField("quoteNumber", "Quote Number", AdminBeanFieldType.PLAIN_TEXT, true, "400px"),
+				new AdminBeanField("title", "Title", AdminBeanFieldType.PLAIN_TEXT, true, "90%"),
+				new AdminBeanField("orderNumber", "Order Number", AdminBeanFieldType.PLAIN_TEXT, false, "200px"),
+				new AdminBeanField("externalOrderNumber", "External Order Number", AdminBeanFieldType.PLAIN_TEXT, false, "200px"),
+				new AdminBeanField("status", "Status", null, true, "200px"),
+				new AdminBeanField("comment", "Comment", AdminBeanFieldType.RICH_TEXT, false, "90%"),
+				new AdminBeanField("project", "Project", null, true, "200px"),
+				new AdminBeanField("customer", "Customer", null, true, "200px")
+		}),
+		
+		new AdminBeanDetails("Customer", this, new AdminBeanField[]{
+				new AdminBeanField("name", "Name", AdminBeanFieldType.PLAIN_TEXT, true, "100%"),
+				new AdminBeanField("project", "Project", null, true, "200px"),
+		}),
+		
+		new AdminBeanDetails("Customer Project", this, new AdminBeanField[]{
+				new AdminBeanField("name", "Name", AdminBeanFieldType.PLAIN_TEXT, true, "100%"),
+				new AdminBeanField("customer", "Customer", null, true, "200px"),
+				new AdminBeanField("project", "Project", null, true, "200px"),
 		}),
 		
 		new AdminBeanDetails("Iteration", this, new AdminBeanField[]{
