@@ -43,6 +43,7 @@ public class TaskEditorView extends VerticalLayout {
 	private TinyScrumApplication application;
 	private ObjectSavedListener listener;
 	private List<String> users;
+	private RichTextArea rtaDescription;
 	
 	public TaskEditorView(final TinyScrumApplication application, Task task, ObjectSavedListener listener) {
 		this.application = application;
@@ -55,7 +56,8 @@ public class TaskEditorView extends VerticalLayout {
 		
 		form = new Form();
 		form.setCaption("Task Details");
-		form.setSizeFull();
+		form.setWidth("100%");
+		form.setHeight("270px");
 		form.setImmediate(true);
 		
 		form.setFormFieldFactory(new FormFieldFactory() {
@@ -92,16 +94,22 @@ public class TaskEditorView extends VerticalLayout {
 					TextField tf = new TextField("Effort (" + application.getCurrentProject().getTaskEstimateUnit() + ")");
 					tf.addValidator(new DoubleValidator("Please enter a number."));
 					return tf;
-				} else if (propertyId.equals("description")) {
+				} /*else if (propertyId.equals("description")) {
 					RichTextArea rta = new RichTextArea("Description");
 					rta.setWidth("100%");
 					rta.setHeight("340px");
 					return rta;
-				} else
+				} */ else
 					return null;
 			}
 		});		
 		addComponent(form);
+
+		rtaDescription = new RichTextArea();
+		rtaDescription.setWidth("100%");
+		rtaDescription.setHeight("100%");
+		rtaDescription.setValue(task.getDescription());
+		addComponent(rtaDescription);
 		
 		Button btnSave = new Button("Save Task");
 		btnSave.addListener(new ClickListener() {
@@ -146,7 +154,7 @@ public class TaskEditorView extends VerticalLayout {
 		addComponent(hl);
 		setComponentAlignment(hl, Alignment.BOTTOM_RIGHT);
 		
-		setExpandRatio(form, 1f);
+		setExpandRatio(rtaDescription, 1f);
 	}
 	
 	public void initForm() {
@@ -162,6 +170,7 @@ public class TaskEditorView extends VerticalLayout {
 	
 	public void saveTask() {
 		form.commit();
+		item.getBean().setDescription((String)rtaDescription.getValue());
 		Task task = taskManager.saveTask(item.getBean());
 		taskManager.calculateStoryEffort(task.getStory());
 		getWindow().getParent().removeWindow(getWindow());

@@ -48,7 +48,7 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 		new AdminBeanLister("Projects", Project.class, new String[]{"id", "name"}, null, new float[] {1f,4f}, this),
 		new AdminBeanLister("Features", ProjectFeature.class, new String[]{"id", "project", "name"}, null, new float[] {1f,4f,4f}, this),
 		new AdminBeanLister("Releases", ProjectRelease.class, new String[]{"id", "project", "name"}, null, new float[] {1f,4f,4f}, this),
-		new AdminBeanLister("Quotes", Quote.class, new String[]{"id", "project", "quoteNumber", "title"}, null, new float[] {1f,4f,4f,4f}, this),
+		new AdminBeanLister("Quotes", Quote.class, new String[]{"id", "quoteNumber", "title", "orderDate"}, null, new float[] {1f,1f,4f,1f}, this),
 		new AdminBeanLister("Customers", Customer.class, new String[]{"id", "project", "name"}, null, new float[] {1f,4f,4f}, this),
 		new AdminBeanLister("Customer Projects", CustomerProject.class, new String[]{"id", "project", "customer", "name"}, null, new float[] {1f,4f,4f,4f}, this),
 		new IterationAdminLister(this),
@@ -131,6 +131,8 @@ implements RefreshableComponent, ClickListener, ListerListener, DetailsListener 
 		this.application = application;
 		
 		setSizeFull();
+		setSpacing(true);
+		setMargin(true);
 		
 		HorizontalLayout navigationButtonLayout = new HorizontalLayout();
 		navigationButtonLayout.setSpacing(true);
