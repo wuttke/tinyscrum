@@ -34,6 +34,8 @@ implements Serializable {
 	/**
 	 * Project
 	 */
+	@ManyToOne
+	@NotNull
 	private Project project;
 	
 }

@@ -161,7 +161,9 @@ public class UserStoryEditorView extends VerticalLayout {
 	public void initForm() {
 		form.setItemDataSource(item, Arrays.asList(new String[]{
 				"title", "owner", "status", "estimate", "actualEffort",
+				"priority", "currentDueDate", "latestDueDate",
 				"iteration", "projectFeature", "projectRelease",
+				"customerProject", "quote",
 				"description"
 		}));
 		

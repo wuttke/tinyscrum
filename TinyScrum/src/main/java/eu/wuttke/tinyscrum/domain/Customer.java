@@ -2,6 +2,9 @@ package eu.wuttke.tinyscrum.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -21,11 +24,13 @@ implements Serializable {
 	/**
 	 * Name
 	 */
+	@Column(length=200)
 	private String name;
 	
 	/**
 	 * Project
 	 */
+	@ManyToOne
 	private Project project;
 	
 }
