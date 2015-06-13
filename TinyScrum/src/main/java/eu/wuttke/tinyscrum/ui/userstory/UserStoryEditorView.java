@@ -55,7 +55,8 @@ public class UserStoryEditorView extends VerticalLayout {
 		
 		form = new Form();
 		form.setCaption("User Story Details");
-		form.setSizeFull();
+		form.setWidth("400px");
+		form.setHeight("100%");
 		form.setImmediate(true);
 		form.setFormFieldFactory(new FormFieldFactory() {
 			private static final long serialVersionUID = 1L;
@@ -136,12 +137,16 @@ public class UserStoryEditorView extends VerticalLayout {
 		});		
 
 		richTextAreaDescription = new RichTextArea();
-		richTextAreaDescription.setWidth("600px");
-		richTextAreaDescription.setHeight("600px");
+		richTextAreaDescription.setWidth("100%");
+		richTextAreaDescription.setHeight("100%");
+		richTextAreaDescription.setValue(userStory.getDescription());
 
 		HorizontalLayout hl1 = new HorizontalLayout();
+		hl1.setSizeFull();
+		hl1.setSpacing(true);
 		hl1.addComponent(form);
 		hl1.addComponent(richTextAreaDescription);
+		hl1.setExpandRatio(richTextAreaDescription, 1f);
 		addComponent(hl1);
 		
 		Button btnSave = new Button("Save Story");
