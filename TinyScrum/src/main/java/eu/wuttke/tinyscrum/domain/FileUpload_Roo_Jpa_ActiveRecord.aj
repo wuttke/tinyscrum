@@ -14,6 +14,8 @@ privileged aspect FileUpload_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager FileUpload.entityManager;
     
+    public static final List<String> FileUpload.fieldNames4OrderClauseFilter = java.util.Arrays.asList("fileName", "mimeType", "binaryData", "commentType", "parentId", "fileSize", "createDateTime", "userName");
+    
     public static final EntityManager FileUpload.entityManager() {
         EntityManager em = new FileUpload().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect FileUpload_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM FileUpload o", FileUpload.class).getResultList();
     }
     
+    public static List<FileUpload> FileUpload.findAllFileUploads(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM FileUpload o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, FileUpload.class).getResultList();
+    }
+    
     public static FileUpload FileUpload.findFileUpload(Long id) {
         if (id == null) return null;
         return entityManager().find(FileUpload.class, id);
@@ -35,6 +48,17 @@ privileged aspect FileUpload_Roo_Jpa_ActiveRecord {
     
     public static List<FileUpload> FileUpload.findFileUploadEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM FileUpload o", FileUpload.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<FileUpload> FileUpload.findFileUploadEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM FileUpload o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, FileUpload.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

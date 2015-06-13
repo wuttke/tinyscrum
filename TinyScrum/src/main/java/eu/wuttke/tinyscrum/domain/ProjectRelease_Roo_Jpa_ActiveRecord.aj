@@ -14,6 +14,8 @@ privileged aspect ProjectRelease_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager ProjectRelease.entityManager;
     
+    public static final List<String> ProjectRelease.fieldNames4OrderClauseFilter = java.util.Arrays.asList("name", "description", "project", "plannedDate", "serialVersionUID");
+    
     public static final EntityManager ProjectRelease.entityManager() {
         EntityManager em = new ProjectRelease().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect ProjectRelease_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM ProjectRelease o", ProjectRelease.class).getResultList();
     }
     
+    public static List<ProjectRelease> ProjectRelease.findAllProjectReleases(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM ProjectRelease o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, ProjectRelease.class).getResultList();
+    }
+    
     public static ProjectRelease ProjectRelease.findProjectRelease(Long id) {
         if (id == null) return null;
         return entityManager().find(ProjectRelease.class, id);
@@ -35,6 +48,17 @@ privileged aspect ProjectRelease_Roo_Jpa_ActiveRecord {
     
     public static List<ProjectRelease> ProjectRelease.findProjectReleaseEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM ProjectRelease o", ProjectRelease.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<ProjectRelease> ProjectRelease.findProjectReleaseEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM ProjectRelease o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, ProjectRelease.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

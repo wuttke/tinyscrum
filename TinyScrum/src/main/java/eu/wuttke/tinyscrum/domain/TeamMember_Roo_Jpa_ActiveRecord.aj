@@ -14,6 +14,8 @@ privileged aspect TeamMember_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager TeamMember.entityManager;
     
+    public static final List<String> TeamMember.fieldNames4OrderClauseFilter = java.util.Arrays.asList("team", "scrumUser", "serialVersionUID");
+    
     public static final EntityManager TeamMember.entityManager() {
         EntityManager em = new TeamMember().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect TeamMember_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM TeamMember o", TeamMember.class).getResultList();
     }
     
+    public static List<TeamMember> TeamMember.findAllTeamMembers(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM TeamMember o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, TeamMember.class).getResultList();
+    }
+    
     public static TeamMember TeamMember.findTeamMember(Long id) {
         if (id == null) return null;
         return entityManager().find(TeamMember.class, id);
@@ -35,6 +48,17 @@ privileged aspect TeamMember_Roo_Jpa_ActiveRecord {
     
     public static List<TeamMember> TeamMember.findTeamMemberEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM TeamMember o", TeamMember.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<TeamMember> TeamMember.findTeamMemberEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM TeamMember o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, TeamMember.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

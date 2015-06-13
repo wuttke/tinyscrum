@@ -14,6 +14,8 @@ privileged aspect ScrumUser_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager ScrumUser.entityManager;
     
+    public static final List<String> ScrumUser.fieldNames4OrderClauseFilter = java.util.Arrays.asList("userName", "password", "fullName", "email", "active", "serialVersionUID");
+    
     public static final EntityManager ScrumUser.entityManager() {
         EntityManager em = new ScrumUser().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect ScrumUser_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM ScrumUser o", ScrumUser.class).getResultList();
     }
     
+    public static List<ScrumUser> ScrumUser.findAllScrumUsers(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM ScrumUser o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, ScrumUser.class).getResultList();
+    }
+    
     public static ScrumUser ScrumUser.findScrumUser(Long id) {
         if (id == null) return null;
         return entityManager().find(ScrumUser.class, id);
@@ -35,6 +48,17 @@ privileged aspect ScrumUser_Roo_Jpa_ActiveRecord {
     
     public static List<ScrumUser> ScrumUser.findScrumUserEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM ScrumUser o", ScrumUser.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<ScrumUser> ScrumUser.findScrumUserEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM ScrumUser o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, ScrumUser.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

@@ -14,6 +14,8 @@ privileged aspect Iteration_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Iteration.entityManager;
     
+    public static final List<String> Iteration.fieldNames4OrderClauseFilter = java.util.Arrays.asList("name", "startDate", "durationDays", "status", "project", "team", "serialVersionUID");
+    
     public static final EntityManager Iteration.entityManager() {
         EntityManager em = new Iteration().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect Iteration_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM Iteration o", Iteration.class).getResultList();
     }
     
+    public static List<Iteration> Iteration.findAllIterations(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Iteration o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Iteration.class).getResultList();
+    }
+    
     public static Iteration Iteration.findIteration(Long id) {
         if (id == null) return null;
         return entityManager().find(Iteration.class, id);
@@ -35,6 +48,17 @@ privileged aspect Iteration_Roo_Jpa_ActiveRecord {
     
     public static List<Iteration> Iteration.findIterationEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Iteration o", Iteration.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<Iteration> Iteration.findIterationEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Iteration o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Iteration.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

@@ -3,12 +3,17 @@
 
 package eu.wuttke.tinyscrum.domain;
 
+import eu.wuttke.tinyscrum.domain.Customer;
+import eu.wuttke.tinyscrum.domain.CustomerProject;
 import eu.wuttke.tinyscrum.domain.Iteration;
+import eu.wuttke.tinyscrum.domain.Priority;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.ProjectFeature;
 import eu.wuttke.tinyscrum.domain.ProjectRelease;
+import eu.wuttke.tinyscrum.domain.Quote;
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.domain.UserStoryStatus;
+import java.util.Date;
 
 privileged aspect UserStory_Roo_JavaBean {
     
@@ -98,6 +103,54 @@ privileged aspect UserStory_Roo_JavaBean {
     
     public void UserStory.setActualEffort(Double actualEffort) {
         this.actualEffort = actualEffort;
+    }
+    
+    public Date UserStory.getLatestDueDate() {
+        return this.latestDueDate;
+    }
+    
+    public void UserStory.setLatestDueDate(Date latestDueDate) {
+        this.latestDueDate = latestDueDate;
+    }
+    
+    public Date UserStory.getCurrentDueDate() {
+        return this.currentDueDate;
+    }
+    
+    public void UserStory.setCurrentDueDate(Date currentDueDate) {
+        this.currentDueDate = currentDueDate;
+    }
+    
+    public Priority UserStory.getPriority() {
+        return this.priority;
+    }
+    
+    public void UserStory.setPriority(Priority priority) {
+        this.priority = priority;
+    }
+    
+    public Customer UserStory.getCustomer() {
+        return this.customer;
+    }
+    
+    public void UserStory.setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    
+    public CustomerProject UserStory.getCustomerProject() {
+        return this.customerProject;
+    }
+    
+    public void UserStory.setCustomerProject(CustomerProject customerProject) {
+        this.customerProject = customerProject;
+    }
+    
+    public Quote UserStory.getQuote() {
+        return this.quote;
+    }
+    
+    public void UserStory.setQuote(Quote quote) {
+        this.quote = quote;
     }
     
 }

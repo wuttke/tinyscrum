@@ -14,6 +14,8 @@ privileged aspect Project_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Project.entityManager;
     
+    public static final List<String> Project.fieldNames4OrderClauseFilter = java.util.Arrays.asList("serialVersionUID", "name", "description", "storyEstimateUnit", "taskEstimateUnit", "calculateStoryEstimates");
+    
     public static final EntityManager Project.entityManager() {
         EntityManager em = new Project().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect Project_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM Project o", Project.class).getResultList();
     }
     
+    public static List<Project> Project.findAllProjects(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Project o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Project.class).getResultList();
+    }
+    
     public static Project Project.findProject(Long id) {
         if (id == null) return null;
         return entityManager().find(Project.class, id);
@@ -35,6 +48,17 @@ privileged aspect Project_Roo_Jpa_ActiveRecord {
     
     public static List<Project> Project.findProjectEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Project o", Project.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<Project> Project.findProjectEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Project o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Project.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional
