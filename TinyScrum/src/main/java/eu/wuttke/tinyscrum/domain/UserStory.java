@@ -1,6 +1,7 @@
 package eu.wuttke.tinyscrum.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -91,6 +92,35 @@ implements Serializable {
      * Actual story effort
      */
     private Double actualEffort;
+    
+    // NEUE FELDER
+    
+    /**
+     * Due date
+     */
+    private Date latestDueDate;
+    
+    private Date currentDueDate;
+    
+    /**
+     * Priority
+     */
+    private Priority priority;
+    
+    /**
+     * Customer ("UKLFR")
+     */
+    private Customer customer;
+    
+    /**
+     * Projekt ("Ambulanz")
+     */
+    private CustomerProject customerProject;
+    
+    /**
+     * Auftrag ("2015/002")
+     */
+    private Quote quote;
     
     public String getIterationName() {
     	return iteration != null ? iteration.getName() : "Backlog";
