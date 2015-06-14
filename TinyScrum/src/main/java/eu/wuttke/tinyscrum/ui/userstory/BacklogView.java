@@ -2,7 +2,6 @@ package eu.wuttke.tinyscrum.ui.userstory;
 
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -13,9 +12,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.UserStory;
-import eu.wuttke.tinyscrum.logic.UserStoryManager;
 import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
-import eu.wuttke.tinyscrum.ui.misc.ObjectSavedListener;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
 @Configurable(autowire=Autowire.BY_NAME)
@@ -68,11 +65,11 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 	
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == btnAddUserStory)
-			addUserStory();
+			userStoryActions.addUserStory(application);
 		else if (event.getButton() == btnEditUserStory)
-			editUserStory((UserStory)backlogTable.getValue());
+			userStoryActions.editUserStory(application, (UserStory)backlogTable.getValue());
 		else if (event.getButton() == btnDeleteUserStory)
-			deleteUserStory((UserStory)backlogTable.getValue());
+			userStoryActions.deleteUserStory(application, (UserStory)backlogTable.getValue());
 	}
 	
 	@Override
@@ -82,50 +79,11 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 		btnDeleteUserStory.setEnabled(enable);
 	}
 
-	public void editUserStory(UserStory userStory) {
-		if (userStory != null) {
-			UserStoryEditorWindow w = new UserStoryEditorWindow(application, userStory, new ObjectSavedListener() {
-				public void objectSaved(Object object) {
-					application.getMainView().refreshContent();
-				}
-			});
-			application.getMainWindow().addWindow(w);
-		}
-	}
-
-	public void deleteUserStory(final UserStory userStory) {
-		if (userStory != null) {
-			ConfirmDialog.show(getWindow(), "Delete User Story", 
-					"Delete user story '" + userStory.getTitle() + "' and all contained tasks?",
-			        "Yes", "No", new ConfirmDialog.Listener() {
-						private static final long serialVersionUID = 1L;
-						public void onClose(ConfirmDialog dialog) {
-			                if (dialog.isConfirmed()) {
-			        			userStoryManager.deleteUserStory(userStory);
-			        			refreshContent();
-			                }
-			            }
-			        });
-		}
-	}
-
-	public void addUserStory() {
-		UserStory us = new UserStory();
-		us.setProject(application.getCurrentProject());
-		
-		UserStoryEditorWindow w = new UserStoryEditorWindow(application, us, new ObjectSavedListener() {
-			public void objectSaved(Object object) {
-				application.getMainView().refreshContent();
-			}
-		});
-		application.getMainWindow().addWindow(w);
+	public void setUserStoryActions(UserStoryActions userStoryActions) {
+		this.userStoryActions = userStoryActions;
 	}
 	
-	public void setUserStoryManager(UserStoryManager userStoryManager) {
-		this.userStoryManager = userStoryManager;
-	}
-
-	private UserStoryManager userStoryManager;
+	private UserStoryActions userStoryActions;
 	
 	private static final long serialVersionUID = 6977286043653094687L;
 
