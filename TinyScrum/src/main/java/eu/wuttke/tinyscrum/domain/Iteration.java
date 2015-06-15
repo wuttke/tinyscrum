@@ -24,7 +24,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord
 public class Iteration
-implements Serializable {
+implements Serializable, Comparable<Iteration> {
 
 	/**
 	 * Name
@@ -103,6 +103,13 @@ implements Serializable {
 		return super.equals(obj);
     }
 
+    @Override
+    public int compareTo(Iteration o) {
+    	if (o == null)
+    		return 0;
+    	return getStartDate().compareTo(o.getStartDate());
+    }
+    
 	private static final long serialVersionUID = 1L;
 
 }

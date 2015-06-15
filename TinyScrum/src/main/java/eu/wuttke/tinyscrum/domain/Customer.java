@@ -17,7 +17,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord
 public class Customer
-implements Serializable {
+implements Serializable, Comparable<Customer> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,6 +53,13 @@ implements Serializable {
 	    		return myId.longValue() == otherId.longValue();
     	}
 		return super.equals(obj);
+    }
+
+    @Override
+    public int compareTo(Customer o) {
+    	if (o == null)
+    		return 0;
+    	return getName().compareTo(o.getName());
     }
 
 }

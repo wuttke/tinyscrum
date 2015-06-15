@@ -28,7 +28,7 @@ extends BaseUserStoryTable {
 		setVisibleColumns(new String[]{"id", "customerProject", "title", "owner", 
 				"iterationName", "projectFeature", 
 				"projectRelease", "estimate", 
-				"currentDueDate", "latestDueDate", "status"});
+				"currentDueDate", "latestDueDate", "priority", "status"});
 		setColumnHeader("iterationName", "Iteration Name");
 		setColumnHeader("projectRelease", "Release Name");
 		setColumnHeader("latestDueDate", "Latest Due Date");

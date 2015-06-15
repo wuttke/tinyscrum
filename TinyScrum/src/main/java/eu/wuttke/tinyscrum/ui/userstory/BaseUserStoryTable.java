@@ -34,7 +34,7 @@ implements DropHandler, ItemClickListener {
 		setSizeFull();
 		
 		setVisibleColumns(new String[]{"id", "customerProject", "title", "owner", "projectFeature", 
-				"estimate", "dueDate", "status"});
+				"estimate", "dueDate", "priority", "status"});
 		
 		setColumnExpandRatio("id", 1);
 		setColumnExpandRatio("title", 5);
@@ -137,6 +137,9 @@ implements DropHandler, ItemClickListener {
 	@Transactional
 	protected void storyDropped(UserStory story, int newSequenceNumber) {
 		EntityManager em = UserStory.entityManager();
+		
+		// falls in der Zwischenzeit sich was geändert hat?
+		em.refresh(story);
 		
 		// Umnummerieren
 		Query q1 = em.createQuery("UPDATE UserStory SET sequenceNumber = sequenceNumber - 1 WHERE sequenceNumber > ?");

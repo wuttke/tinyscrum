@@ -18,7 +18,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord
 public class ProjectFeature 
-implements Serializable {
+implements Serializable, Comparable<ProjectFeature> {
 
 	/**
 	 * Feature name
@@ -60,6 +60,13 @@ implements Serializable {
 	    		return myId.longValue() == otherId.longValue();
     	}
 		return super.equals(obj);
+    }
+
+    @Override
+    public int compareTo(ProjectFeature feature) {
+    	if (feature == null)
+    		return 0;
+    	return getName().compareTo(feature.getName());
     }
 
 	private static final long serialVersionUID = 1L;
