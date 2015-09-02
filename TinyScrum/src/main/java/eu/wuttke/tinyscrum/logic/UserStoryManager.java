@@ -42,6 +42,8 @@ public class UserStoryManager {
 	public List<UserStory> loadBacklogUserStories(Project p, Customer customerFilter, CustomerProject projectFilter) {
 		UserStoryFilter filter = new UserStoryFilter();
 		filter.setProject(p);
+		
+		filter.setFilterIteration(true);
 		filter.setIterationEquals(null);
 		
 		filter.setFilterCustomer(customerFilter != null);
