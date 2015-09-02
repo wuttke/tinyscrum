@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
-
+import eu.wuttke.tinyscrum.domain.Customer;
+import eu.wuttke.tinyscrum.domain.CustomerProject;
 import eu.wuttke.tinyscrum.domain.UserStory;
 import eu.wuttke.tinyscrum.logic.UserStoryManager;
 import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
@@ -18,8 +19,8 @@ extends BaseUserStoryTable {
 		super(application);
 	}
 	
-	public void loadBacklog() {
-		List<UserStory> l = userStoryManager.loadBacklogUserStories(application.getCurrentProject());
+	public void loadBacklog(Customer customerFilter, CustomerProject projectFilter) {
+		List<UserStory> l = userStoryManager.loadBacklogUserStories(application.getCurrentProject(), customerFilter, projectFilter);
 		storyContainer.removeAllItems();
 		storyContainer.addAll(l);
 		recalculateFooter();

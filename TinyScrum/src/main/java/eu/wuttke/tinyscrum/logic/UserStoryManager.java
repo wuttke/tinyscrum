@@ -17,6 +17,8 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import eu.wuttke.tinyscrum.domain.Customer;
+import eu.wuttke.tinyscrum.domain.CustomerProject;
 import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.UserStory;
@@ -37,11 +39,28 @@ public class UserStoryManager {
 	 * @param p project
 	 * @return stories
 	 */
-	public List<UserStory> loadBacklogUserStories(Project p) {
-		EntityManager em = UserStory.entityManager();
-		TypedQuery<UserStory> q = em.createQuery("FROM UserStory WHERE iteration IS NULL AND project = ? ORDER BY sequenceNumber", UserStory.class);
-		q.setParameter(1, p);
-		return q.getResultList();
+	public List<UserStory> loadBacklogUserStories(Project p, Customer customerFilter, CustomerProject projectFilter) {
+		UserStoryFilter filter = new UserStoryFilter();
+		filter.setProject(p);
+		filter.setIteration(null);
+		
+		filter.setFilterCustomer(customerFilter != null);
+		if (filter.isFilterCustomer()) {
+			if (customerFilter.getId() != null)
+				filter.setCustomerEquals(customerFilter);
+			else
+				filter.setCustomerEquals(null);
+		}
+		
+		filter.setFilterCustomerProject(projectFilter != null);
+		if (filter.isFilterCustomerProject()) {
+			if (projectFilter.getId() != null)
+				filter.setCustomerProjectEquals(projectFilter);
+			else
+				filter.setCustomerProjectEquals(null);			
+		}
+		
+		return loadUserStories(filter);
 	}
 	
 	/**
@@ -161,7 +180,14 @@ public class UserStoryManager {
 			else
 				restrictions.add(cb.equal(r.get("customer"), filter.getCustomerEquals()));
 		}
-		
+
+		if (filter.isFilterCustomerProject()) {
+			if (filter.getCustomerProjectEquals() == null)
+				restrictions.add(cb.isNull(r.get("customerProject")));
+			else
+				restrictions.add(cb.equal(r.get("customerProject"), filter.getCustomerProjectEquals()));
+		}
+
 		if (filter.isFilterRelease()) {
 			if (filter.getReleaseEquals() == null)
 				restrictions.add(cb.isNull(r.get("projectRelease")));

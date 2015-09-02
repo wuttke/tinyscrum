@@ -8,10 +8,19 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
+import eu.wuttke.tinyscrum.domain.Customer;
+import eu.wuttke.tinyscrum.domain.CustomerProject;
+import eu.wuttke.tinyscrum.domain.Iteration;
+import eu.wuttke.tinyscrum.domain.Project;
+import eu.wuttke.tinyscrum.domain.ProjectFeature;
+import eu.wuttke.tinyscrum.domain.ProjectRelease;
 import eu.wuttke.tinyscrum.domain.UserStory;
+import eu.wuttke.tinyscrum.domain.UserStoryStatus;
+import eu.wuttke.tinyscrum.logic.ProjectManager;
 import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
 
@@ -23,9 +32,17 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 	private Button btnAddUserStory;
 	private Button btnEditUserStory;
 	private Button btnDeleteUserStory;
+	
 	private BacklogStoryTable backlogTable;
 	
+	private ComboBox comboBoxProject;
+	private ComboBox comboBoxCustomer;
+	
 	private TinyScrumApplication application;
+	
+	private Customer CUSTOMER_NOT_ASSIGNED = new Customer("NOT ASSIGNED");
+	private CustomerProject PROJECT_NOT_ASSIGNED = new CustomerProject();
+	
 	
 	public BacklogView(TinyScrumApplication application) {
 		this.application = application;
@@ -34,6 +51,18 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 		setSpacing(true);
 		setSizeFull();
 		
+		// Comboboxes
+		comboBoxCustomer = new ComboBox();
+		comboBoxProject = new ComboBox();
+		
+		// Filter Header
+		HorizontalLayout filterBar = new HorizontalLayout();
+		filterBar.setSpacing(true);
+		filterBar.addComponent(comboBoxCustomer);
+		filterBar.addComponent(comboBoxProject);
+		addComponent(filterBar);
+		
+		// Backlog Table
 		backlogTable = new BacklogStoryTable(application);
 		backlogTable.setSizeFull();
 		backlogTable.addListener(this);
@@ -58,9 +87,42 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 		setExpandRatio(backlogTable, 1f);
 	}
 	
+	private void initComboBoxes() {
+		if (comboBoxCustomer.getItemIds().size() == 0) {
+			ValueChangeListener refreshContentListener = new ValueChangeListener() {
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					refreshContent();
+				}
+				private static final long serialVersionUID = 1L;
+			};
+			
+			Project p = application.getCurrentProject();
+			
+			comboBoxCustomer.addItem(CUSTOMER_NOT_ASSIGNED);
+			for (Customer customer : projectManager.loadCustomers(p))
+				comboBoxCustomer.addItem(customer);
+			comboBoxCustomer.setImmediate(true);
+			comboBoxCustomer.addListener(refreshContentListener);
+			
+			PROJECT_NOT_ASSIGNED.setName("NOT ASSIGNED");
+			
+			comboBoxProject.addItem(PROJECT_NOT_ASSIGNED);
+			for (CustomerProject customerProject : projectManager.loadCustomerProjects(p, null))
+				comboBoxProject.addItem(customerProject);
+			comboBoxProject.setImmediate(true);
+			comboBoxProject.addListener(refreshContentListener);
+		}
+	}
+
 	@Override
 	public void refreshContent() {
-		backlogTable.loadBacklog();
+		initComboBoxes();
+		
+		CustomerProject customerProjectFilter = (CustomerProject)comboBoxProject.getValue();
+		Customer customerFilter = (Customer)comboBoxCustomer.getValue();
+		
+		backlogTable.loadBacklog(customerFilter, customerProjectFilter);
 	}
 	
 	public void buttonClick(ClickEvent event) {
@@ -83,7 +145,12 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 		this.userStoryActions = userStoryActions;
 	}
 	
+	public void setProjectManager(ProjectManager projectManager) {
+		this.projectManager = projectManager;
+	}
+	
 	private UserStoryActions userStoryActions;
+	private ProjectManager projectManager;
 	
 	private static final long serialVersionUID = 6977286043653094687L;
 
