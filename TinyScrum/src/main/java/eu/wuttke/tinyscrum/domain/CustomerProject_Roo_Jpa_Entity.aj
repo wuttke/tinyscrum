@@ -24,6 +24,10 @@ privileged aspect CustomerProject_Roo_Jpa_Entity {
     @Column(name = "version")
     private Integer CustomerProject.version;
     
+    public CustomerProject.new() {
+        super();
+    }
+
     public Long CustomerProject.getId() {
         return this.id;
     }

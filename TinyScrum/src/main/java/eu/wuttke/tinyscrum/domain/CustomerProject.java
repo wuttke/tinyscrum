@@ -42,6 +42,10 @@ implements Serializable, Comparable<CustomerProject> {
 		return getName();
 	}
 
+	public CustomerProject(String name) {
+		this.name = name;
+	}
+	
     @Override
     public boolean equals(Object obj) {
     	Long myId = getId();

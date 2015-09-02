@@ -8,18 +8,14 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Select;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.wuttke.tinyscrum.domain.Customer;
 import eu.wuttke.tinyscrum.domain.CustomerProject;
-import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
-import eu.wuttke.tinyscrum.domain.ProjectFeature;
-import eu.wuttke.tinyscrum.domain.ProjectRelease;
 import eu.wuttke.tinyscrum.domain.UserStory;
-import eu.wuttke.tinyscrum.domain.UserStoryStatus;
 import eu.wuttke.tinyscrum.logic.ProjectManager;
 import eu.wuttke.tinyscrum.ui.TinyScrumApplication;
 import eu.wuttke.tinyscrum.ui.misc.RefreshableComponent;
@@ -35,8 +31,8 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 	
 	private BacklogStoryTable backlogTable;
 	
-	private ComboBox comboBoxProject;
-	private ComboBox comboBoxCustomer;
+	private Select comboBoxProject;
+	private Select comboBoxCustomer;
 	
 	private TinyScrumApplication application;
 	
@@ -52,8 +48,8 @@ implements ClickListener, ValueChangeListener, RefreshableComponent {
 		setSizeFull();
 		
 		// Comboboxes
-		comboBoxCustomer = new ComboBox();
-		comboBoxProject = new ComboBox();
+		comboBoxCustomer = new Select();
+		comboBoxProject = new Select();
 		
 		// Filter Header
 		HorizontalLayout filterBar = new HorizontalLayout();
