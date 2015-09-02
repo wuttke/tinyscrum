@@ -4,6 +4,7 @@
 package eu.wuttke.tinyscrum.domain;
 
 import eu.wuttke.tinyscrum.domain.Customer;
+import eu.wuttke.tinyscrum.domain.CustomerProject;
 import eu.wuttke.tinyscrum.domain.Iteration;
 import eu.wuttke.tinyscrum.domain.Project;
 import eu.wuttke.tinyscrum.domain.ProjectFeature;
@@ -123,6 +124,22 @@ privileged aspect UserStoryFilter_Roo_JavaBean {
     
     public void UserStoryFilter.setCustomerEquals(Customer customerEquals) {
         this.customerEquals = customerEquals;
+    }
+    
+    public boolean UserStoryFilter.isFilterCustomerProject() {
+        return this.filterCustomerProject;
+    }
+    
+    public void UserStoryFilter.setFilterCustomerProject(boolean filterCustomerProject) {
+        this.filterCustomerProject = filterCustomerProject;
+    }
+    
+    public CustomerProject UserStoryFilter.getCustomerProjectEquals() {
+        return this.customerProjectEquals;
+    }
+    
+    public void UserStoryFilter.setCustomerProjectEquals(CustomerProject customerProjectEquals) {
+        this.customerProjectEquals = customerProjectEquals;
     }
     
 }
