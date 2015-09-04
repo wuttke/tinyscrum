@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -207,7 +208,7 @@ public class UserStoryManager {
 				restrictions.add(cb.equal(r.get("owner"), filter.getOwnerEquals()));
 		}
 		
-		q.select(r).where(cb.and(restrictions.toArray(new Predicate[restrictions.size()])));
+		q.select(r).where(cb.and(restrictions.toArray(new Predicate[restrictions.size()]))).orderBy(cb.asc(r.get("sequenceNumber")));
 
 		List<UserStory> stories = em.createQuery(q).getResultList();
 		touchIterationName(stories);
