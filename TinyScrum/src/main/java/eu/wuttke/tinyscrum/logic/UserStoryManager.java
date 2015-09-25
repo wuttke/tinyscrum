@@ -208,10 +208,11 @@ public class UserStoryManager {
 				restrictions.add(cb.equal(r.get("owner"), filter.getOwnerEquals()));
 		}
 		
+		// TODO iteration, project, feature, release, customer, customerproject nicht lazy, sondern eager laden
 		q.select(r).where(cb.and(restrictions.toArray(new Predicate[restrictions.size()]))).orderBy(cb.asc(r.get("sequenceNumber")));
 
 		List<UserStory> stories = em.createQuery(q).getResultList();
-		touchIterationName(stories);
+		touchIterationName(stories); // TODO oder die Stories sogar clonen (bzw. Kopie anlegen)
 		return stories;
 	}
 	

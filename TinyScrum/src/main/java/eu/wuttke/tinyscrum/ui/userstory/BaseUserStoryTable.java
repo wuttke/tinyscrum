@@ -139,7 +139,10 @@ implements DropHandler, ItemClickListener {
 		EntityManager em = UserStory.entityManager();
 		
 		// falls in der Zwischenzeit sich was geändert hat?
-		em.refresh(story);
+		if (em.contains(story))
+			em.refresh(story);
+		else
+			story = em.find(UserStory.class, story.getId());
 		
 		// Umnummerieren
 		Query q1 = em.createQuery("UPDATE UserStory SET sequenceNumber = sequenceNumber - 1 WHERE sequenceNumber > ?");
