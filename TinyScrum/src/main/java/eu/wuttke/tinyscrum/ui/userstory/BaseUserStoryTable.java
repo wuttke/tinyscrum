@@ -94,10 +94,13 @@ implements DropHandler, ItemClickListener {
         if (!BaseUserStoryTable.class.isAssignableFrom(t.getSourceComponent().getClass()))
             return;
 
+        if (t.getItemId() == null) // nichts angefasst (?)
+        	return;
+
         BaseUserStoryTable source = (BaseUserStoryTable)t.getSourceComponent();
         Object sourceItemId = t.getItemId();
         UserStory sourceItem = (UserStory)sourceItemId;
-
+        
         AbstractSelectTargetDetails dropData = (AbstractSelectTargetDetails)event.getTargetDetails();
         Object targetItemId = dropData.getItemIdOver();
 
