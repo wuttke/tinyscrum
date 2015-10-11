@@ -59,7 +59,8 @@ public class MailManager {
 	 */
 	@Transactional
 	public void sendTaskMail(Task task, String action) {
-		task = Task.findTask(task.getId()); // re-attach
+		if (task.getId() != null)
+			task = Task.findTask(task.getId()); // re-attach
 		
 		final String NL = "<br/>\r\n";
 		String subject = "[TinyScrum] Task #" + task.getId() + ": " + task.getName() +  " - " + action;
@@ -108,7 +109,8 @@ public class MailManager {
 	 */
 	@Transactional
 	public void sendStoryMail(UserStory story, String action) {
-		story = UserStory.findUserStory(story.getId()); // re-attach
+		if (story.getId() != null)
+			story = UserStory.findUserStory(story.getId()); // re-attach
 
 		final String NL = "<br/>\r\n";
 		String subject = "[TinyScrum] Story #" + story.getId() + ": " + story.getTitle() +  " - " + action;
@@ -133,7 +135,8 @@ public class MailManager {
 		}
 		
 		Set<String> users = new HashSet<String>();
-		users.add(story.getOwner());
+		if (story.getOwner() != null)
+			users.add(story.getOwner());
 		// include all task developers/testers too?
 		
 		try {
