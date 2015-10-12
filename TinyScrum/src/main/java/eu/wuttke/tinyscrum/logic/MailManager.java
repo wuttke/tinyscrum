@@ -59,7 +59,7 @@ public class MailManager {
 	 */
 	@Transactional
 	public void sendTaskMail(Task task, String action) {
-		if (task.getId() != null)
+		if (task.getId() != null && task.getId() > 0)
 			task = Task.findTask(task.getId()); // re-attach
 		
 		final String NL = "<br/>\r\n";
@@ -109,7 +109,7 @@ public class MailManager {
 	 */
 	@Transactional
 	public void sendStoryMail(UserStory story, String action) {
-		if (story.getId() != null)
+		if (story.getId() != null && story.getId() > 0)
 			story = UserStory.findUserStory(story.getId()); // re-attach
 
 		final String NL = "<br/>\r\n";
